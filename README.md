@@ -1,6 +1,7 @@
 # SeriARC - Archaeological Seriation and Correspondence Analysis
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18498106.svg)](https://doi.org/10.5281/zenodo.18498106)
 
 **SeriARC** is an interactive R/Shiny application for archaeological seriation, correspondence analysis, and Bayesian radiocarbon chronology modeling. It integrates compositional data analysis (artifact assemblages) with absolute dating (¹⁴C) to create robust chronological sequences for archaeological sites.
 
@@ -97,7 +98,7 @@ If you use SeriARC in your research, please cite:
   year = {2025},
   version = {1.0.0},
   url = {https://github.com/Archaeoscan/SeriARC},
-  doi = {10.5281/zenodo.XXXXXXX}
+  doi = {10.5281/zenodo.18498106}
 }
 ```
 
@@ -115,4 +116,4 @@ Daniel.Meixner@geschichte.uni-regensburg.de
 
 - IntCal20 calibration curve (Reimer et al. 2020)
 - Michelsberg dataset from `archdata` package
-- Inspired by TOSCA and OxCal methodologies
+
