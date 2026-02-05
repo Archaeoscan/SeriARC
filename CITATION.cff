@@ -3,7 +3,7 @@ message: "If you use this software, please cite it as below."
 type: software
 title: "SeriARC: Archaeological Seriation and Correspondence Analysis"
 version: 1.0.0
-doi: 10.5281/zenodo.XXXXXXX
+doi: 10.5281/zenodo.18498106
 date-released: 2025-02-05
 url: "https://github.com/Archaeoscan/SeriARC"
 repository-code: "https://github.com/Archaeoscan/SeriARC"
