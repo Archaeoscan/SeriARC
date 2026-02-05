@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "SeriARC: Archaeological Seriation and Correspondence Analysis"
+version: 1.0.0
+doi: 10.5281/zenodo.XXXXXXX
+date-released: 2025-02-05
+url: "https://github.com/Archaeoscan/SeriARC"
+repository-code: "https://github.com/Archaeoscan/SeriARC"
+license: GPL-3.0-or-later
+authors:
+  - family-names: Meixner
+    given-names: Daniel
+    email: Daniel.Meixner@geschichte.uni-regensburg.de
+    affiliation: "University of Regensburg"
+    orcid: "https://orcid.org/0009-0009-1633-9600"
+keywords:
+  - archaeology
+  - seriation
+  - correspondence analysis
+  - radiocarbon dating
+  - Bayesian chronology
+  - R
+  - Shiny
+abstract: >
+  SeriARC is an interactive R/Shiny application for archaeological 
+  seriation, correspondence analysis, and Bayesian radiocarbon 
+  chronology modeling. It integrates compositional data analysis 
+  with absolute dating to create robust chronological sequences 
+  for archaeological sites.
