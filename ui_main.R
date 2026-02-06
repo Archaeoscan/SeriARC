@@ -45,29 +45,64 @@ create_ui <- function(tr = NULL, lang = NULL) {
   if (is.null(lang)) lang <- if (exists("DEFAULT_LANGUAGE")) DEFAULT_LANGUAGE else "de"
   if (is.null(tr)) tr <- if (exists("make_tr")) make_tr(lang) else function(key) key
 
-  navbarPage(
-    title = tr("app.title"),
-    id = "mainnav",
-    header = tagList(
-      useShinyjs(),
-      tags$head(
-        tags$link(rel = "stylesheet", type = "text/css", href = paste0("seriarc-styles.css?v=", format(Sys.time(), "%Y%m%d%H%M%S"))),
-        tags$script(src = "tooltips.js"),
-        # JavaScript to move subtitle and language selector into navbar-header
-        tags$script(HTML("
-          $(document).ready(function() {
-            setTimeout(function() {
-              // Move elements into navbar-header
-              var subtitle = $('.seriarc-navbar-subtitle').detach();
-              var langSelector = $('.seriarc-lang-selector').detach();
-              $('.navbar-header').append(subtitle).append(langSelector);
-            }, 50);
-          });
-        "))
-      ),
-      div(class = "watermark", paste("SeriARC v", APP_VERSION)),
-      div(class = "seriarc-navbar-subtitle", tr("app.subtitle")),
-      language_selector(lang)
+  tagList(
+    # Loading Screen (only for cloud mode)
+    if (exists("RUNNING_ON_CLOUD") && RUNNING_ON_CLOUD) {
+      tags$div(
+        id = "seriarc-loading-screen",
+        tags$div(class = "seriarc-loader",
+          tags$h2("📊 SeriARC"),
+          tags$p(if (lang == "de") "Wird geladen..." else "Loading..."),
+          tags$div(class = "seriarc-spinner")
+        )
+      )
+    },
+    
+    navbarPage(
+      title = tr("app.title"),
+      id = "mainnav",
+      header = tagList(
+        useShinyjs(),
+        tags$head(
+          tags$link(rel = "stylesheet", type = "text/css", href = paste0("seriarc-styles.css?v=", format(Sys.time(), "%Y%m%d%H%M%S"))),
+          tags$script(src = "tooltips.js"),
+          # JavaScript to move subtitle and language selector into navbar-header
+          tags$script(HTML("
+            $(document).ready(function() {
+              setTimeout(function() {
+                // Move elements into navbar-header
+                var subtitle = $('.seriarc-navbar-subtitle').detach();
+                var langSelector = $('.seriarc-lang-selector').detach();
+                $('.navbar-header').append(subtitle).append(langSelector);
+              }, 50);
+              
+              // Show loading spinner IMMEDIATELY when file is selected
+              // Use event delegation since module loads after this script
+              $(document).on('change', '#import-file', function() {
+                if (this.files && this.files.length > 0) {
+                  $('#welcome-screen-import').hide();
+                  $('#data-loading-indicator').show();
+                }
+              });
+            });
+          ")),
+          # Hide loading screen when Shiny is ready
+          if (exists("RUNNING_ON_CLOUD") && RUNNING_ON_CLOUD) {
+            tags$script(HTML("
+              $(document).on('shiny:connected', function() {
+                setTimeout(function() {
+                  $('#seriarc-loading-screen').addClass('loaded');
+                  setTimeout(function() {
+                    $('#seriarc-loading-screen').remove();
+                  }, 500);
+                }, 300);
+              });
+            "))
+          }
+        ),
+        div(class = "watermark", paste("SeriARC v", APP_VERSION)),
+        div(class = "seriarc-navbar-subtitle", tr("app.subtitle")),
+        language_selector(lang)
     ),
 
     # Footer with branding
@@ -105,6 +140,17 @@ create_ui <- function(tr = NULL, lang = NULL) {
               ),
 
               column(8,
+                # Static welcome screen (fast loading, hidden when data loads)
+                div(id = "welcome-screen-import",
+                  welcome_data_ui(tr)
+                ),
+                # Loading indicator (shown while processing)
+                div(id = "data-loading-indicator",
+                  div(class = "spinner"),
+                  h3(if (lang == "de") "Daten werden verarbeitet..." else "Processing data..."),
+                  tags$p(if (lang == "de") "Bitte warten Sie einen Moment" else "Please wait a moment")
+                ),
+                # Dynamic content after data load
                 uiOutput("import_main_content")
               )
             )
@@ -203,5 +249,6 @@ create_ui <- function(tr = NULL, lang = NULL) {
         uiOutput("chronology_main_content")
       )
     )
-  )
+  ) # end navbarPage
+  ) # end tagList
 }

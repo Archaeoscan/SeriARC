@@ -33,6 +33,22 @@ server <- function(input, output, session) {
   file_status <- import$file_status
   is_example_data <- import$is_example_data
   
+  # === WELCOME/LOADING SCREEN MANAGEMENT ===
+  observe({
+    if (!is.null(data_raw())) {
+      shinyjs::hide("welcome-screen-import")
+      shinyjs::hide("data-loading-indicator")
+    } else {
+      shinyjs::show("welcome-screen-import")
+      shinyjs::hide("data-loading-indicator")
+    }
+  })
+  
+  observeEvent(input[["import-file"]], {
+    shinyjs::hide("welcome-screen-import")
+    shinyjs::show("data-loading-indicator")
+  }, ignoreNULL = TRUE, ignoreInit = TRUE)
+  
   filtermod <- mod_data_filter_server("filter",
                                       data_raw = data_raw,
                                       sites_selection = sites_selection_reactive,
