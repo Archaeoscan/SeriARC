@@ -389,7 +389,7 @@ ca.settings.title;📊 CA Einstellungen;📊 CA Settings
 ca.panel.transform;Transformationen & Biplot;Transformations & Biplot
 ca.panel.display;Anzeige-Optionen;Display Options
 ca.panel.overlay;14C-Overlay;14C Overlay
-ca.panel.overlay.hint;Laden Sie 14C-Daten im Tab "14C Integration", um diese Funktion zu nutzen.;Load 14C data in the "14C Integration" tab to use this feature.
+ca.panel.overlay.hint;Laden Sie 14C-Daten im Tab 14C Integration, um diese Funktion zu nutzen.;Load 14C data in the "14C Integration" tab to use this feature.
 cluster.panel.options;Clustering Optionen;Clustering Options
 cluster.panel.display;Darstellung;Display
 cluster.panel.names;Cluster-Namen;Cluster Names
@@ -2219,7 +2219,7 @@ oxcal.outlier.combined;Combined: General + Individual;Combined: General + Indivi
 oxcal.outlier.prior;Outlier-Prior p (%):;Outlier prior p (%):
 oxcal.cloud.title;☁️ Cloud-Modus;☁️ Cloud mode
 oxcal.cloud.desc;Die App läuft auf shinyapps.io - OxCal kann hier nicht ausgeführt werden.;The app is running on shinyapps.io - OxCal cannot be executed here.
-oxcal.cloud.howto;<strong>💡 So geht's:</strong><br>1. CQL-Code unten aus der Vorschau kopieren<br>2. <a href='https://c14.arch.ox.ac.uk/oxcal/OxCal.html' target='_blank'>OxCal Online</a> öffnen<br>3. Code einfügen und ausführen;<strong>💡 How to:</strong><br>1. Copy CQL code from preview below<br>2. Open <a href='https://c14.arch.ox.ac.uk/oxcal/OxCal.html' target='_blank'>OxCal Online</a><br>3. Paste code and run
+oxcal.cloud.howto;"<strong>💡 So geht's:</strong><br>1. CQL-Code unten aus der Vorschau kopieren<br>2. <a href='https://c14.arch.ox.ac.uk/oxcal/OxCal.html' target='_blank'>OxCal Online</a> öffnen<br>3. Code einfügen und ausführen";"<strong>💡 How to:</strong><br>1. Copy CQL code from preview below<br>2. Open <a href='https://c14.arch.ox.ac.uk/oxcal/OxCal.html' target='_blank'>OxCal Online</a><br>3. Paste code and run"
 oxcal.status.title;OxCal Status:;OxCal Status:
 oxcal.btn.run;Modell rechnen;Calculate model
 oxcal.btn.run.disabled.tooltip;OxCal-Ausführung ist nur lokal möglich. Kopieren Sie den CQL-Code und führen Sie ihn in OxCal Online aus.;OxCal execution is only possible locally. Copy the CQL code and run it in OxCal Online.
