@@ -12,7 +12,6 @@
 - **Clustering** (K-means, hierarchical, fuzzy, GMM) with comprehensive diagnostics
 - **Radiocarbon Calibration** using IntCal20
 - **OxCal Integration** for Bayesian sequence modeling (local installations only)
-- **CA-Distance Priors** for JAGS/Stan Bayesian modeling
 - **Interactive Visualization** with plotly, ggplot2, and leaflet maps
 - **Bilingual Interface** (German/English)
 - **Publication-Quality Exports** (PNG, SVG, PDF, Excel)
