@@ -87,24 +87,37 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
   }
 
   # Format label for modelled (OxCal) data with checkmark marker
+  # OxCal values can be in negative BC notation (e.g. -4551 = 4551 BC) or cal BP (positive)
   .format_modelled_c14_label <- function(median_bp, from_68, to_68, n_dates,
                                           show_n = TRUE, show_interval = FALSE,
                                           style = "compact", lab_ids = NULL,
                                           show_labids = FALSE) {
-    # Convert to cal BC (assuming input is cal BP)
-    median_calbc <- round(1950 - median_bp)
-    from_calbc <- if (!is.infinite(from_68)) round(1950 - from_68) else NA
-    to_calbc <- if (!is.infinite(to_68)) round(1950 - to_68) else NA
+    # Convert to cal BC display string — handle both BP (positive) and BC (negative) input
+    if (median_bp > 0) {
+      # Assume cal BP, convert via standard function
+      median_calbc <- format_point_calbc(median_bp)
+    } else {
+      # Already in BC (negative) or AD (positive near 0) notation from OxCal
+      median_calbc <- format_year_label(median_bp)
+    }
+
+    # Convert interval endpoints the same way
+    convert_endpoint <- function(val) {
+      if (is.na(val) || is.infinite(val)) return(NA_character_)
+      if (val > 0) format_point_calbc(val) else format_year_label(val)
+    }
+    from_str <- convert_endpoint(from_68)
+    to_str <- convert_endpoint(to_68)
 
     # Modelled marker (checkmark)
     marker <- "\u2713"
 
     # Build label based on style
     if (style == "compact") {
-      label <- paste0(marker, " ", median_calbc, " cal BC")
+      label <- paste0(marker, " ", median_calbc)
       if (show_n && !is.na(n_dates)) label <- paste0(label, " (n=", n_dates, ")")
-      if (show_interval && !is.na(from_calbc) && !is.na(to_calbc)) {
-        label <- paste0(label, "\n", to_calbc, "-", from_calbc)
+      if (show_interval && !is.na(from_str) && !is.na(to_str)) {
+        label <- paste0(label, "\n", from_str, "-", to_str)
       }
     } else {
       label <- paste0(marker, " ", median_calbc)
