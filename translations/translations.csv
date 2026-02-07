@@ -2549,3 +2549,43 @@ transform.help.summary.sit5;Viele kleine Werte (1–3);Many small values (1–3)
 transform.help.summary.rec5;Keine Transformation oder Normalisierung;No Transformation or Normalization
 transform.help.summary.sit6;Log führt zu vielen Nullen;Log leads to many zeros
 transform.help.summary.rec6;Nicht geeignet;Not suitable
+ca.outlier.sum.robust.header;🎯 ROBUSTE OUTLIER-ERKENNUNG\n\n🔍 METHODE: Vergleich über alle Dimensionen\n  • Dim1+Dim2\n  • Dim1+Dim3\n  • Dim2+Dim3\n  • Dim1+Dim2+Dim3\n\n🎯 Zeigt nur Outlier, die in MEHREREN Dimensionen problematisch sind!\n\n;🎯 ROBUST OUTLIER DETECTION\n\n🔍 METHOD: Comparison across all dimensions\n  • Dim1+Dim2\n  • Dim1+Dim3\n  • Dim2+Dim3\n  • Dim1+Dim2+Dim3\n\n🎯 Shows only outliers that are problematic in MULTIPLE dimensions!\n\n
+ca.outlier.sum.sites.header;🏛️ FUNDORTE (nur ≥ 2 Dimensionen):;🏛️ SITES (only ≥ 2 dimensions):
+ca.outlier.sum.types.header;🏺 TYPEN (nur ≥ 2 Dimensionen):;🏺 TYPES (only ≥ 2 dimensions):
+ca.outlier.sum.in.all4;\n  🔴 In ALLEN 4 Dimensionen: %d;\n  🔴 In ALL 4 dimensions: %d
+ca.outlier.sum.in.3of4;\n  🟠 In 3 von 4 Dimensionen: %d;\n  🟠 In 3 of 4 dimensions: %d
+ca.outlier.sum.in.2of4;\n  🟡 In 2 von 4 Dimensionen: %d\n\n;\n  🟡 In 2 of 4 dimensions: %d\n\n
+ca.outlier.sum.critical44;🔴 KRITISCH (4/4):\n  ;🔴 CRITICAL (4/4):\n
+ca.outlier.sum.very.problematic;🟠 SEHR PROBLEMATISCH (3/4):\n  ;🟠 VERY PROBLEMATIC (3/4):\n
+ca.outlier.sum.more; ... (+%d weitere); ... (+%d more)
+ca.outlier.sum.recommendation;\n✅ EMPFEHLUNG:\n  • 🔴 Elemente (4/4): Höchste Priorität zur Überprüfung!\n  • 🟠 Elemente (3/4): Wahrscheinlich problematisch\n  • 🟡 Elemente (2/4): Möglicherweise dimensionsspezifisch – Vorsicht!\n\nℹ️ Elemente die nur in 1 Dimension auffällig sind, werden NICHT angezeigt.;\n✅ RECOMMENDATION:\n  • 🔴 Elements (4/4): Highest priority to review!\n  • 🟠 Elements (3/4): Likely problematic\n  • 🟡 Elements (2/4): May be dimension-specific - use caution!\n\nℹ️ Elements that are only conspicuous in 1 dimension are NOT shown.
+ca.outlier.sum.quantile.header;🔍 OUTLIER-ERKENNUNG: Quantil-basiert\n\n🎯 METHODE: Cos² + Contribution (Repräsentationsqualität)\n📊 DIMENSIONEN: %s\n\nℹ️ Identifiziert Elemente, die im gewählten Dimensionsraum schlecht repräsentiert sind.\n\n;🔍 OUTLIER DETECTION: Quantile-based\n\n🎯 METHOD: Cos² + Contribution (Representation quality)\n📊 DIMENSIONS: %s\n\nℹ️ Identifies elements that are poorly represented in the selected dimension space.\n\n
+ca.outlier.sum.jackknife.header;🔍 OUTLIER-ERKENNUNG: Jackknife-Influence\n\n🎯 METHODE: Leave-One-Out-Analyse (Strukturelle Kritikalität)\n📊 DIMENSIONEN: %s\n\nℹ️ Identifiziert Elemente, die die CA-Struktur stark beeinflussen.\n\n;🔍 OUTLIER DETECTION: Jackknife Influence\n\n🎯 METHOD: Leave-One-Out Analysis (Structural Criticality)\n📊 DIMENSIONS: %s\n\nℹ️ Identifies elements that strongly influence CA structure.\n\n
+ca.outlier.sum.combined.header;🔍 OUTLIER-ERKENNUNG: Kombiniert (Quantil + Jackknife)\n\n🎯 4 KATEGORIEN:\n  1️⃣ KRITISCH: Beide Probleme\n  2️⃣ Marginal: Nur niedrige Cos²\n  3️⃣ Strukturell: Nur hoher Influence\n  4️⃣ OK: Keine Probleme\n\n📊 DIMENSIONEN: %s\n\n;🔍 OUTLIER DETECTION: Combined (Quantile + Jackknife)\n\n🎯 4 CATEGORIES:\n  1️⃣ CRITICAL: Both problems\n  2️⃣ Marginal: Only low Cos²\n  3️⃣ Structural: Only high Influence\n  4️⃣ OK: No problems\n\n📊 DIMENSIONS: %s\n\n
+ca.outlier.sum.no.outliers;✅ Keine Outlier gefunden.;✅ No outliers found.
+ca.outlier.sum.no.structural;✅ Keine strukturell kritischen Elemente gefunden.;✅ No structurally critical elements found.
+ca.outlier.sum.total;📊 GESAMT: %d Outlier\n;📊 TOTAL: %d outliers\n
+ca.outlier.sum.total.structural;📊 GESAMT: %d strukturell kritische Elemente\n;📊 TOTAL: %d structurally critical elements\n
+ca.outlier.sum.total.combined;📊 GESAMT: %d Outlier\n\n;📊 TOTAL: %d outliers\n\n
+ca.outlier.sum.sites.low.cos2;  • Fundorte (niedrige Cos²): %d\n;  • Sites (low Cos²): %d\n
+ca.outlier.sum.sites.high.contrib;  • Fundorte (hohe Contribution): %d\n;  • Sites (high Contrib): %d\n
+ca.outlier.sum.types.low.cos2;  • Typen (niedrige Cos²): %d\n;  • Types (low Cos²): %d\n
+ca.outlier.sum.types.high.contrib;  • Typen (hohe Contribution): %d\n;  • Types (high Contrib): %d\n
+ca.outlier.sum.sites;  • Fundorte: %d\n;  • Sites: %d\n
+ca.outlier.sum.types;  • Typen: %d\n;  • Types: %d\n
+ca.outlier.sum.critical;🔴 KRITISCH:\n;🔴 CRITICAL:\n
+ca.outlier.sum.marginal;🟡 MARGINAL:\n;🟡 MARGINAL:\n
+ca.outlier.sum.structural;🟠 STRUKTURELL:\n;🟠 STRUCTURAL:\n
+ca.outlier.cb.no.detection;ℹ️ Noch keine Outlier-Erkennung durchgeführt;ℹ️ No outlier detection performed
+ca.outlier.cb.click.detect;Klicken Sie '🔄 Outlier neu erkennen'.;Click '🔄 Detect outliers'.
+ca.outlier.cb.robust.count;🎯 %d robuste Outlier (≥ 2 Dimensionen);🎯 %d robust outliers (≥ 2 dimensions)
+ca.outlier.cb.reason.critical;KRITISCH: Niedrige Cos² in ALLEN Dimensionen – durchgehend schlecht repräsentiert;CRITICAL: Low Cos² in ALL dimensions - consistently poorly represented
+ca.outlier.cb.reason.very.problematic;SEHR PROBLEMATISCH: Niedrige Cos² in 3 von 4 Dimensionen – wahrscheinlich ein echter Outlier;VERY PROBLEMATIC: Low Cos² in 3 of 4 dimensions - likely a true outlier
+ca.outlier.cb.reason.dimension.specific;DIMENSIONSSPEZIFISCH: Niedrige Cos² in 2 von 4 Dimensionen – könnte strukturbedingt sein;DIMENSION-SPECIFIC: Low Cos² in 2 of 4 dimensions - could be structure-related
+ca.outlier.cb.no.robust;✅ Keine robusten Outlier gefunden!;✅ No robust outliers found!
+ca.outlier.cb.no.robust.desc;Alle Elemente variieren stark über die Dimensionen.;All elements vary strongly across dimensions.
+ca.outlier.cb.reason.low.cos2;Niedrige Repräsentationsqualität;Low representation quality
+ca.outlier.cb.reason.too.dominant;Zu dominant;Too dominant
+ca.outlier.cb.reason.structural;Strukturell kritisch;Structurally critical
+ca.outlier.cb.no.found;✅ Keine Outlier gefunden;✅ No outliers found
+ca.outlier.cb.count;📋 %d Outlier gefunden;📋 %d outliers found

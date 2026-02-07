@@ -2857,7 +2857,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
 
     # ===== SHOW ROBUST OUTLIERS =====
     if (method == "robust") {
-      summary_text <- "🎯 ROBUST OUTLIER DETECTION\n\n🔍 METHOD: Comparison across all dimensions\n  • Dim1+Dim2\n  • Dim1+Dim3\n  • Dim2+Dim3\n  • Dim1+Dim2+Dim3\n\n🎯 Shows only outliers that are problematic in MULTIPLE dimensions!\n\n"
+      summary_text <- tr("ca.outlier.sum.robust.header")
 
       sites <- candidates$sites
       types <- candidates$types
@@ -2868,20 +2868,20 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
         n_3_of_4 <- sum(sites$Count == 3)
         n_2_of_4 <- sum(sites$Count == 2)
 
-        summary_text <- paste0(summary_text, "🏛️ SITES (only ≥ 2 dimensions):")
-        summary_text <- paste0(summary_text, sprintf("\n  🔴 In ALL 4 dimensions: %d", n_all_4))
-        summary_text <- paste0(summary_text, sprintf("\n  🟠 In 3 of 4 dimensions: %d", n_3_of_4))
-        summary_text <- paste0(summary_text, sprintf("\n  🟡 In 2 of 4 dimensions: %d\n\n", n_2_of_4))
+        summary_text <- paste0(summary_text, tr("ca.outlier.sum.sites.header"))
+        summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.in.all4"), n_all_4))
+        summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.in.3of4"), n_3_of_4))
+        summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.in.2of4"), n_2_of_4))
 
         # Examples
         if (n_all_4 > 0) {
           all4_sites <- sites$Entity[sites$Count == 4]
-          summary_text <- paste0(summary_text, "🔴 CRITICAL (4/4):\n  ", paste(all4_sites, collapse=", "), "\n\n")
+          summary_text <- paste0(summary_text, tr("ca.outlier.sum.critical44"), paste(all4_sites, collapse=", "), "\n\n")
         }
         if (n_3_of_4 > 0) {
           three_sites <- head(sites$Entity[sites$Count == 3], 5)
-          summary_text <- paste0(summary_text, "🟠 VERY PROBLEMATIC (3/4):\n  ", paste(three_sites, collapse=", "))
-          if (n_3_of_4 > 5) summary_text <- paste0(summary_text, sprintf(" ... (+%d more)", n_3_of_4 - 5))
+          summary_text <- paste0(summary_text, tr("ca.outlier.sum.very.problematic"), paste(three_sites, collapse=", "))
+          if (n_3_of_4 > 5) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.more"), n_3_of_4 - 5))
           summary_text <- paste0(summary_text, "\n\n")
         }
       }
@@ -2891,13 +2891,13 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
         n_3_of_4 <- sum(types$Count == 3)
         n_2_of_4 <- sum(types$Count == 2)
 
-        summary_text <- paste0(summary_text, "🏺 TYPES (only ≥ 2 dimensions):")
-        summary_text <- paste0(summary_text, sprintf("\n  🔴 In ALL 4 dimensions: %d", n_all_4))
-        summary_text <- paste0(summary_text, sprintf("\n  🟠 In 3 of 4 dimensions: %d", n_3_of_4))
-        summary_text <- paste0(summary_text, sprintf("\n  🟡 In 2 of 4 dimensions: %d\n\n", n_2_of_4))
+        summary_text <- paste0(summary_text, tr("ca.outlier.sum.types.header"))
+        summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.in.all4"), n_all_4))
+        summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.in.3of4"), n_3_of_4))
+        summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.in.2of4"), n_2_of_4))
       }
 
-      summary_text <- paste0(summary_text, "\n✅ RECOMMENDATION:\n  • 🔴 Elements (4/4): Highest priority to review!\n  • 🟠 Elements (3/4): Likely problematic\n  • 🟡 Elements (2/4): May be dimension-specific - use caution!\n\nℹ️ Elements that are only conspicuous in 1 dimension are NOT shown.")
+      summary_text <- paste0(summary_text, tr("ca.outlier.sum.recommendation"))
       
       return(summary_text)
     }
@@ -2912,7 +2912,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
     summary_text <- ""
     
     if (method == "quantile") {
-      summary_text <- sprintf("🔍 OUTLIER DETECTION: Quantile-based\n\n🎯 METHOD: Cos² + Contribution (Representation quality)\n📊 DIMENSIONS: %s\n\nℹ️ Identifies elements that are poorly represented in the selected dimension space.\n\n", dim_label)
+      summary_text <- sprintf(tr("ca.outlier.sum.quantile.header"), dim_label)
 
       n_sites_cos2 <- if (!is.null(candidates$sites_low_cos2)) nrow(candidates$sites_low_cos2) else 0
       n_sites_contrib <- if (!is.null(candidates$sites_high_contrib)) nrow(candidates$sites_high_contrib) else 0
@@ -2921,32 +2921,32 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
       total <- n_sites_cos2 + n_sites_contrib + n_types_cos2 + n_types_contrib
 
       if (total == 0) {
-        summary_text <- paste0(summary_text, "✅ No outliers found.")
+        summary_text <- paste0(summary_text, tr("ca.outlier.sum.no.outliers"))
       } else {
-        summary_text <- paste0(summary_text, sprintf("📊 TOTAL: %d outliers\n", total))
-        if (n_sites_cos2 > 0) summary_text <- paste0(summary_text, sprintf("  • Sites (low Cos²): %d\n", n_sites_cos2))
-        if (n_sites_contrib > 0) summary_text <- paste0(summary_text, sprintf("  • Sites (high Contrib): %d\n", n_sites_contrib))
-        if (n_types_cos2 > 0) summary_text <- paste0(summary_text, sprintf("  • Types (low Cos²): %d\n", n_types_cos2))
-        if (n_types_contrib > 0) summary_text <- paste0(summary_text, sprintf("  • Types (high Contrib): %d\n", n_types_contrib))
+        summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.total"), total))
+        if (n_sites_cos2 > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.sites.low.cos2"), n_sites_cos2))
+        if (n_sites_contrib > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.sites.high.contrib"), n_sites_contrib))
+        if (n_types_cos2 > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.types.low.cos2"), n_types_cos2))
+        if (n_types_contrib > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.types.high.contrib"), n_types_contrib))
       }
 
     } else if (method == "jackknife") {
-      summary_text <- sprintf("🔍 OUTLIER DETECTION: Jackknife Influence\n\n🎯 METHOD: Leave-One-Out Analysis (Structural Criticality)\n📊 DIMENSIONS: %s\n\nℹ️ Identifies elements that strongly influence CA structure.\n\n", dim_label)
+      summary_text <- sprintf(tr("ca.outlier.sum.jackknife.header"), dim_label)
 
       n_sites <- if (!is.null(candidates$sites_influential)) nrow(candidates$sites_influential) else 0
       n_types <- if (!is.null(candidates$types_influential)) nrow(candidates$types_influential) else 0
       total <- n_sites + n_types
 
       if (total == 0) {
-        summary_text <- paste0(summary_text, "✅ No structurally critical elements found.")
+        summary_text <- paste0(summary_text, tr("ca.outlier.sum.no.structural"))
       } else {
-        summary_text <- paste0(summary_text, sprintf("📊 TOTAL: %d structurally critical elements\n", total))
-        if (n_sites > 0) summary_text <- paste0(summary_text, sprintf("  • Sites: %d\n", n_sites))
-        if (n_types > 0) summary_text <- paste0(summary_text, sprintf("  • Types: %d\n", n_types))
+        summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.total.structural"), total))
+        if (n_sites > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.sites"), n_sites))
+        if (n_types > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.types"), n_types))
       }
 
     } else if (method == "combined") {
-      summary_text <- sprintf("🔍 OUTLIER DETECTION: Combined (Quantile + Jackknife)\n\n🎯 4 CATEGORIES:\n  1️⃣ CRITICAL: Both problems\n  2️⃣ Marginal: Only low Cos²\n  3️⃣ Structural: Only high Influence\n  4️⃣ OK: No problems\n\n📊 DIMENSIONS: %s\n\n", dim_label)
+      summary_text <- sprintf(tr("ca.outlier.sum.combined.header"), dim_label)
 
       n_sites_critical <- if (!is.null(candidates$sites$critical)) nrow(candidates$sites$critical) else 0
       n_sites_marginal <- if (!is.null(candidates$sites$marginal)) nrow(candidates$sites$marginal) else 0
@@ -2960,28 +2960,28 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
         n_types_critical + n_types_marginal + n_types_structural
 
       if (total == 0) {
-        summary_text <- paste0(summary_text, "✅ No outliers found.")
+        summary_text <- paste0(summary_text, tr("ca.outlier.sum.no.outliers"))
       } else {
-        summary_text <- paste0(summary_text, sprintf("📊 TOTAL: %d outliers\n\n", total))
+        summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.total.combined"), total))
 
         if (n_sites_critical > 0 || n_types_critical > 0) {
-          summary_text <- paste0(summary_text, "🔴 CRITICAL:\n")
-          if (n_sites_critical > 0) summary_text <- paste0(summary_text, sprintf("  • Sites: %d\n", n_sites_critical))
-          if (n_types_critical > 0) summary_text <- paste0(summary_text, sprintf("  • Types: %d\n", n_types_critical))
+          summary_text <- paste0(summary_text, tr("ca.outlier.sum.critical"))
+          if (n_sites_critical > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.sites"), n_sites_critical))
+          if (n_types_critical > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.types"), n_types_critical))
           summary_text <- paste0(summary_text, "\n")
         }
-        
+
         if (n_sites_marginal > 0 || n_types_marginal > 0) {
-          summary_text <- paste0(summary_text, "🟡 MARGINAL:\n")
-          if (n_sites_marginal > 0) summary_text <- paste0(summary_text, sprintf("  • Sites: %d\n", n_sites_marginal))
-          if (n_types_marginal > 0) summary_text <- paste0(summary_text, sprintf("  • Types: %d\n", n_types_marginal))
+          summary_text <- paste0(summary_text, tr("ca.outlier.sum.marginal"))
+          if (n_sites_marginal > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.sites"), n_sites_marginal))
+          if (n_types_marginal > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.types"), n_types_marginal))
           summary_text <- paste0(summary_text, "\n")
         }
-        
+
         if (n_sites_structural > 0 || n_types_structural > 0) {
-          summary_text <- paste0(summary_text, "🟠 STRUKTURELL:\n")
-          if (n_sites_structural > 0) summary_text <- paste0(summary_text, sprintf("  • Sites: %d\n", n_sites_structural))
-          if (n_types_structural > 0) summary_text <- paste0(summary_text, sprintf("  • Types: %d\n", n_types_structural))
+          summary_text <- paste0(summary_text, tr("ca.outlier.sum.structural"))
+          if (n_sites_structural > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.sites"), n_sites_structural))
+          if (n_types_structural > 0) summary_text <- paste0(summary_text, sprintf(tr("ca.outlier.sum.types"), n_types_structural))
         }
       }
     }
@@ -2997,8 +2997,8 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
     # If not yet calculated
     if (input$outlier_recalculate == 0) {
       return(div(style="text-align: center; padding: 40px; color: #6c757d;",
-                 tags$b("ℹ️ No outlier detection performed"), br(), br(),
-                 "Click '🔄 Detect outliers'."))
+                 tags$b(tr("ca.outlier.cb.no.detection")), br(), br(),
+                 tr("ca.outlier.cb.click.detect")))
     }
 
     # Get results
@@ -3028,7 +3028,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
       header <- div(style="margin-bottom: 15px;",
         div(style="display: flex; justify-content: space-between; align-items: center;",
           div(style="font-weight: bold; color: #495057;",
-            sprintf("🎯 %d robust outliers (≥ 2 dimensions)", n_total_filtered)
+            sprintf(tr("ca.outlier.cb.robust.count"), n_total_filtered)
           ),
           div(style="display: flex; gap: 5px;",
             actionButton("ca_select_all_outliers_js",
@@ -3060,11 +3060,11 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
             # Color coding + reason
             color <- if (count == 4) "🔴" else if (count == 3) "🟠" else "🟡"
             reason <- if (count == 4) {
-              "CRITICAL: Low Cos² in ALL dimensions - consistently poorly represented"
+              tr("ca.outlier.cb.reason.critical")
             } else if (count == 3) {
-              "VERY PROBLEMATIC: Low Cos² in 3 of 4 dimensions - likely a true outlier"
+              tr("ca.outlier.cb.reason.very.problematic")
             } else {
-              "DIMENSION-SPECIFIC: Low Cos² in 2 of 4 dimensions - could be structure-related"
+              tr("ca.outlier.cb.reason.dimension.specific")
             }
 
             checkbox_id <- paste0("outlier_cb_", i)
@@ -3095,11 +3095,11 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
             # Color coding + reason
             color <- if (count == 4) "🔴" else if (count == 3) "🟠" else "🟡"
             reason <- if (count == 4) {
-              "CRITICAL: Low Cos² in ALL dimensions - consistently poorly represented"
+              tr("ca.outlier.cb.reason.critical")
             } else if (count == 3) {
-              "VERY PROBLEMATIC: Low Cos² in 3 of 4 dimensions - likely a true outlier"
+              tr("ca.outlier.cb.reason.very.problematic")
             } else {
-              "DIMENSION-SPECIFIC: Low Cos² in 2 of 4 dimensions - could be structure-related"
+              tr("ca.outlier.cb.reason.dimension.specific")
             }
             
             checkbox_id <- paste0("outlier_cb_", start_idx + i - 1)
@@ -3119,9 +3119,9 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
 
       if (length(checkbox_list) == 0) {
         return(div(style="text-align: center; padding: 40px; color: #6c757d;",
-                   tags$b("✅ No robust outliers found!"),
+                   tags$b(tr("ca.outlier.cb.no.robust")),
                    br(), br(),
-                   "All elements vary strongly across dimensions."))
+                   tr("ca.outlier.cb.no.robust.desc")))
       }
 
       return(tagList(header, do.call(tagList, checkbox_list)))
@@ -3143,7 +3143,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
         df$Type <- "Site"
         df$Metric <- "Cos²"
         df$Value <- round(df$Cos2, 4)
-        df$Reason <- "Low representation quality"
+        df$Reason <- tr("ca.outlier.cb.reason.low.cos2")
         df$Cos2 <- NULL
         all_outliers <- rbind(all_outliers, df)
       }
@@ -3153,7 +3153,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
         df$Type <- "Site"
         df$Metric <- "Contribution"
         df$Value <- round(df$Contribution, 2)
-        df$Reason <- "Too dominant"
+        df$Reason <- tr("ca.outlier.cb.reason.too.dominant")
         df$Contribution <- NULL
         all_outliers <- rbind(all_outliers, df)
       }
@@ -3163,7 +3163,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
         df$Type <- "Type"
         df$Metric <- "Cos²"
         df$Value <- round(df$Cos2, 4)
-        df$Reason <- "Low representation quality"
+        df$Reason <- tr("ca.outlier.cb.reason.low.cos2")
         df$Cos2 <- NULL
         all_outliers <- rbind(all_outliers, df)
       }
@@ -3173,7 +3173,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
         df$Type <- "Type"
         df$Metric <- "Contribution"
         df$Value <- round(df$Contribution, 2)
-        df$Reason <- "Too dominant"
+        df$Reason <- tr("ca.outlier.cb.reason.too.dominant")
         df$Contribution <- NULL
         all_outliers <- rbind(all_outliers, df)
       }
@@ -3186,7 +3186,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
         df$Type <- "Site"
         df$Metric <- "Influence"
         df$Value <- round(df$Influence, 4)
-        df$Reason <- "Structurally critical"
+        df$Reason <- tr("ca.outlier.cb.reason.structural")
         df$Influence <- NULL
         all_outliers <- rbind(all_outliers, df)
       }
@@ -3196,7 +3196,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
         df$Type <- "Type"
         df$Metric <- "Influence"
         df$Value <- round(df$Influence, 4)
-        df$Reason <- "Structurally critical"
+        df$Reason <- tr("ca.outlier.cb.reason.structural")
         df$Influence <- NULL
         all_outliers <- rbind(all_outliers, df)
       }
@@ -3258,7 +3258,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
     
     if (nrow(all_outliers) == 0) {
       return(div(style="text-align: center; padding: 20px; color: #6c757d;",
-                 tags$b("✅ No outliers found")))
+                 tags$b(tr("ca.outlier.cb.no.found"))))
     }
 
     # Sort (CRITICAL first)
@@ -3328,7 +3328,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
       div(style="margin-bottom: 15px;",
         div(style="display: flex; justify-content: space-between; align-items: center;",
           div(style="font-weight: bold; color: #495057;",
-            sprintf("📋 %d outliers found", nrow(all_outliers))
+            sprintf(tr("ca.outlier.cb.count"), nrow(all_outliers))
           ),
           div(style="display: flex; gap: 5px;",
             actionButton("ca_select_all_outliers_js",
