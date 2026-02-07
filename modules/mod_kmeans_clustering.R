@@ -13,6 +13,9 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
 
   # Reactive values for custom cluster names
   cluster_names <- reactiveValues()
+
+  # Store last plotly object for HTML export
+  last_kmeans_plotly <- reactiveVal(NULL)
   
   # === FIX 3: Clean up cluster names when k changes ===
   observeEvent(input$num_clusters, {
@@ -1995,9 +1998,11 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
       )
     }
 
-    standard_plotly_config(p, "2d")
+    p <- standard_plotly_config(p, "2d")
+    last_kmeans_plotly(p)
+    p
   })
-  
+
   # Tabelle
   output$kmeans_table <- DT::renderDataTable({
     req(kmeans_res())
@@ -2483,7 +2488,26 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
     export_type = "Clustering",
     tr = tr
   )
-  
+
+  # HTML Export (interactive Plotly)
+  output$download_kmeans_plot_html <- downloadHandler(
+    filename = function() {
+      num_clusters <- input$num_clusters %||% 3
+      sprintf("SeriARC_KMeans_%s_Cluster_%s.html", num_clusters, Sys.Date())
+    },
+    content = function(file) {
+      showNotification(tr("notify.export.html"), type = "message", duration = 3)
+      tryCatch({
+        p <- last_kmeans_plotly()
+        req(p)
+        htmlwidgets::saveWidget(p, file, selfcontained = TRUE)
+        showNotification(tr("notify.export.html.success"), type = "message", duration = 2)
+      }, error = function(e) {
+        showNotification(paste(tr("notify.export.html.error"), e$message), type = "error", duration = 5)
+      })
+    }
+  )
+
   # === DENDROGRAM FOR HIERARCHICAL CLUSTERING (PLOTLY + COLORED) ===
   output$dendrogram_plotly <- renderPlotly({
     req(kmeans_res())

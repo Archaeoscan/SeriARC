@@ -188,10 +188,11 @@ output$cluster_main_content <- renderUI({
                 plotlyOutput("kmeans_plotly", height = "600px"),
                 br(),
                 fluidRow(
-                  column(3, downloadButton("download_kmeans_plot_png", "PNG", class="btn btn-info btn-sm", style="width:100%;")),
-                  column(3, downloadButton("download_kmeans_plot_svg", "SVG", class="btn btn-secondary btn-sm", style="width:100%;")),
+                  column(2, downloadButton("download_kmeans_plot_png", "PNG", class="btn btn-info btn-sm", style="width:100%;")),
+                  column(2, downloadButton("download_kmeans_plot_svg", "SVG", class="btn btn-secondary btn-sm", style="width:100%;")),
                   column(3, downloadButton("download_kmeans_plot_pdf", "PDF", class="btn btn-danger btn-sm", style="width:100%;")),
-                  column(3, downloadButton("download_kmeans_data", "Data", class="btn btn-success", style="width:100%;"))
+                  column(2, downloadButton("download_kmeans_plot_html", HTML("&#x1F310; HTML"), class="btn btn-success btn-sm", style="width:100%;")),
+                  column(3, downloadButton("download_kmeans_data", "Data", class="btn btn-success btn-sm", style="width:100%;"))
                 ),
                 # Cluster Quality Box (moved from left panel)
                 conditionalPanel(
