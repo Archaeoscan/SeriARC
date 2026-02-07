@@ -547,6 +547,9 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
   # ===== EXCLUDE OUTLIERS: BUTTON OBSERVER =====
   # STRUCTURE: excluded_outliers() is a list with $sites and $types
   excluded_outliers <- reactiveVal(list(sites = character(0), types = character(0)))
+
+  # Store last plotly object for HTML export
+  last_ca_plotly <- reactiveVal(NULL)
   
   observeEvent(input$ca_remove_outliers, {
     lookup <- outlier_lookup()
@@ -1458,9 +1461,11 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
       yaxis = list(range = c(y_range[1] - y_buffer, y_range[2] + y_buffer))
     )
     
-    standard_plotly_config(p, "2d")
+    p <- standard_plotly_config(p, "2d")
+    last_ca_plotly(p)
+    p
   })
-  
+
   # ===== SCIENTIFIC OUTPUTS =====
   
   # Eigenvalues (without subjective assessment)
@@ -2305,10 +2310,8 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
       showNotification(tr("notify.export.html"), type = "message", duration = 3)
 
       tryCatch({
-        # Generiere den Plot neu
-        p <- isolate(output$ca_plotly())
-
-        # Save as HTML
+        p <- last_ca_plotly()
+        req(p)
         htmlwidgets::saveWidget(p, file, selfcontained = TRUE)
 
         showNotification(tr("notify.export.html.success"), type = "message", duration = 2)
