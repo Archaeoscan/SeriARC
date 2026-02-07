@@ -71,8 +71,7 @@ SeriARC supports two execution modes:
 1. **Import Data**: Load Excel/CSV files with archaeological assemblages
 2. **Correspondence Analysis**: Visualize chronological patterns
 3. **14C Integration**: Add radiocarbon dates for absolute chronology
-4. **Bayesian Modeling**: Create sequences with OxCal or JAGS/Stan
-5. **Export Results**: Generate publication-quality figures and reports
+4. **Export Results**: Generate publication-quality figures and reports
 
 ### Example Dataset
 
