@@ -665,13 +665,13 @@ build_oxcal_cql <- function(filtered_data, settings, cache = NULL, mapping = NUL
 
 # ===================== RANGE SELECTION UI HELPER FUNCTION =====================
 
-generate_interval_choices <- function(base_data, boundaries_enabled) {
+generate_interval_choices <- function(base_data, boundaries_enabled, tr = function(x) x) {
   if (is.null(base_data) || nrow(base_data) == 0) {
     return(list(
       choices_list = c("---" = "---"),
       default_from = "---",
       default_to = "---",
-      help_text = "Please load 14C & Chronology data."
+      help_text = tr("oxcal.range.nodata")
     ))
   }
   
@@ -689,12 +689,12 @@ generate_interval_choices <- function(base_data, boundaries_enabled) {
     )
     default_from <- "Start"
     default_to <- "End"
-    help_text <- "With boundaries: Selected range will be calculated (better performance)"
+    help_text <- tr("oxcal.range.with.boundaries")
   } else {
     choices_list <- stats::setNames(phases_ordered$phase_safe, phases_ordered$phase_pretty)
     default_from <- if(nrow(phases_ordered) > 0) phases_ordered$phase_safe[1] else "---"
     default_to   <- if(nrow(phases_ordered) > 0) phases_ordered$phase_safe[nrow(phases_ordered)] else "---"
-    help_text <- "Without boundaries: Phase selection only, limited range filtering"
+    help_text <- tr("oxcal.range.without.boundaries")
   }
   
   list(

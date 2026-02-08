@@ -11,12 +11,18 @@ APP_NAME <- "SeriARC"
 
 # Cloud environment detection (shinyapps.io, Posit Connect)
 detect_cloud_environment <- function() {
+  # 1) Env variables set by shinyapps.io / Posit Connect
   is_shinyapps <- nzchar(Sys.getenv("SHINYAPPS_ACCOUNT")) ||
                   nzchar(Sys.getenv("SHINYAPPS_APPLICATION"))
   is_connect <- nzchar(Sys.getenv("CONNECT_SERVER")) ||
                 nzchar(Sys.getenv("RSTUDIO_CONNECT_HASTE"))
-  is_cloud_path <- grepl("/srv/shiny-server|/home/shiny|shinyapps", getwd(), ignore.case = TRUE)
-  is_shinyapps || is_connect || is_cloud_path
+  # 2) Path-based: shinyapps.io runs under /srv/connect/ or similar
+  wd <- getwd()
+  is_cloud_path <- grepl("/srv/|/opt/connect|/home/shiny|shinyapps", wd, ignore.case = TRUE)
+  # 3) SeriARC runs locally only on Windows — shinyapps.io is always Linux
+  is_not_windows <- .Platform$OS.type != "windows"
+
+  is_shinyapps || is_connect || is_cloud_path || is_not_windows
 }
 
 RUNNING_ON_CLOUD <- detect_cloud_environment()

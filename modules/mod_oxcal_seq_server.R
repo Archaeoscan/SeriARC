@@ -179,7 +179,7 @@ mod_oxcal_seq_server <- function(id, c14_table_reactive, chrono_curve_reactive,
     output$interval_from_to <- renderUI({
       boundaries_enabled <- input$autoBoundaries
       df <- base_data()
-      choices_info <- generate_interval_choices(df, boundaries_enabled)
+      choices_info <- generate_interval_choices(df, boundaries_enabled, tr)
       
       if (is.null(df) || nrow(df) == 0) {
         return(tagList(
@@ -466,7 +466,7 @@ mod_oxcal_seq_server <- function(id, c14_table_reactive, chrono_curve_reactive,
     .setup_phases_plot_exports(output, phase_stats, input, ns)
 
     # ===================== STATUS OUTPUTS =====================
-    .setup_status_outputs(output, oxcal_ready, oxcal_setup, ns)
+    .setup_status_outputs(output, oxcal_ready, oxcal_setup, ns, tr)
     
     # ===================== CQL PREVIEW =====================
     output$log <- renderText({
@@ -729,7 +729,7 @@ mod_oxcal_seq_server <- function(id, c14_table_reactive, chrono_curve_reactive,
 }
 
 # ===================== STATUS OUTPUTS =====================
-.setup_status_outputs <- function(output, oxcal_ready, oxcal_setup, ns) {
+.setup_status_outputs <- function(output, oxcal_ready, oxcal_setup, ns, tr = function(x) x) {
   output$oxcal_status <- renderText({
     status <- oxcal_ready()
     if (status) {
@@ -740,25 +740,24 @@ mod_oxcal_seq_server <- function(id, c14_table_reactive, chrono_curve_reactive,
       }, error = function(e) oxcal_setup$path)
 
       warning_msg <- if (!is.null(oxcal_setup$warning)) {
-        paste0("\n\n⚠️ Note: ", oxcal_setup$warning)
+        paste0("\n\n", tr("oxcal.status.warning.prefix"), oxcal_setup$warning)
       } else ""
 
       paste0(
-        "✅ OxCal ready for sequence modeling",
-        "\n\nFound installation:",
-        "\n• Path: ", if(!is.null(current_path)) current_path else "Unknown",
-        "\n• Status: Ready for Bayesian chronology modeling",
+        tr("oxcal.status.ready"),
+        "\n\n", tr("oxcal.status.found"),
+        "\n", tr("oxcal.status.path"), " ", if(!is.null(current_path)) current_path else tr("oxcal.status.unknown"),
+        "\n", tr("oxcal.status.ready.detail"),
         warning_msg
       )
     } else {
-      paste(
-        "⚠️ OxCal not configured yet",
-        "\n\nThe OxCal sequence module requires a working",
-        "\nOxCal installation for Bayesian chronology modeling.",
-        "\n\nOptions:",
-        "\n1. 📁 Manual path: 'Set path'",
-        "\n2. 🔧 New installation: 'Auto-Setup'",
-        "\n\nDetails in the R console."
+      paste0(
+        tr("oxcal.status.not.configured"),
+        "\n\n", tr("oxcal.status.requires"),
+        "\n\n", tr("oxcal.status.options"),
+        "\n", tr("oxcal.status.option.manual"),
+        "\n", tr("oxcal.status.option.auto"),
+        "\n\n", tr("oxcal.status.console.hint")
       )
     }
   })
@@ -768,25 +767,25 @@ mod_oxcal_seq_server <- function(id, c14_table_reactive, chrono_curve_reactive,
       tagList(
         br(),
         fluidRow(
-          column(6, actionButton(ns("setup_oxcal"), "🔧 Auto-Setup", class = "btn btn-warning btn-sm")),
-          column(6, actionButton(ns("manual_path"), "📁 Set path", class = "btn btn-secondary btn-sm"))
+          column(6, actionButton(ns("setup_oxcal"), tr("oxcal.btn.auto.setup"), class = "btn btn-warning btn-sm")),
+          column(6, actionButton(ns("manual_path"), tr("oxcal.btn.set.path"), class = "btn btn-secondary btn-sm"))
         ),
         br(),
         conditionalPanel(
           condition = sprintf("input['%s'] %% 2 == 1", ns("manual_path")),
           div(class = "well well-sm",
-              h6("Manual OxCal path:"),
+              h6(tr("oxcal.manual.path.title")),
               fluidRow(
                 column(9, textInput(ns("oxcal_path_input"), NULL,
-                                    placeholder = "e.g. C:/OxCal/bin/OxCalWin.exe", value = "")),
-                column(3, actionButton(ns("set_path"), "Set", class = "btn btn-success btn-sm", style = "margin-top: 0px;"))
+                                    placeholder = tr("oxcal.manual.path.placeholder"), value = "")),
+                column(3, actionButton(ns("set_path"), tr("oxcal.btn.set"), class = "btn btn-success btn-sm", style = "margin-top: 0px;"))
               )
           )
         )
       )
     } else {
       div(class = "alert alert-success", style = "font-size: 0.9em;",
-          strong("✅ OxCal is ready!"), " You can now run sequence models.")
+          strong(tr("oxcal.status.ready.badge")), " ", tr("oxcal.status.ready.msg"))
     }
   })
 }

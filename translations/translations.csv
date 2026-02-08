@@ -2250,6 +2250,28 @@ oxcal.phases.export;📥 Zeitstrahl exportieren:;📥 Export timeline:
 oxcal.phases.html;HTML (interaktiv);HTML (interactive)
 oxcal.phases.export.hint;PNG/SVG: Statisches Bild | HTML: Interaktiver Plot zum Teilen;PNG/SVG: Static image | HTML: Interactive plot for sharing
 oxcal.phases.table;📋 Start/Ende/Dauer;📋 Start/End/Duration
+oxcal.status.ready;✅ OxCal bereit für Sequenz-Modellierung;✅ OxCal ready for sequence modeling
+oxcal.status.found;Installation gefunden:;Found installation:
+oxcal.status.path;• Pfad:;• Path:
+oxcal.status.unknown;Unbekannt;Unknown
+oxcal.status.ready.detail;• Status: Bereit für Bayesianische Chronologie-Modellierung;• Status: Ready for Bayesian chronology modeling
+oxcal.status.warning.prefix;⚠️ Hinweis: ;⚠️ Note:
+oxcal.status.not.configured;⚠️ OxCal noch nicht konfiguriert;⚠️ OxCal not configured yet
+oxcal.status.requires;Das OxCal-Sequenz-Modul benötigt eine funktionierende OxCal-Installation für Bayesianische Chronologie-Modellierung.;The OxCal sequence module requires a working OxCal installation for Bayesian chronology modeling.
+oxcal.status.options;Optionen:;Options:
+oxcal.status.option.manual;1. 📁 Manueller Pfad: 'Pfad setzen';1. 📁 Manual path: 'Set path'
+oxcal.status.option.auto;2. 🔧 Neue Installation: 'Auto-Setup';2. 🔧 New installation: 'Auto-Setup'
+oxcal.status.console.hint;Details in der R-Konsole.;Details in the R console.
+oxcal.btn.auto.setup;🔧 Auto-Setup;🔧 Auto-Setup
+oxcal.btn.set.path;📁 Pfad setzen;📁 Set path
+oxcal.manual.path.title;Manueller OxCal-Pfad:;Manual OxCal path:
+oxcal.manual.path.placeholder;z.B. C:/OxCal/bin/OxCalWin.exe;e.g. C:/OxCal/bin/OxCalWin.exe
+oxcal.btn.set;Setzen;Set
+oxcal.status.ready.badge;✅ OxCal ist bereit!;✅ OxCal is ready!
+oxcal.status.ready.msg;Sie können jetzt Sequenz-Modelle rechnen.;You can now run sequence models.
+oxcal.range.nodata;Bitte 14C- & Chronologie-Daten laden.;Please load 14C & Chronology data.
+oxcal.range.with.boundaries;Mit Boundaries: Ausgewählter Bereich wird berechnet (bessere Performance);With boundaries: Selected range will be calculated (better performance)
+oxcal.range.without.boundaries;Ohne Boundaries: Nur Phasen-Auswahl, eingeschränkte Bereichsfilterung;Without boundaries: Phase selection only, limited range filtering
 
 # =====================================================
 # 14C OVERLAY MODULE (modules/mod_ca_c14_overlay.R)

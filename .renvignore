@@ -1,0 +1,4 @@
+renv/
+node_modules/
+.git/
+data/
