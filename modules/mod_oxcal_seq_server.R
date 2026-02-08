@@ -496,6 +496,11 @@ mod_oxcal_seq_server <- function(id, c14_table_reactive, chrono_curve_reactive,
 
 # ===================== OXCAL SETUP FUNKTIONEN =====================
 .initialize_oxcal <- function() {
+  # Cloud mode: OxCal cannot run on shinyapps.io
+  if (exists("RUNNING_ON_CLOUD") && RUNNING_ON_CLOUD) {
+    return(list(ready = FALSE, path = NULL, cloud = TRUE))
+  }
+
   # First try to get existing OxCal path
   ox_path <- tryCatch({
     p <- oxcAAR::getOxcalExecutablePath()
@@ -538,6 +543,9 @@ mod_oxcal_seq_server <- function(id, c14_table_reactive, chrono_curve_reactive,
 }
 
 .setup_oxcal_handlers <- function(input, output, oxcal_ready_val, ns) {
+  # Cloud mode: no setup handlers needed
+  if (exists("RUNNING_ON_CLOUD") && RUNNING_ON_CLOUD) return(invisible(NULL))
+
   observeEvent(input$set_path, {
     path <- input$oxcal_path_input
     if(!is.null(path) && nchar(path) > 0) {
