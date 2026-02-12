@@ -2192,7 +2192,7 @@ oxcal.boundaries.auto;Boundaries automatisch;Automatic boundaries
 oxcal.boundary.strategy;Boundary-Strategie:;Boundary strategy:
 oxcal.boundary.shared;Scharfe Übergänge (Standard);Sharp transitions (default)
 oxcal.boundary.explicit;Explizite Hiatusse;Explicit hiatuses
-oxcal.boundary.info;ℹ️ <strong>Boundary-Strategien:</strong><br>• <strong>Scharfe Übergänge:</strong> Eine Boundary zwischen Phasen (Standard)<br>• <strong>Explizite Hiatusse:</strong> Start/End je Phase für Lücken-Modellierung;ℹ️ <strong>Boundary strategies:</strong><br>• <strong>Sharp transitions:</strong> One boundary between phases (default)<br>• <strong>Explicit hiatuses:</strong> Start/end per phase for gap modeling
+oxcal.boundary.info;ℹ️ <strong>Boundary-Strategien:</strong><br>• <strong>Scharfe Übergänge:</strong> Eine gemeinsame Boundary zwischen Phasen erzwingt nahtlose Übergänge ohne Lücken oder Überlappungen (Standard)<br>• <strong>Explizite Hiatusse:</strong> Eigene Start/End-Boundaries je Phase — OxCal entscheidet anhand der ¹⁴C-Daten, ob Phasen sich überlappen, Lücken aufweisen oder direkt anschließen;ℹ️ <strong>Boundary strategies:</strong><br>• <strong>Sharp transitions:</strong> A shared boundary between phases enforces seamless transitions without gaps or overlaps (default)<br>• <strong>Explicit hiatuses:</strong> Independent start/end boundaries per phase — OxCal determines from the ¹⁴C data whether phases overlap, have gaps, or are contiguous
 oxcal.span.phase;Span je Site (Phase);Span per site (phase)
 oxcal.span.seq;Span der gesamten Sequenz;Span of entire sequence
 oxcal.outlier.model;🔬 Outlier-Modell;🔬 Outlier model
