@@ -18,14 +18,14 @@ nav.export;📤 Export;📤 Export
 app.title;🏛️ SeriARC;🏛️ SeriARC
 app.subtitle;Archäologische Seriation und Korrespondenzanalyse;Archaeological Seriation and Correspondence Analysis
 app.footer;Archaeological Seriation and Correspondence Analysis;Archaeological Seriation and Correspondence Analysis
-import.title;📂 Daten importieren;📂 Import Data
-export.title;📤 Export & Reports;📤 Export & Reports
+import.title;Daten importieren;Import Data
+export.title;Export & Reports;Export & Reports
 export.subtitle;Exportieren Sie alle Analysen in professioneller Qualität;Export all analyses in professional quality
 import.example.active;✅ Beispieldatensatz aktiv: Keramik der Michelsberger Kultur;✅ Example dataset active: Michelsberg Culture ceramics
 import.example.source;Quelle;Source
-import.file.label;📂 Excel-Datei (.xlsx/.xls):;📂 Excel file (.xlsx/.xls):
+import.file.label;Excel-Datei (.xlsx/.xls):;Excel file (.xlsx/.xls):
 import.file.placeholder;Keine Datei gewählt;No file selected
-import.column.mapping;📋 Spalten-Zuordnung:;📋 Column mapping:
+import.column.mapping;Spalten-Zuordnung:;Column mapping:
 import.column.mapping.hint;Spalte 1 = Sites/Inventare, weitere Spalten flexibel zuordnen.;Column 1 = Sites/inventories, further columns flexibly assignable.
 import.group.column;Gruppen-Spalte:;Group column:
 import.group.tooltip;Chronologische Phasen, Kulturgruppen oder thematische Einheiten zur Gruppierung der Fundstellen;Chronological phases, cultural groups or thematic units for grouping sites
@@ -35,7 +35,7 @@ import.x.coord;X-Koordinaten (Ost):;X-Coordinates (East):
 import.x.tooltip;Ostwerte in UTM oder Längengrade in WGS84. Standard: x-Achse = Ost-West;Easting values in UTM or longitude in WGS84. Standard: x-axis = East-West
 import.y.coord;Y-Koordinaten (Nord):;Y-Coordinates (North):
 import.y.tooltip;Nordwerte in UTM oder Breitengrade in WGS84. Automatische Erkennung und WGS84-Konvertierung;Northing values in UTM or latitude in WGS84. Automatic detection and WGS84 conversion
-import.utm.detected;🗺️ UTM-Koordinaten erkannt:;🗺️ UTM coordinates detected:
+import.utm.detected;UTM-Koordinaten erkannt:;UTM coordinates detected:
 import.utm.zone;Zone:;Zone:
 import.utm.zone.tooltip;UTM-Zone: 32 für Mitteleuropa, 33 für Osteuropa. ETRS89-System (≈WGS84) ist deutscher Standard;UTM zone: 32 for Central Europe, 33 for Eastern Europe. ETRS89 system (≈WGS84) is German standard
 import.utm.hemisphere;Hemisphäre:;Hemisphere:
@@ -51,11 +51,11 @@ import.error.import;❌ Import-Fehler:;❌ Import error:
 import.sf.unavailable;sf-Paket nicht verfügbar - rohe Koordinaten zurückgeben;sf package not available - returning raw coordinates
 import.utm.failed;⚠️ UTM-Konvertierung fehlgeschlagen;⚠️ UTM conversion failed
 import.coord.none;keine Koordinaten;no coordinates
-import.coord.unknown;❓ Koordinaten-Typ unbekannt (nur WGS84/UTM unterstützt);❓ Coordinate type unknown (only WGS84/UTM supported)
+import.coord.unknown;Koordinaten-Typ unbekannt (nur WGS84/UTM unterstützt);Coordinate type unknown (only WGS84/UTM supported)
 import.coord.wgs84;✅ WGS84: %d Punkte;✅ WGS84: %d points
 import.coord.utm;✅ UTM→WGS84: %d Punkte;✅ UTM→WGS84: %d points
 import.status.loaded;✅ %d Sites, %d Typen. %s;✅ %d sites, %d types. %s
-import.no.data;📍 Keine Daten;📍 No data
+import.no.data;Keine Daten;No data
 import.no.groups;⚠️ Keine Gruppen;⚠️ No groups
 import.no.coords;⚠️ Keine Koordinaten;⚠️ No coordinates
 import.groups.count;✅ %d Gruppen;✅ %d groups
@@ -64,10 +64,10 @@ filter.min.types.site;Min. Types pro Site;Min. types per site
 filter.min.types.tooltip;Mindestanzahl Artefakttypen je Fundstelle;Minimum number of artifact types per site
 filter.min.sites.type;Min. Sites pro Type;Min. sites per type
 filter.min.sites.tooltip;Mindestanzahl Fundstellen je Artefakttyp;Minimum number of sites per artifact type
-filter.settings.title;⚙️ Filter-Einstellungen;⚙️ Filter Settings
+filter.settings.title;Filter-Einstellungen;Filter Settings
 filter.settings.desc;Mindestanforderungen für Sites und Typen basierend auf wissenschaftlichen Empfehlungen (Siegmund 2020).;Minimum requirements for sites and types based on scientific recommendations (Siegmund 2020).
-filter.export.title;📄 Export;📄 Export
-filter.export.matrix;📊 Gefilterte Matrix (.xlsx);📊 Filtered Matrix (.xlsx)
+filter.export.title;Export;Export
+filter.export.matrix;Gefilterte Matrix (.xlsx);Filtered Matrix (.xlsx)
 filter.warning.title;Achtung;Warning
 filter.slider.warning;Änderung der Slider überschreibt manuelle Tabellen-Selektion!;Changing sliders will override manual table selection!
 filter.status.sites;• <strong>%d Sites</strong> von ursprünglich %d erfüllen Kriterien;• <strong>%d sites</strong> of originally %d meet criteria
@@ -83,48 +83,48 @@ filter.error.matrix;Unzureichende Datenmatrix;Insufficient data matrix
 filter.error.novalues;Matrix ohne positive Werte;Matrix without positive values
 filter.weight.increase;verstärkt;increased
 filter.weight.decrease;reduziert;decreased
-filter.title.summary;📈 Filter-Auswirkungen;📈 Filter effects
-filter.title.retention;🔄 Datenerhaltung;🔄 Data retention
-filter.title.matrix;⚖️ Matrix-Status;⚖️ Matrix status
-filter.title.weights;🎛️ Gewichtung;🎛️ Weighting
-filter.sites.title;🏢 Sites Auswahl;🏢 Sites selection
-filter.types.title;🏺 Types Auswahl;🏺 Types selection
+filter.title.summary;Filter-Auswirkungen;Filter effects
+filter.title.retention;Datenerhaltung;Data retention
+filter.title.matrix;Matrix-Status;Matrix status
+filter.title.weights;Gewichtung;Weighting
+filter.sites.title;Sites Auswahl;Sites selection
+filter.types.title;Types Auswahl;Types selection
 filter.btn.select.all;✅ Alle;✅ All
 filter.btn.select.none;❌ Keine;❌ None
-filter.btn.label.all;🏷️ Label: Alle;🏷️ Label: All
-filter.btn.label.none;🏷️ Keine;🏷️ None
-filter.btn.reset.weights;🔄 Weights;🔄 Weights
+filter.btn.label.all;Label: Alle;Label: All
+filter.btn.label.none;Keine;None
+filter.btn.reset.weights;Weights;Weights
 ca.types.normalized;Types normalisiert;Types normalized
 ca.types.log;Types log-transformiert;Types log-transformed
 ca.sites.normalized;Sites normalisiert;Sites normalized
 ca.sites.log;Sites log-transformiert;Sites log-transformed
-cluster.reset.names;⚙️ Cluster-Namen zurückgesetzt;⚙️ Cluster names reset
+cluster.reset.names;Cluster-Namen zurückgesetzt;Cluster names reset
 seriation.no.matrix;Keine Matrix verfügbar – bitte zuerst Seriation ausführen;No matrix available – please run seriation first
-3d.title;🎯 3D-Visualisierung;🎯 3D Visualization
-3d.config;📷 3D-Konfiguration:;📷 3D Configuration:
+3d.title;3D-Visualisierung;3D Visualization
+3d.config;3D-Konfiguration:;3D Configuration:
 3d.point.size;Punktgröße:;Point size:
 3d.coloring;Färbung:;Coloring:
 3d.color.type;Nach Typ;By type
 3d.color.group;Nach Fundstellen-Gruppe (nur Sites);By site group (sites only)
-3d.show.ellipsoids;🌌 95%-Ellipsoide anzeigen;🌌 Show 95% ellipsoids
+3d.show.ellipsoids;95%-Ellipsoide anzeigen;Show 95% ellipsoids
 bootstrap.cabootcrs.required;ℹ️ cabootcrs erforderlich für Bootstrap-Resampling;ℹ️ cabootcrs required for bootstrap resampling
 bootstrap.negative.values;⚠️ Matrix enthält negative Werte - Bootstrap-Resampling setzt Zählungen voraus!;⚠️ Matrix contains negative values - bootstrap resampling requires counts!
 bootstrap.normalized.warning;⚠️ Matrix scheint normalisiert/transformiert - Resampling könnte fachlich fragwürdig sein;⚠️ Matrix appears normalized/transformed - resampling may be questionable
 bootstrap.small.sum;⚠️ Sehr kleine Gesamtsumme - Ergebnisse könnten instabil sein;⚠️ Very small total sum - results may be unstable
 bootstrap.sparse.warning;⚠️ Sehr spärliche Matrix (%.0f%% Nullen) - Bootstrap könnte degenerieren;⚠️ Very sparse matrix (%.0f%% zeros) - bootstrap may degenerate
-bootstrap.display;🎯 Bootstrap-Anzeige:;🎯 Bootstrap display:
-bootstrap.show.labels;🏷️ Labels anzeigen;🏷️ Show labels
+bootstrap.display;Bootstrap-Anzeige:;Bootstrap display:
+bootstrap.show.labels;Labels anzeigen;Show labels
 bootstrap.label.length;Label-Länge:;Label length:
-bootstrap.running;🎯 Bootstrap-Resampling...;🎯 Bootstrap resampling...
+bootstrap.running;Bootstrap-Resampling...;Bootstrap resampling...
 bootstrap.iterations.error;Iterationen müssen >= 10 sein;Iterations must be >= 10
 bootstrap.confidence.error;Konfidenz muss zwischen 0 und 100 liegen;Confidence must be between 0 and 100
 detrended.dimensions.error;Nicht genügend Dimensionen für Detrending verfügbar;Not enough dimensions available for detrending
-meta.sites.title;🏛️ Sites Auswahl;🏛️ Sites selection
-meta.sites.hint;💡 'Supplementary' Sites werden in der CA projiziert, beeinflussen aber nicht die Hauptachsen.;💡 'Supplementary' sites are projected in the CA but do not influence the main axes.
+meta.sites.title;Sites Auswahl;Sites selection
+meta.sites.hint;'Supplementary' Sites werden in der CA projiziert, beeinflussen aber nicht die Hauptachsen.;'Supplementary' sites are projected in the CA but do not influence the main axes.
 meta.sites.all.active;Alle Sites → Aktiv;All sites → Active
 meta.sites.auto.suppl;Auto Supplementary;Auto Supplementary
-meta.types.title;🔧 Types Auswahl;🔧 Types selection
-meta.types.hint;💡 'Supplementary' Types werden in der CA projiziert, beeinflussen aber nicht die Hauptachsen.;💡 'Supplementary' types are projected in the CA but do not influence the main axes.
+meta.types.title;Types Auswahl;Types selection
+meta.types.hint;'Supplementary' Types werden in der CA projiziert, beeinflussen aber nicht die Hauptachsen.;'Supplementary' types are projected in the CA but do not influence the main axes.
 meta.types.all.active;Alle Types → Aktiv;All types → Active
 meta.status.all.sites;ℹ️ Alle Sites aktiv;ℹ️ All sites active
 meta.status.auto.sites;ℹ️ Auto: %d seltene Sites;ℹ️ Auto: %d rare sites
@@ -136,18 +136,18 @@ c14.import.label;14C-Daten importieren:;Import 14C data:
 c14.import.hint;Spalten: LabNr | Fundstelle | Age | Error | Material | Context;Columns: LabNr | Site | Age | Error | Material | Context
 c14.template;Template;Template
 c14.import.success;✅ 14C-Daten erfolgreich geladen;✅ 14C data loaded successfully
-c14.filter.title;📊 Datierungen-Filter;📊 Dating filter
+c14.filter.title;Datierungen-Filter;Dating filter
 c14.tab.integration;14C-Integration;14C Integration
-c14.edit.title;📋 14C-Datierungen bearbeiten;📋 Edit 14C datings
+c14.edit.title;14C-Datierungen bearbeiten;Edit 14C datings
 c14.edit.hint;Verwenden Sie die Checkboxes um Datierungen ein-/auszuschließen und Outlier zu markieren:;Use checkboxes to include/exclude datings and mark outliers:
 c14.edit.note;ℹ️ Hinweis: Nur ausgewählte Datierungen werden in späteren Berechnungen verwendet;ℹ️ Note: Only selected datings will be used in later calculations
 c14.outlier.note;Outlier-Markierungen werden für Individual Outlier-Modelle in OxCal genutzt;Outlier markings are used for individual outlier models in OxCal
-c14.integration.done;💾 Integration abgeschlossen;💾 Integration completed
+c14.integration.done;Integration abgeschlossen;Integration completed
 c14.integration.success;Die 14C-Daten wurden erfolgreich mit der CA-Matrix integriert.;The 14C data was successfully integrated with the CA matrix.
 c14.download.integrated;Integrierte Daten herunterladen;Download integrated data
 c14.calib.title;14C-Kalibrierung;14C Calibration
 c14.calib.intcal;Kalibrierung mit lokaler IntCal20.14c-Datei;Calibration with local IntCal20.14c file
-c14.calib.tab.batch;📊 Batch-Kalibrierung;📊 Batch calibration
+c14.calib.tab.batch;Batch-Kalibrierung;Batch calibration
 c14.calib.curve;Kalibrierungskurve;Calibration curve
 c14.calib.intcal.local;Lokale IntCal20.14c wird verwendet;Local IntCal20.14c is used
 c14.calib.intcal.note;Alle Kalibrierungen nutzen Ihre lokale intcal20.14c-Datei;All calibrations use your local intcal20.14c file
@@ -162,7 +162,7 @@ c14.calib.excel.hint;Multi-Sheet Excel mit Details und Zusammenfassung;Multi-she
 c14.calib.hpd.note;HPD-Intervalle: 68% (1σ) und 95% (2σ);HPD intervals: 68% (1σ) and 95% (2σ)
 c14.calib.display.note;Anzeige in cal BC/AD, Intervalle älter → jünger;Display in cal BC/AD, intervals older → younger
 c14.calib.intcal.based;Basiert auf Ihrer lokalen IntCal20.14c-Datei;Based on your local IntCal20.14c file
-c14.calib.tab.single;🔬 Einzeldatenkalibrierung;🔬 Single date calibration
+c14.calib.tab.single;Einzeldatenkalibrierung;Single date calibration
 c14.calib.selection;Datenauswahl;Data selection
 c14.calib.select.date;Datum auswählen:;Select date:
 c14.calib.select.hint;Wählen Sie ein Datum aus den importierten Daten oder geben Sie es manuell ein;Select a date from imported data or enter manually
@@ -170,22 +170,22 @@ c14.calib.input;Eingabe;Input
 c14.calib.labid;Labor-ID:;Lab ID:
 c14.calib.labid.placeholder;z.B. KIA-12345;e.g. KIA-12345
 c14.calib.age;14C-Alter (BP):;14C age (BP):
-c14.panel.title;📅 14C-Daten Integration;📅 14C Data Integration
+c14.panel.title;14C-Daten Integration;14C Data Integration
 c14.import.placeholder;Spalten: LabNr | Fundstelle | Age | Error | Material | Context;Columns: LabNr | Site | Age | Error | Material | Context
-c14.btn.template;📋 Template;📋 Template
+c14.btn.template;Template;Template
 c14.status.loaded;✅ 14C-Daten erfolgreich geladen;✅ 14C data loaded successfully
-c14.table.title;📋 14C-Datierungen bearbeiten;📋 Edit 14C datings
+c14.table.title;14C-Datierungen bearbeiten;Edit 14C datings
 c14.table.desc;Verwenden Sie die Checkboxes um Datierungen ein-/auszuschließen und Outlier zu markieren:;Use the checkboxes to include/exclude datings and mark outliers:
 c14.table.note.title;Hinweis;Note
 c14.table.note.text;Nur ausgewählte Datierungen werden in späteren Berechnungen verwendet. <strong>Outlier</strong>-Markierungen werden für Individual Outlier-Modelle in OxCal genutzt.;Only selected datings will be used in later calculations. <strong>Outlier</strong> markings are used for individual outlier models in OxCal.
-c14.integration.complete.title;💾 Integration abgeschlossen;💾 Integration completed
+c14.integration.complete.title;Integration abgeschlossen;Integration completed
 c14.integration.complete.desc;Die 14C-Daten wurden erfolgreich mit der CA-Matrix integriert.;The 14C data was successfully integrated with the CA matrix.
-c14.btn.download.integrated;📥 Integrierte Daten herunterladen;📥 Download integrated data
-c14.btn.download.table;📥 Tabelle herunterladen;📥 Download table
+c14.btn.download.integrated;Integrierte Daten herunterladen;Download integrated data
+c14.btn.download.table;Tabelle herunterladen;Download table
 c14.notify.loaded;14C-Daten erfolgreich geladen!;14C data loaded successfully!
 notify.c14.mapping.applied;✅ Mapping angewendet: %d Sites zugeordnet;✅ Mapping applied: %d sites matched
 notify.c14.mapping.none.needed;Alle Sites bereits kompatibel – kein Mapping erforderlich.;All sites already compatible – no mapping needed.
-c14.mapping.title;🔗 Site-Namen Matching;🔗 Site Name Matching
+c14.mapping.title;Site-Namen Matching;Site Name Matching
 c14.mapping.desc;Verknüpfen Sie 14C-Sites mit CA-Matrix Sites:;Link 14C sites with CA matrix sites:
 c14.mapping.noassign;Nicht zuordnen;Do not assign
 c14.mapping.suggestion;Vorschlag erkannt;Suggestion found
@@ -198,10 +198,10 @@ c14.filter.selected;• <strong>%d/%d</strong> Datierungen ausgewählt<br>;• <
 c14.filter.outlier;• <strong>%d als Outlier</strong> markiert<br>;• <strong>%d marked as Outlier</strong><br>
 c14.filter.available;• <strong>%d</strong> für Berechnungen verfügbar;• <strong>%d</strong> available for calculations
 oxcal.title;OxCal Sequenz (CA-Abfolge aus Chronology Curve);OxCal Sequence (CA order from Chronology Curve)
-oxcal.panel.phasemode;🎯 Phasen-Modus;🎯 Phase Mode
-oxcal.panel.model;⚙️ Modell-Optionen;⚙️ Model Options
-oxcal.panel.outlier;🔬 Outlier & Korrektur;🔬 Outlier & Correction
-oxcal.panel.display;🖼️ Anzeige;🖼️ Display
+oxcal.panel.phasemode;Phasen-Modus;Phase Mode
+oxcal.panel.model;Modell-Optionen;Model Options
+oxcal.panel.outlier;Outlier & Korrektur;Outlier & Correction
+oxcal.panel.display;Anzeige;Display
 oxcal.workflow.warning;WORKFLOW-WARNUNG: Chronology Curve benötigt;WORKFLOW WARNING: Chronology Curve required
 oxcal.phase.mode;Phasen-Modus:;Phase mode:
 oxcal.boundaries.auto;Boundaries automatisch;Boundaries automatic
@@ -211,8 +211,8 @@ oxcal.boundary.hiatus;Explizite Hiatusse;Explicit hiatuses
 oxcal.boundary.info;Boundary-Strategien:;Boundary strategies:
 oxcal.span.site;Span je Site (Phase);Span per site (phase)
 oxcal.span.sequence;Span der gesamten Sequenz;Span of entire sequence
-oxcal.outlier.model;🔬 Outlier-Modell;🔬 Outlier model
-oxcal.charcoal.title;🌲 Holzkohle-Korrektur (Altholzeffekt);🌲 Charcoal correction (old wood effect)
+oxcal.outlier.model;Outlier-Modell;Outlier model
+oxcal.charcoal.title;Holzkohle-Korrektur (Altholzeffekt);Charcoal correction (old wood effect)
 oxcal.charcoal.auto;Holzkohle-Daten automatisch korrigieren;Auto-correct charcoal data
 oxcal.charcoal.offset;Offset (Jahre jünger machen):;Offset (make years younger):
 oxcal.charcoal.what;Was passiert?;What happens?
@@ -220,7 +220,7 @@ oxcal.charcoal.detect;Holzkohle wird automatisch erkannt (Material-Spalte);Charc
 oxcal.charcoal.adjust;BP-Alter wird direkt reduziert: BP_neu = BP_alt - Offset;BP age is directly reduced: BP_new = BP_old - Offset
 oxcal.charcoal.reason;Kompensiert Altholzeffekt (z.B. 200 Jahre alter Baum verbrannt);Compensates old wood effect (e.g. 200-year-old tree burned)
 oxcal.charcoal.recommend;Empfehlung: 40 Jahre (konservativ) oder 80 Jahre (durchschnittlich);Recommendation: 40 years (conservative) or 80 years (average)
-oxcal.outlier.other;🔬 Outlier-Modell (für alle anderen Probleme);🔬 Outlier model (for all other issues)
+oxcal.outlier.other;Outlier-Modell (für alle anderen Probleme);Outlier model (for all other issues)
 oxcal.outlier.mode;Modus:;Mode:
 oxcal.outlier.none;Kein Outlier-Test;No outlier test
 oxcal.outlier.general;General: Alle Daten;General: All data
@@ -228,7 +228,7 @@ oxcal.outlier.individual;Individual: Nur markierte;Individual: Marked only
 oxcal.outlier.combined;Combined: General + Individual;Combined: General + Individual
 oxcal.outlier.prior;Outlier-Prior p (%):;Outlier prior p (%):
 oxcal.outlier.explain;ERKLÄRUNG DER MODI;EXPLANATION OF MODES
-oxcal.cloud.title;☁️ Cloud-Modus;☁️ Cloud mode
+oxcal.cloud.title;Cloud-Modus;Cloud mode
 oxcal.cloud.info;Die App läuft auf shinyapps.io - OxCal kann hier nicht ausgeführt werden.;The app runs on shinyapps.io - OxCal cannot be executed here.
 oxcal.cloud.howto;So geht's:;How to:
 oxcal.cloud.step1;CQL-Code unten aus der Vorschau kopieren;Copy CQL code below from preview
@@ -263,15 +263,15 @@ oxcal.a.model;A_model;A_model
 oxcal.a.model.tooltip;Modell-Agreement: Wie gut passen alle Daten?;Model agreement: How well do all data fit?
 oxcal.a.comb;A_comb;A_comb
 oxcal.a.comb.tooltip;Kombinierter Index für Phasen/Sequenzen;Combined index for phases/sequences
-oxcal.tab.summary;📋 Zusammenfassung;📋 Summary
-oxcal.tab.posterior;📊 Posterior-Intervalle;📊 Posterior intervals
+oxcal.tab.summary;Zusammenfassung;Summary
+oxcal.tab.posterior;Posterior-Intervalle;Posterior intervals
 oxcal.posterior.note;Bayes'sche Sequenz-Analyse: Posterior-Verteilungen nach Einbeziehung der stratigraphischen Sequenz;Bayesian sequence analysis: Posterior distributions after including the stratigraphic sequence
-oxcal.tab.phases;📈 Phasen-Analyse;📈 Phase analysis
+oxcal.tab.phases;Phasen-Analyse;Phase analysis
 oxcal.phases.note;Quantitative Phasen-Analysen: Start/Ende/Dauer/Überlappungen/Lücken werden automatisch aus OxCal-Boundaries berechnet;Quantitative phase analyses: Start/end/duration/overlaps/gaps are automatically calculated from OxCal boundaries
-oxcal.tab.timeline;📅 Zeitstrahl;📅 Timeline
-oxcal.timeline.export;📥 Zeitstrahl exportieren:;📥 Export timeline:
+oxcal.tab.timeline;Zeitstrahl;Timeline
+oxcal.timeline.export;Zeitstrahl exportieren:;Export timeline:
 oxcal.timeline.hint;PNG/SVG: Statisches Bild | HTML: Interaktiver Plot zum Teilen;PNG/SVG: Static image | HTML: Interactive plot for sharing
-oxcal.tab.startend;📋 Start/Ende/Dauer;📋 Start/End/Duration
+oxcal.tab.startend;Start/Ende/Dauer;Start/End/Duration
 oxcal.cql.preview;CQL-Vorschau;CQL Preview
 oxcal.missing.curve;⚠️ CHRONOLOGY CURVE FEHLT;⚠️ CHRONOLOGY CURVE MISSING
 oxcal.missing.info;Das OxCal-Sequenz-Modul benötigt die Chronology Curve zur Bestimmung der korrekten Phasen-Reihenfolge;The OxCal sequence module requires the Chronology Curve to determine the correct phase order
@@ -285,7 +285,7 @@ oxcal.data.nocolumns;Spalten nicht erkannt. Benötigt: Site, Age, Error;Columns 
 oxcal.data.novalid;Keine gültigen 14C-Daten nach Bereinigung.;No valid 14C data after cleaning.
 oxcal.data.nomatch;Keine Übereinstimmung zwischen 14C-Sites und Chronology-Sites gefunden.;No match found between 14C sites and Chronology sites.
 chrono.title;⏱️ Chronology Curve - Zentrales Prior-Interface;⏱️ Chronology Curve - Central Prior Interface
-chrono.important;🎯 Wichtig: Dieses Modul bestimmt die chronologische Reihenfolge für OxCal;🎯 Important: This module determines the chronological order for OxCal
+chrono.important;Wichtig: Dieses Modul bestimmt die chronologische Reihenfolge für OxCal;Important: This module determines the chronological order for OxCal
 chrono.hint;Wählen Sie Methode und Richtung, dann klicken Sie 'Berechnen';Select method and direction, then click 'Calculate'
 chrono.method;Zeitindex-Berechnung:;Time index calculation:
 chrono.method.hint;Dimension 1: Nutzt CA Dim1 (linear). Parabel: Bogenlänge auf quadratischer Kurve (klassische Seriation für Hufeisen-Muster);Dimension 1: Uses CA Dim1 (linear). Parabola: Arc length on quadratic curve (classic seriation for horseshoe pattern)
@@ -294,18 +294,18 @@ chrono.method.parabola;Parabel (Hufeisen);Parabola (horseshoe)
 chrono.loess.enable;LOESS-Glättung aktivieren;Enable LOESS smoothing
 chrono.loess.hint;Glättet Abstände zwischen Sites. Für OxCal (nur Reihenfolge) optional. Ohne LOESS: Rohe CA-Abstände werden verwendet.;Smooths distances between sites. For OxCal (order only) optional. Without LOESS: Raw CA distances are used.
 chrono.loess.span;LOESS span:;LOESS span:
-chrono.btn.calculate;🔄 Berechnen;🔄 Calculate
+chrono.btn.calculate;Berechnen;Calculate
 chrono.reverse;Richtung umkehren (Jung → Alt);Reverse direction (Young → Old)
 chrono.reverse.hint;Standard: Links = Älteste, Rechts = Jüngste. Aktiviert: Links = Jüngste, Rechts = Älteste...;Standard: Left = Oldest, Right = Youngest. Enabled: Left = Youngest, Right = Oldest...
-chrono.hover.tip;💡 Tipp: Fahren Sie mit der Maus über die Punkte im Plot...;💡 Tip: Hover over points in the plot...
+chrono.hover.tip;Tipp: Fahren Sie mit der Maus über die Punkte im Plot...;Tip: Hover over points in the plot...
 chrono.no.data;Keine CA-Daten verfügbar. Führe zuerst eine CA durch.;No CA data available. Run a CA first.
-modelselect.title;🧪 Model-Selection (Auto);🧪 Model Selection (Auto)
+modelselect.title;Model-Selection (Auto);Model Selection (Auto)
 modelselect.candidates;Zeitindex-Kandidaten;Time index candidates
 modelselect.mapping;Mapping-Methoden;Mapping methods
 modelselect.bands;Bandtypen;Band types
 modelselect.k;k (für Lokal) – kommasepariert;k (for local) – comma separated
 modelselect.metric;Metrik (für Lokal);Metric (for local)
-modelselect.btn.calculate;▶︎ Auswahl berechnen;▶︎ Calculate selection
+modelselect.btn.calculate;︎ Auswahl berechnen;︎ Calculate selection
 modelselect.btn.apply;✅ Empfehlung anwenden;✅ Apply recommendation
 modelselect.isoreg;Isoreg (stufig);Isoreg (step-wise)
 modelselect.smooth;Monotone Smooth (S-ISO);Monotone Smooth (S-ISO)
@@ -335,8 +335,8 @@ export.label.exported;Exportiert_am;Exported_on
 export.success.seriation;ℹ️ Seriation exportiert;ℹ️ Seriation exported
 welcome.load.data;Daten laden;Load data
 welcome.load.hint;Excel-Datei (.xlsx/.xls) laden zum Starten;Load Excel file (.xlsx/.xls) to start
-welcome.format.title;📋 Datenformat;📋 Data format
-welcome.structure.title;📄 Grundstruktur;📄 Basic structure
+welcome.format.title;Datenformat;Data format
+welcome.structure.title;Grundstruktur;Basic structure
 welcome.structure.col1;Spalte 1:;Column 1:
 welcome.structure.col1.desc;Site-Namen;Site names
 welcome.structure.required;Pflicht;Required
@@ -345,12 +345,12 @@ welcome.structure.col2.desc;Optional: Gruppen, Phasen;Optional: Groups, phases
 welcome.structure.col5;Ab Spalte 5:;From column 5:
 welcome.structure.col5.desc;Artefakt-Typen mit Zählwerten;Artifact types with count values
 welcome.structure.empty;Leere Zellen werden als 0 interpretiert;Empty cells are interpreted as 0
-welcome.coords.title;🗺️ Koordinaten;🗺️ Coordinates
+welcome.coords.title;Koordinaten;Coordinates
 welcome.coords.wgs84;WGS84:;WGS84:
 welcome.coords.utm;UTM:;UTM:
 welcome.coords.auto;Auto-Erkennung des Formats;Auto-detection of format
 welcome.coords.optional;Optional in Spalte 3-4;Optional in columns 3-4
-welcome.quality.title;📈 Qualität;📈 Quality
+welcome.quality.title;Qualität;Quality
 welcome.quality.min;Minimum:;Minimum:
 welcome.quality.min.desc;2 Sites × 2 Typen;2 sites × 2 types
 welcome.quality.optimal;Optimal:;Optimal:
@@ -358,7 +358,7 @@ welcome.quality.optimal.desc;>20 Sites × >10 Typen;>20 sites × >10 types
 welcome.quality.positive;Nur positive Zählwerte;Positive count values only
 welcome.quality.sparse;Spärlichkeit < 95% empfohlen;Sparsity < 95% recommended
 welcome.quality.consistent;Konsistente Datentypen;Consistent data types
-welcome.example.title;💡 Beispieldaten;💡 Example data
+welcome.example.title;Beispieldaten;Example data
 welcome.example.note.title;Hinweise:;Notes:
 welcome.example.note.text;Die farbigen Hintergründe markieren verschiedene Artefakt-Kategorien. Leere Zellen oder Nullwerte sind erlaubt. Die Koordinaten sind optional, ermöglichen aber die Kartierungs-Funktionen.;The colored backgrounds mark different artifact categories. Empty cells or zero values are allowed. Coordinates are optional but enable mapping functions.
 welcome.filter;Datenfilter;Data filter
@@ -372,9 +372,9 @@ welcome.battleship;Battleship-Diagramm;Battleship diagram
 welcome.mapping;Kartierung;Mapping
 welcome.typemap;Typenkartierung;Type mapping
 welcome.export;Export;Export
-summary.title;📊 Datenzusammenfassung;📊 Data summary
+summary.title;Datenzusammenfassung;Data summary
 summary.quality.title;⚠️ Datenqualität;⚠️ Data quality
-summary.preview;🔍 Datenvorschau;🔍 Data preview
+summary.preview;Datenvorschau;Data preview
 datatable.search;Suchen:;Search:
 datatable.show;Zeige _MENU_ Einträge;Show _MENU_ entries
 datatable.info;Zeige _START_ bis _END_ von _TOTAL_ Einträgen;Showing _START_ to _END_ of _TOTAL_ entries
@@ -382,10 +382,10 @@ datatable.first;Erste;First
 datatable.last;Letzte;Last
 datatable.next;Nächste;Next
 datatable.previous;Vorherige;Previous
-tooltip.info;🌍 UTM-Zone;🌍 UTM Zone
+tooltip.info;UTM-Zone;UTM Zone
 utm.zone.label;Zone:;Zone:
 utm.hemisphere.label;Hemisphäre:;Hemisphere:
-ca.settings.title;📊 CA Einstellungen;📊 CA Settings
+ca.settings.title;CA Einstellungen;CA Settings
 ca.panel.transform;Transformationen & Biplot;Transformations & Biplot
 ca.panel.display;Anzeige-Optionen;Display Options
 ca.panel.overlay;14C-Overlay;14C Overlay
@@ -393,19 +393,19 @@ ca.panel.overlay.hint;Laden Sie 14C-Daten im Tab 14C Integration, um diese Funkt
 cluster.panel.options;Clustering Optionen;Clustering Options
 cluster.panel.display;Darstellung;Display
 cluster.panel.names;Cluster-Namen;Cluster Names
-ca.analysis.focus;🎯 Analyse-Fokus;🎯 Analysis Focus
+ca.analysis.focus;Analyse-Fokus;Analysis Focus
 ca.analysis.focus.tooltip;Bestimmt welche Elemente in der CA berücksichtigt werden;Determines which elements are considered in the CA
 ca.focus.both;Sites und Types;Sites and Types
 ca.focus.sites.only;Nur Sites;Sites only
 ca.focus.types.only;Nur Types;Types only
-ca.transform.title;⚖️ Matrix-Transformation;⚖️ Matrix Transformation
-ca.transform.help;📖 Hilfe;📖 Help
-ca.transform.types;🔹 Types (Spalten);🔹 Types (Columns)
-ca.transform.sites;🔹 Sites (Zeilen);🔹 Sites (Rows)
+ca.transform.title;Matrix-Transformation;Matrix Transformation
+ca.transform.help;Hilfe;Help
+ca.transform.types;Types (Spalten);Types (Columns)
+ca.transform.sites;Sites (Zeilen);Sites (Rows)
 ca.transform.none;Keine;None
 ca.transform.normalize;Normalisierung;Normalization
 ca.transform.log;Log;Log
-ca.biplot.title;📐 Biplot-Typ;📐 Biplot Type
+ca.biplot.title;Biplot-Typ;Biplot Type
 ca.biplot.tooltip;Nach Greenacre (2007): Bestimmt die Skalierung der CA-Darstellung;According to Greenacre (2007): Determines the scaling of the CA display
 ca.biplot.symmetric;Symmetrisch (Standard);Symmetric (Standard)
 ca.biplot.rowprincipal;Asymmetrisch: Sites-fokussiert;Asymmetric: Sites-focused
@@ -416,23 +416,23 @@ ca.interpretation;Interpretation:;Interpretation:
 ca.biplot.symmetric.interp1;Abstände zwischen Sites untereinander interpretierbar;Distances between sites are interpretable
 ca.biplot.symmetric.interp2;Abstände zwischen Types untereinander interpretierbar;Distances between types are interpretable
 ca.biplot.symmetric.interp3;Abstände zwischen Sites und Types NICHT direkt interpretierbar;Distances between sites and types NOT directly interpretable
-ca.biplot.row.title;📍 Asymmetrisch: Sites-fokussiert;📍 Asymmetric: Sites-focused
+ca.biplot.row.title;Asymmetrisch: Sites-fokussiert;Asymmetric: Sites-focused
 ca.biplot.row.desc;Types werden 'geschrumpft' und im Raum der Sites dargestellt.;Types are 'shrunk' and displayed in the space of sites.
 ca.biplot.row.interp1;Je näher ein Site einem Type-Punkt liegt, desto häufiger kommt der Type in diesem Site vor;The closer a site is to a type point, the more frequently that type occurs in that site
 ca.biplot.row.interp2;Projektionen von Sites auf Type-Vektoren geben relative Häufigkeiten an;Projections of sites onto type vectors indicate relative frequencies
 ca.biplot.row.interp3;Ideal zur Frage: 'Welche Types charakterisieren einen Site?';Ideal for the question: 'Which types characterize a site?'
-ca.biplot.col.title;🔷 Asymmetrisch: Types-fokussiert;🔷 Asymmetric: Types-focused
+ca.biplot.col.title;Asymmetrisch: Types-fokussiert;Asymmetric: Types-focused
 ca.biplot.col.desc;Sites werden 'geschrumpft' und im Raum der Types dargestellt.;Sites are 'shrunk' and displayed in the space of types.
 ca.biplot.col.interp1;Je näher ein Type einem Site-Punkt liegt, desto häufiger kommt dieser Site bei dem Type vor;The closer a type is to a site point, the more frequently that site occurs with that type
 ca.biplot.col.interp2;Projektionen von Types auf Site-Vektoren geben relative Häufigkeiten an;Projections of types onto site vectors indicate relative frequencies
 ca.biplot.col.interp3;Ideal zur Frage: 'In welchen Sites ist ein Type typisch?';Ideal for the question: 'In which sites is a type typical?'
-ca.btn.calculate;📊 CA berechnen;📊 Calculate CA
-ca.dimensions;🔍 Dimensionen;🔍 Dimensions
+ca.btn.calculate;CA berechnen;Calculate CA
+ca.dimensions;Dimensionen;Dimensions
 ca.dimensions.tooltip;Wählen Sie zwei CA-Dimensionen für die Darstellung;Select two CA dimensions for display
-ca.display;🎨 Darstellung;🎨 Display
+ca.display;Darstellung;Display
 ca.color.by.group;Nach Gruppen färben;Color by groups
-ca.show.centroids;📍 Gruppenschwerpunkte anzeigen;📍 Show group centroids
-ca.show.ellipses;🔵 Konfidenzellipsen anzeigen (95%);🔵 Show confidence ellipses (95%)
+ca.show.centroids;Gruppenschwerpunkte anzeigen;Show group centroids
+ca.show.ellipses;Konfidenzellipsen anzeigen (95%);Show confidence ellipses (95%)
 ca.ellipses.tooltip;Zeigt statistische Konfidenzellipsen um jede Gruppe. Die Ellipse markiert den Bereich, in dem mit 95% Wahrscheinlichkeit weitere Punkte der Gruppe liegen würden.;Shows statistical confidence ellipses around each group. The ellipse marks the area where 95% of group points would likely fall.
 ca.show.labels;Labels zeigen;Show labels
 ca.label.selection;Label-Auswahl:;Label selection:
@@ -445,20 +445,20 @@ ca.label.types;Nur Types;Types only
 ca.label.chars;Max. Zeichen:;Max. characters:
 ca.label.size;Schriftgröße:;Font size:
 ca.label.colored;Labels in Symbol-Farbe;Labels in symbol color
-ca.show.c14;📅 14C-Daten anzeigen;📅 Show 14C data
+ca.show.c14;14C-Daten anzeigen;Show 14C data
 ca.point.size;Punktgröße:;Point size:
-ca.quick.stats;📈 Schnelle Bewertung;📈 Quick evaluation
-ca.tab.biplot;📊 Biplot;📊 Biplot
-ca.tab.contrib;📈 Contributions;📈 Contributions
-ca.tab.quality;🎯 Qualität (Cos²);🎯 Quality (Cos²)
-ca.tab.outlier;🔍 Outlier-Detection;🔍 Outlier Detection
-ca.tab.eigenvalues;📈 Eigenwerte;📈 Eigenvalues
+ca.quick.stats;Schnelle Bewertung;Quick evaluation
+ca.tab.biplot;Biplot;Biplot
+ca.tab.contrib;Contributions;Contributions
+ca.tab.quality;Qualität (Cos²);Quality (Cos²)
+ca.tab.outlier;Outlier-Detection;Outlier Detection
+ca.tab.eigenvalues;Eigenwerte;Eigenvalues
 ca.contrib.title;Beitrag der Elemente zu den CA-Dimensionen;Contribution of elements to CA dimensions
 ca.contrib.desc;Zeigt welche Sites/Types am stärksten zur jeweiligen Dimension beitragen. Hohe Werte = treibende Faktoren der Seriation.;Shows which sites/types contribute most to each dimension. High values = driving factors of seriation.
 ca.contrib.element;Element:;Element:
 ca.contrib.sites;Sites;Sites
 ca.contrib.types;Types;Types
-ca.contrib.export;📄 Excel Export;📄 Excel Export
+ca.contrib.export;Excel Export;Excel Export
 ca.cos2.title;Repräsentationsqualität der Elemente;Representation quality of elements
 ca.cos2.what;ℹ️ Was ist Cos²?;ℹ️ What is Cos²?
 ca.cos2.desc;Cos² misst wie gut ein Element durch die gewählten Dimensionen (hier: Dim1+Dim2) dargestellt wird:;Cos² measures how well an element is represented by the selected dimensions (here: Dim1+Dim2):
@@ -470,7 +470,7 @@ ca.cos2.meaning;Archäologische Bedeutung:;Archaeological meaning:
 ca.cos2.meaning.desc;Niedrige Cos²-Werte können auf Ausreißer, Vermischung oder andere Kulturgruppen hinweisen.;Low Cos² values may indicate outliers, mixing, or other cultural groups.
 ca.outlier.experimental;⚠️ EXPERIMENTELLES FEATURE - Methodenerklärung;⚠️ EXPERIMENTAL FEATURE - Method explanation
 ca.outlier.click.details;▼ Klicken um Details anzuzeigen;▼ Click to show details
-ca.outlier.settings;⚙️ Einstellungen;⚙️ Settings
+ca.outlier.settings;Einstellungen;Settings
 ca.outlier.method;Erkennungsmethode:;Detection method:
 ca.outlier.quantile;Quantil-basiert;Quantile-based
 ca.outlier.jackknife;Jackknife-Influence;Jackknife Influence
@@ -480,36 +480,36 @@ ca.outlier.dim12;Dim1 + Dim2 (Standard);Dim1 + Dim2 (Standard)
 ca.outlier.dim13;Dim1 + Dim3;Dim1 + Dim3
 ca.outlier.dim23;Dim2 + Dim3;Dim2 + Dim3
 ca.outlier.dim123;Alle drei (Dim1+Dim2+Dim3);All three (Dim1+Dim2+Dim3)
-ca.outlier.robust;🎯 Robust (alle Kombinationen);🎯 Robust (all combinations)
-ca.outlier.recalc;🔄 Outlier neu erkennen;🔄 Recalculate outliers
-ca.outlier.tip;💡 Tipp:;💡 Tip:
-ca.outlier.tip.label;💡 Tipp:;💡 Tip:
+ca.outlier.robust;Robust (alle Kombinationen);Robust (all combinations)
+ca.outlier.recalc;Outlier neu erkennen;Recalculate outliers
+ca.outlier.tip;Tipp:;Tip:
+ca.outlier.tip.label;Tipp:;Tip:
 ca.outlier.tip.desc;Ändere Methode oder Dimensionen und klicke erneut, um verschiedene Outlier-Profile zu vergleichen!;Change method or dimensions and click again to compare different outlier profiles!
-ca.outlier.thresholds;📊 Schwellenwerte;📊 Thresholds
+ca.outlier.thresholds;Schwellenwerte;Thresholds
 ca.outlier.cos2.quantile;Untere X% für Cos² (schlecht repräsentiert):;Lower X% for Cos² (poorly represented):
 ca.outlier.contrib.quantile;Obere X% für Contribution (zu dominant):;Upper X% for Contribution (too dominant):
 ca.outlier.jackknife.threshold;Jackknife-Threshold (Influence):;Jackknife threshold (Influence):
-ca.outlier.found;📋 Gefundene Outlier;📋 Found Outliers
+ca.outlier.found;Gefundene Outlier;Found Outliers
 ca.outlier.show;Anzeigen:;Show:
 ca.outlier.all;Alle;All
-ca.outlier.legend;🚦 Ampel-Bedeutung:;🚦 Traffic light meaning:
+ca.outlier.legend;Ampel-Bedeutung:;Traffic light meaning:
 ca.outlier.critical;🔴 KRITISCH - Sofort prüfen!;🔴 CRITICAL - Check immediately!
 ca.outlier.structural;🟠 STRUKTURELL - Verändert CA-Struktur;🟠 STRUCTURAL - Changes CA structure
 ca.outlier.marginal;🟡 MARGINAL - Schönheitsfehler;🟡 MARGINAL - Minor issue
-ca.outlier.remove;🔄 Ausgewählte Outlier ausschließen;🔄 Exclude selected outliers
-ca.outlier.reset;♻️ Alle Outlier wieder einschließen;♻️ Re-include all outliers
-ca.eigen.title;📊 Eigenwerte & Varianz;📊 Eigenvalues & Variance
-ca.eigen.detailed;📈 Detaillierte Statistiken;📈 Detailed Statistics
-ca.screeplot;📉 Scree-Plot;📉 Scree-Plot
+ca.outlier.remove;Ausgewählte Outlier ausschließen;Exclude selected outliers
+ca.outlier.reset;Alle Outlier wieder einschließen;Re-include all outliers
+ca.eigen.title;Eigenwerte & Varianz;Eigenvalues & Variance
+ca.eigen.detailed;Detaillierte Statistiken;Detailed Statistics
+ca.screeplot;Scree-Plot;Scree-Plot
 ca.screeplot.desc;Visuelle Hilfe zur Dimensionswahl - suche nach dem 'Ellbogen';Visual aid for dimension selection - look for the 'elbow'
-ca.malinvaud;🔬 Malinvaud-Test;🔬 Malinvaud Test
+ca.malinvaud;Malinvaud-Test;Malinvaud Test
 ca.malinvaud.desc;Testet statistische Signifikanz der CA-Dimensionen;Tests statistical significance of CA dimensions
-ca.between.group;🎯 Between-Group Inertia;🎯 Between-Group Inertia
+ca.between.group;Between-Group Inertia;Between-Group Inertia
 ca.between.group.desc;Varianzaufteilung zwischen vs. innerhalb Gruppen;Variance distribution between vs. within groups
-cluster.settings.title;🎯 K-Means Einstellungen;🎯 K-Means Settings
-cluster.help;❔ Hilfe;❔ Help
+cluster.settings.title;K-Means Einstellungen;K-Means Settings
+cluster.help;Hilfe;Help
 cluster.options;Clustering Optionen;Clustering Options
-cluster.expert.mode;🔬 Experten-Modus (Fuzzy/GMM);🔬 Expert Mode (Fuzzy/GMM)
+cluster.expert.mode;Experten-Modus (Fuzzy/GMM);Expert Mode (Fuzzy/GMM)
 cluster.method;Methode:;Method:
 cluster.method.kmeans;K-Means;K-Means
 cluster.method.hierarchical;Hierarchisch;Hierarchical
@@ -524,10 +524,10 @@ cluster.both.warning;⚠️ Hinweis: Sites+Types gleichzeitig zu clustern kann m
 cluster.ca.metric.caveat.title;Hinweis zur CA-Geometrie;Note on CA geometry
 cluster.ca.metric.caveat.desc;Clustering operiert auf CA-Koordinaten (euklidische Distanz). Da CA intern die χ²-Metrik verwendet, sind k-Means und Ward-Clustering pragmatische Näherungen. Ergebnisse als explorative Analyse interpretieren.;Clustering operates on CA coordinates (Euclidean distance). Since CA internally uses the χ²-metric, k-means and Ward clustering are pragmatic approximations. Interpret results as exploratory analysis.
 cluster.ca.metric.caveat.help.full;Clustering auf CA-Koordinaten ist methodisch pragmatisch: CA verwendet intern die χ²-Metrik und Gewichtung, während k-Means, Ward und ähnliche Verfahren euklidische Distanzen voraussetzen. In der Praxis liefert dieses Vorgehen robuste explorative Ergebnisse, kann aber in Grenzfällen (sehr ungleiche Zeilensummen, starke Ausreißer) von einer χ²-konsistenten Clusterung abweichen. Für eine metrisch konsistentere Alternative kann hierarchisches Clustering mit Average-Linkage verwendet werden.;Clustering on CA coordinates is methodologically pragmatic: CA internally uses the χ²-metric and mass-weighting, while k-means, Ward, and similar methods assume Euclidean distances. In practice, this approach yields robust exploratory results, but may deviate from a χ²-consistent clustering in edge cases (very unequal row sums, strong outliers). For a more metric-consistent alternative, hierarchical clustering with average linkage can be used.
-cluster.auto.suggest;🤖 Auto-Vorschlag für Cluster-Anzahl;🤖 Auto-suggest cluster count
+cluster.auto.suggest;Auto-Vorschlag für Cluster-Anzahl;Auto-suggest cluster count
 cluster.num;Anzahl Cluster:;Number of clusters:
 cluster.dimensions;Dimensionen für Clustering:;Dimensions for clustering:
-cluster.dim.tip;💡 1D = nur Hauptgradient (seriell) | 2D = Standard | 3-5D = explorativ;💡 1D = main gradient only (serial) | 2D = standard | 3-5D = exploratory
+cluster.dim.tip;1D = nur Hauptgradient (seriell) | 2D = Standard | 3-5D = explorativ;1D = main gradient only (serial) | 2D = standard | 3-5D = exploratory
 cluster.hclust.method;Linkage-Methode:;Linkage method:
 cluster.hclust.ward;Ward (D2);Ward (D2)
 cluster.hclust.complete;Complete;Complete
@@ -542,48 +542,48 @@ cluster.gmm.eee;EEE (sphärisch, gleich);EEE (spherical, equal)
 cluster.gmm.vev;VEV (diagonal, variabel);VEV (diagonal, variable)
 cluster.gmm.auto;Automatisch (BIC);Automatic (BIC)
 cluster.gmm.hint;VVV: flexibel | EEE: simpel | Auto: beste Modellwahl;VVV: flexible | EEE: simple | Auto: best model choice
-cluster.btn.calculate;🎯 Cluster berechnen;🎯 Calculate clusters
-cluster.display;🎨 Darstellung;🎨 Display
+cluster.btn.calculate;Cluster berechnen;Calculate clusters
+cluster.display;Darstellung;Display
 cluster.show.labels;Labels zeigen;Show labels
 cluster.label.chars;Max. Zeichen:;Max. characters:
 cluster.point.size;Punktgröße:;Point size:
-cluster.features;🎯 Features;🎯 Features
+cluster.features;Features;Features
 cluster.show.centers;Clusterzentren;Cluster centers
 cluster.show.ellipses;95%-Konfidenzellipsen;95% confidence ellipses
-cluster.names;🏷️ Cluster-Namen;🏷️ Cluster Names
+cluster.names;Cluster-Namen;Cluster Names
 cluster.reset.names.btn;Standard-Namen;Default names
-cluster.quality;🎯 Cluster Qualität;🎯 Cluster Quality
-cluster.tab.scatter;📊 Scatter-Plot;📊 Scatter Plot
-cluster.tab.dendrogram;🌳 Dendrogramm;🌳 Dendrogram
-cluster.tab.table;📋 Tabelle;📋 Table
-cluster.tab.characterization;🏷️ Charakterisierung;🏷️ Characterization
+cluster.quality;Cluster Qualität;Cluster Quality
+cluster.tab.scatter;Scatter-Plot;Scatter Plot
+cluster.tab.dendrogram;Dendrogramm;Dendrogram
+cluster.tab.table;Tabelle;Table
+cluster.tab.characterization;Charakterisierung;Characterization
 cluster.table.filter;Anzeigen:;Show:
 cluster.table.all;Alle;All
 cluster.table.sites;Nur Sites;Sites only
 cluster.table.types;Nur Types;Types only
 cluster.char.unavailable;Cluster-Charakterisierung ist nur verfügbar wenn Sites geclustert werden (um Type-Häufigkeiten pro Cluster zu summieren).;Cluster characterization is only available when clustering sites (to sum type frequencies per cluster).
-cluster.welcome.title;🎯 K-Means Clustering;🎯 K-Means Clustering
+cluster.welcome.title;K-Means Clustering;K-Means Clustering
 cluster.welcome.desc;Gruppiere Sites und Types basierend auf ihrer Position in der Korrespondenzanalyse.;Group sites and types based on their position in the correspondence analysis.
-cluster.welcome.nodata;📂 Keine Daten geladen;📂 No data loaded
+cluster.welcome.nodata;Keine Daten geladen;No data loaded
 cluster.welcome.hint;Bitte lade zuerst eine Datenmatrix im Import Tab.;Please load a data matrix in the Import tab first.
-cluster.what.title;🎯 Was macht Clustering?;🎯 What does clustering do?
+cluster.what.title;Was macht Clustering?;What does clustering do?
 cluster.what.kmeans;K-Means: Klassischer, schneller Algorithmus für kompakte Cluster;K-Means: Classic, fast algorithm for compact clusters
 cluster.what.hierarchical;Hierarchisch: Zeigt Verwandtschaftsbeziehungen im Dendrogramm;Hierarchical: Shows relationships in dendrogram
 cluster.what.pam;PAM (Medoids): χ²-konsistentere Alternative zu K-Means, robuster gegenüber Ausreißern;PAM (Medoids): More χ²-consistent alternative to K-Means, more robust to outliers
 cluster.what.fuzzy;Fuzzy K-Means: Weiche Zugehörigkeiten für Übergangsobjekte;Fuzzy K-Means: Soft memberships for transitional objects
 cluster.what.gmm;GMM: Probabilistische Clusterung mit Gauß-Mischmodellen;GMM: Probabilistic clustering with Gaussian mixture models
-seriation.settings.title;🔬 Seriations-Einstellungen;🔬 Seriation Settings
+seriation.settings.title;Seriations-Einstellungen;Seriation Settings
 seriation.method;Seriationsmethode:;Seriation method:
 seriation.method.ca;Correspondence Analysis (CA);Correspondence Analysis (CA)
 seriation.method.ra;Reciprocal Averaging (RA);Reciprocal Averaging (RA)
-seriation.preprocessing;📏 Vorverarbeitung;📏 Preprocessing
+seriation.preprocessing;Vorverarbeitung;Preprocessing
 seriation.transform;Transformation:;Transformation:
 seriation.transform.none;Keine (Rohdaten);None (raw data)
 seriation.transform.binary;Präsenz/Absenz;Presence/Absence
 seriation.transform.relative;Relative Häufigkeiten;Relative frequencies
 seriation.transform.log;Log-Transformation;Log transformation
 seriation.binary.threshold;Ab welchem Wert vorhanden?;From what value present?
-seriation.visualization;🎨 Visualisierung;🎨 Visualization
+seriation.visualization;Visualisierung;Visualization
 seriation.plot.type;Typ:;Type:
 seriation.plot.ford;Ford-Diagramm;Ford diagram
 seriation.plot.bubble;Bubble-Diagramm;Bubble diagram
@@ -595,8 +595,8 @@ seriation.transpose;Achsen vertauschen (Sites ↔ Types);Swap axes (Sites ↔ Ty
 seriation.show.sites;Site-Namen;Site names
 seriation.show.types;Type-Namen;Type names
 seriation.label.chars;Max. Zeichen:;Max. characters:
-seriation.btn.calculate;🏦 Seriation berechnen;🏦 Calculate seriation
-seriation.cluster.overlay;🎯 Cluster-Overlay;🎯 Cluster Overlay
+seriation.btn.calculate;Seriation berechnen;Calculate seriation
+seriation.cluster.overlay;Cluster-Overlay;Cluster Overlay
 seriation.overlay.enable;Overlay aktivieren;Enable overlay
 seriation.overlay.axis;Achsen:;Axes:
 seriation.overlay.types;Types;Types
@@ -605,21 +605,21 @@ seriation.overlay.both;Beide;Both
 seriation.overlay.style;Stil:;Style:
 seriation.overlay.alpha;Transparenz:;Transparency:
 seriation.overlay.diagonal;Diagonalband-Breite (%):;Diagonal band width (%):
-seriation.order.title;📄 Chronologische Ordnung;📄 Chronological Order
+seriation.order.title;Chronologische Ordnung;Chronological Order
 seriation.order.full;Vollständige Ordnung;Full order
-seriation.metrics.title;📊 Qualitätsmetriken;📊 Quality Metrics
-battleship.settings;🚢 Battleship Einstellungen;🚢 Battleship Settings
-battleship.curve.style;🎨 Kurven-Stil;🎨 Curve Style
+seriation.metrics.title;Qualitätsmetriken;Quality Metrics
+battleship.settings;Battleship Einstellungen;Battleship Settings
+battleship.curve.style;Kurven-Stil;Curve Style
 battleship.curve.smooth;Kurven glätten;Smooth curves
 battleship.curve.method;Methode:;Method:
 battleship.curve.smoothing;Glättung:;Smoothing:
 battleship.normalize;Pro Type auf 0-1 normalisieren;Normalize each type to 0-1
 battleship.normalize.tooltip;Skaliert jeden Type auf sein Maximum. Zeigt chronologische Muster statt absolute Häufigkeiten.;Scales each type to its maximum. Shows chronological patterns instead of absolute frequencies.
-battleship.aggregation;🎯 Aggregation;🎯 Aggregation
+battleship.aggregation;Aggregation;Aggregation
 battleship.agg.sites.clusters;Sites → Cluster;Sites → Clusters
 battleship.agg.types.clusters;Types → Cluster;Types → Clusters
 battleship.agg.sites.groups;Sites → Gruppen (aus Daten-Tab);Sites → Groups (from data tab)
-battleship.flip.axes;🔄 Sites horizontal;🔄 Sites horizontal
+battleship.flip.axes;Sites horizontal;Sites horizontal
 battleship.width;Schiffsbreite:;Ship width:
 battleship.alpha;Transparenz:;Transparency:
 battleship.label.chars;Label-Länge:;Label length:
@@ -628,140 +628,140 @@ battleship.no.types;Keine;None
 battleship.panel.types;Typen-Auswahl;Type Selection
 battleship.panel.curve;Kurven-Stil;Curve Style
 battleship.panel.display;Darstellung;Display
-3d.settings.title;🎯 3D-CA Einstellungen;🎯 3D-CA Settings
-3d.dimensions;🎯 3D-Dimensionen;🎯 3D Dimensions
-3d.plot.content;📊 Plot-Inhalt;📊 Plot Content
+3d.settings.title;3D-CA Einstellungen;3D-CA Settings
+3d.dimensions;3D-Dimensionen;3D Dimensions
+3d.plot.content;Plot-Inhalt;Plot Content
 3d.both;Sites und Types;Sites and Types
 3d.sites.only;Nur Sites;Sites only
 3d.types.only;Nur Types;Types only
-3d.display;🎨 Darstellung;🎨 Display
+3d.display;Darstellung;Display
 3d.coloring;Färbung:;Coloring:
 3d.color.type;Element-Typ;Element type
 3d.color.group;Gruppen;Groups
 3d.point.size;Punktgröße:;Point size:
 3d.coord.planes;Koordinatenebenen;Coordinate planes
-3d.cluster.ellipsoids;🔸 95%-Cluster-Ellipsoide;🔸 95% Cluster Ellipsoids
+3d.cluster.ellipsoids;95%-Cluster-Ellipsoide;95% Cluster Ellipsoids
 3d.show.ellipsoids;Ellipsoide anzeigen;Show ellipsoids
-3d.stats;📊 3D-Statistiken;📊 3D Statistics
-3d.reset.view;🎯 Ansicht zurücksetzen;🎯 Reset view
-3d.dimensions.overview;📊 3D-Dimensionen Übersicht;📊 3D Dimensions Overview
-bootstrap.settings;🔄 Bootstrap Einstellungen;🔄 Bootstrap Settings
-bootstrap.parameters;📊 Parameter;📊 Parameters
+3d.stats;3D-Statistiken;3D Statistics
+3d.reset.view;Ansicht zurücksetzen;Reset view
+3d.dimensions.overview;3D-Dimensionen Übersicht;3D Dimensions Overview
+bootstrap.settings;Bootstrap Einstellungen;Bootstrap Settings
+bootstrap.parameters;Parameter;Parameters
 bootstrap.iterations;Iterationen:;Iterations:
 bootstrap.iterations.help;Für Tests reichen 999. Für belastbare Ergebnisse eher 2000-5000.;999 is sufficient for tests. For robust results use 2000-5000.
-bootstrap.resampling.model;🔵 Resampling-Modell: Poisson;🔵 Resampling model: Poisson
+bootstrap.resampling.model;Resampling-Modell: Poisson;Resampling model: Poisson
 bootstrap.resampling.desc;Die Zellzählungen werden als Zählprozess modelliert. Das passt typischerweise zu archäologischen Kontingenztafeln ohne fixe Fundzahl.;Cell counts are modeled as a counting process. This typically fits archaeological contingency tables without fixed find counts.
 bootstrap.confidence;Konfidenzregion (%):;Confidence region (%):
 bootstrap.confidence.help;95% ist Standard. Höhere Werte ergeben größere (konservativere) Regionen.;95% is standard. Higher values result in larger (more conservative) regions.
-bootstrap.dimensions;🎯 Dimensionen;🎯 Dimensions
+bootstrap.dimensions;Dimensionen;Dimensions
 bootstrap.panel.parameters;Parameter;Parameters
 bootstrap.panel.display;Anzeige;Display
-bootstrap.display.title;📊 Anzeige;📊 Display
+bootstrap.display.title;Anzeige;Display
 bootstrap.elements;Elemente:;Elements:
 bootstrap.elements.both;Sites und Types;Sites and Types
 bootstrap.elements.sites;Nur Sites;Sites only
 bootstrap.elements.types;Nur Types;Types only
-bootstrap.highlight;🎯 Stabilität hervorheben;🎯 Highlight stability
+bootstrap.highlight;Stabilität hervorheben;Highlight stability
 bootstrap.highlight.help;Perzentil-basiert: P10 (grün) = sehr stabil, P90 (rot) = instabil.;Percentile-based: P10 (green) = very stable, P90 (red) = unstable.
-bootstrap.ellipses;📊 Konfidenzregionen (Ellipsen);📊 Confidence regions (Ellipses)
+bootstrap.ellipses;Konfidenzregionen (Ellipsen);Confidence regions (Ellipses)
 bootstrap.ellipses.help;Hinweis: Bei vielen Elementen können Ellipsen überlappen.;Note: With many elements, ellipses may overlap.
 bootstrap.labels;Labels zeigen;Show labels
 bootstrap.label.chars;Max. Zeichen:;Max. characters:
-bootstrap.btn.start;🔄 Bootstrap starten;🔄 Start bootstrap
-bootstrap.plot.help;🔄 Die Regionen zeigen, wie stark die CA-Punkte unter wiederholtem Resampling schwanken.;🔄 The regions show how much CA points vary under repeated resampling.
-bootstrap.stability;📊 Stabilität;📊 Stability
+bootstrap.btn.start;Bootstrap starten;Start bootstrap
+bootstrap.plot.help;Die Regionen zeigen, wie stark die CA-Punkte unter wiederholtem Resampling schwanken.;The regions show how much CA points vary under repeated resampling.
+bootstrap.stability;Stabilität;Stability
 bootstrap.stability.help;Als Maß wird u.a. die Ellipsengröße genutzt.;The ellipse size is used as a measure.
-bootstrap.critical;🔥 Top-10 Kritische Elemente;🔥 Top-10 Critical Elements
+bootstrap.critical;Top-10 Kritische Elemente;Top-10 Critical Elements
 bootstrap.critical.help;Kritikalität = Einfluss auf die Achse × Instabilität.;Criticality = influence on axis × instability.
-bootstrap.quality;🎯 Bootstrap-Qualität & Diagnostik;🎯 Bootstrap Quality & Diagnostics
+bootstrap.quality;Bootstrap-Qualität & Diagnostik;Bootstrap Quality & Diagnostics
 bootstrap.quality.help;Hilft, typische Fallstricke zu erkennen.;Helps identify typical pitfalls.
-mapping.settings;🗺️ Karten-Einstellungen;🗺️ Map Settings
-mapping.panel.basemap;🗺️ Basiskarte;🗺️ Base Map
-mapping.panel.groupcluster;🎨 Gruppe / Cluster;🎨 Group / Cluster
-mapping.panel.display;🖼️ Anzeige;🖼️ Display
-mapping.coord.status;📍 Koordinaten-Status;📍 Coordinate Status
-mapping.basemap;🗺️ Basemap;🗺️ Basemap
-mapping.basemap.topo.color;🌍 OpenTopoMap (Farbig);🌍 OpenTopoMap (Color)
-mapping.basemap.topo.gray;🌫️ OpenTopoMap (Grau);🌫️ OpenTopoMap (Gray)
-mapping.basemap.free.color;🏔️ Maps-for-Free (Farbig);🏔️ Maps-for-Free (Color)
-mapping.basemap.free.gray;🌫️ Maps-for-Free (Grau);🌫️ Maps-for-Free (Gray)
-mapping.water.overlay;🌊 Gewässernetz;🌊 Waterways
-mapping.visualization;🎨 Visualisierung;🎨 Visualization
+mapping.settings;Karten-Einstellungen;Map Settings
+mapping.panel.basemap;Basiskarte;Base Map
+mapping.panel.groupcluster;Gruppe / Cluster;Group / Cluster
+mapping.panel.display;Anzeige;Display
+mapping.coord.status;Koordinaten-Status;Coordinate Status
+mapping.basemap;Basemap;Basemap
+mapping.basemap.topo.color;OpenTopoMap (Farbig);OpenTopoMap (Color)
+mapping.basemap.topo.gray;OpenTopoMap (Grau);OpenTopoMap (Gray)
+mapping.basemap.free.color;Maps-for-Free (Farbig);Maps-for-Free (Color)
+mapping.basemap.free.gray;Maps-for-Free (Grau);Maps-for-Free (Gray)
+mapping.water.overlay;Gewässernetz;Waterways
+mapping.visualization;Visualisierung;Visualization
 mapping.color.by;Färben nach:;Color by:
 mapping.color.group;Gruppe;Group
 mapping.color.cluster;Cluster (Sites);Cluster (Sites)
-mapping.cluster.selection;🎯 Cluster-Auswahl;🎯 Cluster Selection
+mapping.cluster.selection;Cluster-Auswahl;Cluster Selection
 mapping.display.mode;Nicht ausgewählte:;Unselected:
-mapping.display.hide;🚫 Ausblenden;🚫 Hide
-mapping.display.gray;🌫️ Ausgrauen;🌫️ Gray out
+mapping.display.hide;Ausblenden;Hide
+mapping.display.gray;Ausgrauen;Gray out
 mapping.btn.all;Alle;All
 mapping.btn.none;Keine;None
 mapping.btn.invert;Umkehren;Invert
-mapping.group.selection;🏷️ Gruppen-Auswahl;🏷️ Group Selection
-mapping.labels;🏷️ Labels;🏷️ Labels
-mapping.labels.permanent;📍 Permanent;📍 Permanent
-mapping.labels.none;🚫 Keine;🚫 None
+mapping.group.selection;Gruppen-Auswahl;Group Selection
+mapping.labels;Labels;Labels
+mapping.labels.permanent;Permanent;Permanent
+mapping.labels.none;Keine;None
 mapping.label.chars;Max. Zeichen:;Max. characters:
 mapping.label.size;Schriftgröße:;Font size:
 mapping.point.size;Punktgröße:;Point size:
-mapping.show.legend;🧾 Legende anzeigen;🧾 Show legend
+mapping.show.legend;Legende anzeigen;Show legend
 mapping.auto.zoom;Auto-Zoom auf Daten;Auto-zoom to data
-mapping.utm.zone;🌍 UTM-Zone;🌍 UTM Zone
-mapping.export;📤 Export;📤 Export
-mapping.help;🗺️ Interaktive Karte: Zoom/Pan möglich, Hover für Details.;🗺️ Interactive map: Zoom/pan available, hover for details.
-export.data.title;📁 Daten Export;📁 Data Export
-export.base.data;📢 Basis Daten;📢 Base Data
-export.filtered.matrix;📊 Gefilterte Matrix (.xlsx);📊 Filtered Matrix (.xlsx)
-export.settings;⚙️ Einstellungen (.xlsx);⚙️ Settings (.xlsx)
-export.seriation.title;🏛️ Seriation;🏛️ Seriation
-export.seriation.analysis;📋 Seriation Analyse (.xlsx);📋 Seriation Analysis (.xlsx)
-export.seriation.table;📄 Seriation Tabelle (.csv);📄 Seriation Table (.csv)
-export.complete.zip;📦 Komplett-Export (.zip);📦 Complete Export (.zip)
+mapping.utm.zone;UTM-Zone;UTM Zone
+mapping.export;Export;Export
+mapping.help;Interaktive Karte: Zoom/Pan möglich, Hover für Details.;Interactive map: Zoom/pan available, hover for details.
+export.data.title;Daten Export;Data Export
+export.base.data;Basis Daten;Base Data
+export.filtered.matrix;Gefilterte Matrix (.xlsx);Filtered Matrix (.xlsx)
+export.settings;Einstellungen (.xlsx);Settings (.xlsx)
+export.seriation.title;Seriation;Seriation
+export.seriation.analysis;Seriation Analyse (.xlsx);Seriation Analysis (.xlsx)
+export.seriation.table;Seriation Tabelle (.csv);Seriation Table (.csv)
+export.complete.zip;Komplett-Export (.zip);Complete Export (.zip)
 export.info.title;ℹ️ Export-Info;ℹ️ Export Info
-export.info.matrix;📊 Matrix: Nur ausgewählte Sites/Types;📊 Matrix: Selected sites/types only
-export.info.seriation;📋 Seriation: Chronologische Ordnung + Metriken;📋 Seriation: Chronological order + metrics
-export.info.complete;📦 Komplett: Alle Analysen inkl. Cluster-Overlay;📦 Complete: All analyses incl. cluster overlay
-export.plot.settings;🖼️ Plot-Einstellungen;🖼️ Plot Settings
-export.formats;📷 Formate;📷 Formats
+export.info.matrix;Matrix: Nur ausgewählte Sites/Types;Matrix: Selected sites/types only
+export.info.seriation;Seriation: Chronologische Ordnung + Metriken;Seriation: Chronological order + metrics
+export.info.complete;Komplett: Alle Analysen inkl. Cluster-Overlay;Complete: All analyses incl. cluster overlay
+export.plot.settings;Plot-Einstellungen;Plot Settings
+export.formats;Formate;Formats
 export.formats.tooltip;PNG für Präsentationen, SVG für Publikationen, PDF für Druckqualität;PNG for presentations, SVG for publications, PDF for print quality
-export.dimensions;🔍 Dimensionen;🔍 Dimensions
+export.dimensions;Dimensionen;Dimensions
 export.width;Breite:;Width:
 export.height;Höhe:;Height:
 export.dpi;DPI:;DPI:
-export.recommendation;💡 Empfehlung;💡 Recommendation
+export.recommendation;Empfehlung;Recommendation
 export.recommendation.tooltip;Für wissenschaftliche Publikationen: SVG oder PDF mit 300+ DPI;For scientific publications: SVG or PDF with 300+ DPI
 export.rec.scientific;Wissenschaftlich: SVG/PDF, 300+ DPI;Scientific: SVG/PDF, 300+ DPI
 export.rec.presentation;Präsentation: PNG, 1200×800, 150 DPI;Presentation: PNG, 1200×800, 150 DPI
 export.rec.web;Web: PNG, 800×600, 72 DPI;Web: PNG, 800×600, 72 DPI
-dca.settings;📈 DCA Einstellungen;📈 DCA Settings
-dca.analysis.focus;🎯 Analyse-Fokus;🎯 Analysis Focus
+dca.settings;DCA Einstellungen;DCA Settings
+dca.analysis.focus;Analyse-Fokus;Analysis Focus
 dca.analysis.focus.tooltip;Bestimmt welche Elemente in der DCA berücksichtigt werden;Determines which elements are considered in the DCA
 dca.focus.both;Sites und Types;Sites and Types
 dca.focus.sites.only;Nur Sites;Sites only
 dca.focus.types.only;Nur Types;Types only
-dca.method.title;⚖️ Detrending-Methode;⚖️ Detrending Method
+dca.method.title;Detrending-Methode;Detrending Method
 dca.method.tooltip;Verfahren zur Entfernung des Arch-Effekts;Method for removing the arch effect
 dca.method.linear;Linear;Linear
 dca.method.nonlinear;Non-linear (Segmente);Non-linear (Segments)
 dca.segments;Anzahl Segmente:;Number of segments:
 dca.segments.tooltip;Anzahl der Segmente für non-lineares Detrending (Standard: 26);Number of segments for non-linear detrending (default: 26)
-dca.dimensions;🔍 Dimensionen;🔍 Dimensions
+dca.dimensions;Dimensionen;Dimensions
 dca.dimensions.tooltip;Wählen Sie zwei DCA-Dimensionen für die Darstellung;Select two DCA dimensions for display
-dca.display;🎨 Darstellung;🎨 Display
+dca.display;Darstellung;Display
 dca.color.by.group;Nach Gruppen färben;Color by groups
 dca.show.labels;Labels zeigen;Show labels
 dca.label.chars;Max. Zeichen:;Max. characters:
 dca.point.size;Punktgröße:;Point size:
-dca.btn.calculate;📈 DCA berechnen;📈 Calculate DCA
-dca.stats;📊 DCA Statistiken & Methodik;📊 DCA Statistics & Methodology
-dca.method.help.title;📚 Methodische Hinweise & Interpretation;📚 Methodological Notes & Interpretation
+dca.btn.calculate;DCA berechnen;Calculate DCA
+dca.stats;DCA Statistiken & Methodik;DCA Statistics & Methodology
+dca.method.help.title;Methodische Hinweise & Interpretation;Methodological Notes & Interpretation
 dca.method.help.click;(klicken zum Ausklappen);(click to expand)
-dca.method.help.dca;🔬 Detrended Correspondence Analysis (DCA);🔬 Detrended Correspondence Analysis (DCA)
+dca.method.help.dca;Detrended Correspondence Analysis (DCA);Detrended Correspondence Analysis (DCA)
 dca.method.help.dca.desc;Die Detrended Correspondence Analysis (DCA) ist eine Weiterentwicklung der Korrespondenzanalyse (CA), die den sogenannten Arch- bzw. Horseshoe-Effekt adressiert. Dieser Effekt entsteht, wenn ein dominanter eindimensionaler Gradient in der CA auf zwei Achsen verteilt wird und dadurch eine parabelförmige Punktstruktur entsteht.;Detrended Correspondence Analysis (DCA) is an extension of Correspondence Analysis (CA) that addresses the so-called arch or horseshoe effect. This effect occurs when a dominant one-dimensional gradient in CA is distributed across two axes, creating a parabolic point structure.
-dca.method.title2;⚖️ Detrending-Methoden;⚖️ Detrending Methods
+dca.method.title2;Detrending-Methoden;Detrending Methods
 dca.method.linear.desc;Entfernt einen linearen Zusammenhang zwischen den Dimensionen durch lineare Zentrierung der zweiten Achse entlang der ersten. Geeignet, wenn der Arch-Effekt nur schwach ausgeprägt ist oder lediglich eine grobe Korrektur benötigt wird.;Removes a linear relationship between dimensions by linear centering of the second axis along the first. Suitable when the arch effect is weak or only a rough correction is needed.
 dca.method.nonlinear.desc;Verwendet eine segmentweise Zentrierung entlang der ersten Achse (häufig 26 Segmente, abhängig von der Implementierung). Empfohlen bei starkem Arch-Effekt und langen Gradienten (≈ > 4 Standardabweichungen Turnover), bei denen quadratische oder komplexere Krümmungen vorliegen.;Uses segment-wise centering along the first axis (often 26 segments, depending on implementation). Recommended for strong arch effect and long gradients (≈ > 4 SD turnover) with quadratic or more complex curvatures.
-dca.interpretation;📈 Interpretation des DCA-Plots;📈 DCA Plot Interpretation
+dca.interpretation;Interpretation des DCA-Plots;DCA Plot Interpretation
 dca.interpretation.what;Was zeigen die Punkte im Plot?;What do the points in the plot show?
 dca.interpretation.points;Die Punkte sind die CA-Koordinaten aus der Originalanalyse (nicht der Mittelwert der Bootstrap-Durchläufe).;The points are CA coordinates from the original analysis (not the mean of bootstrap runs).
 dca.dca1;DCA1 (X-Achse):;DCA1 (X-axis):
@@ -772,9 +772,9 @@ dca.horizontal;Horizontale Punktverteilung:;Horizontal point distribution:
 dca.horizontal.desc;Eine überwiegend horizontale Ausrichtung der Punktwolke zeigt an, dass DCA2 nicht mehr systematisch von DCA1 abhängt – ein Hinweis auf erfolgreiche Reduktion des Arch-Effekts.;A predominantly horizontal alignment of the point cloud indicates that DCA2 no longer systematically depends on DCA1 – a sign of successful arch effect reduction.
 dca.remaining;Verbleibende Streuung auf der Y-Achse:;Remaining scatter on Y-axis:
 dca.remaining.desc;Repräsentiert echte sekundäre Variabilität und nicht mehr primär ein geometrisches Artefakt der Ordination.;Represents genuine secondary variability and no longer primarily a geometric artifact of ordination.
-dca.stats.title;🎯 Statistik-Interpretation (heuristische Faustregeln);🎯 Statistics Interpretation (heuristic rules of thumb)
+dca.stats.title;Statistik-Interpretation (heuristische Faustregeln);Statistics Interpretation (heuristic rules of thumb)
 dca.stats.r1;r ≈ 1.0 für DCA1 vs. CA1:;r ≈ 1.0 for DCA1 vs. CA1:
-dca.stats.r1.desc;✓ Erwartet und korrekt – die erste Dimension bleibt weitgehend erhalten.;✓ Expected and correct – the first dimension is largely preserved.
+dca.stats.r1.desc;Erwartet und korrekt – die erste Dimension bleibt weitgehend erhalten.;Expected and correct – the first dimension is largely preserved.
 dca.stats.r2low;r < 0.3 für DCA2 vs. CA2:;r < 0.3 for DCA2 vs. CA2:
 dca.stats.r2low.desc;🟢 Sehr starke Entkopplung – Arch-Effekt weitgehend entfernt.;🟢 Very strong decoupling – arch effect largely removed.
 dca.stats.r2mid;r = 0.3–0.7:;r = 0.3–0.7:
@@ -792,68 +792,68 @@ dca.recommended.ca;Standard-CA bevorzugen bei:;Prefer standard CA for:
 dca.recommended.ca.1;klassischer archäologischer Seriation;classical archaeological seriation
 dca.recommended.ca.2;kurzen bis mittleren Sequenzen;short to medium sequences
 dca.recommended.ca.3;Fokus auf relativer Chronologie statt multidimensionaler Struktur;focus on relative chronology instead of multidimensional structure
-dca.literature;📖 Literatur;📖 Literature
-typemap.title;🎯 Typenkartierung;🎯 Type Mapping
-typemap.panel.selection;🎯 Typen-Auswahl;🎯 Type Selection
-typemap.panel.basemap;🗺️ Basiskarte;🗺️ Base Map
-typemap.panel.display;🎨 Darstellung;🎨 Display
-typemap.panel.marker;📍 Marker-Optionen;📍 Marker Options
-typemap.export;📤 Export;📤 Export
-typemap.status;📍 Status;📍 Status
-typemap.basemap;🗺️ Basemap;🗺️ Basemap
-typemap.basemap.topo.color;🌍 OpenTopoMap (Farbig);🌍 OpenTopoMap (Color)
-typemap.basemap.topo.gray;🌫️ OpenTopoMap (Grau);🌫️ OpenTopoMap (Gray)
-typemap.basemap.free.color;🏔️ Maps-for-Free (Farbig);🏔️ Maps-for-Free (Color)
-typemap.basemap.free.gray;🌫️ Maps-for-Free (Grau);🌫️ Maps-for-Free (Gray)
-typemap.water.overlay;🌊 Gewässernetz;🌊 Waterways
-typemap.standardization;⚖️ Standardisierung;⚖️ Standardization
+dca.literature;Literatur;Literature
+typemap.title;Typenkartierung;Type Mapping
+typemap.panel.selection;Typen-Auswahl;Type Selection
+typemap.panel.basemap;Basiskarte;Base Map
+typemap.panel.display;Darstellung;Display
+typemap.panel.marker;Marker-Optionen;Marker Options
+typemap.export;Export;Export
+typemap.status;Status;Status
+typemap.basemap;Basemap;Basemap
+typemap.basemap.topo.color;OpenTopoMap (Farbig);OpenTopoMap (Color)
+typemap.basemap.topo.gray;OpenTopoMap (Grau);OpenTopoMap (Gray)
+typemap.basemap.free.color;Maps-for-Free (Farbig);Maps-for-Free (Color)
+typemap.basemap.free.gray;Maps-for-Free (Grau);Maps-for-Free (Gray)
+typemap.water.overlay;Gewässernetz;Waterways
+typemap.standardization;Standardisierung;Standardization
 typemap.std.none;Keine;None
 typemap.std.minmax;Min-Max;Min-Max
 typemap.std.zscore;Z-Score;Z-Score
 typemap.std.percent.site;Prozent pro Site;Percent per site
 typemap.std.percent.type;Prozent pro Typ;Percent per type
 typemap.std.info;Keine: Absolute Häufigkeiten (Rohwerte). Für einfache Verteilungskarten. | Pro Site: Prozent bezogen auf Gesamtfunde der Fundstelle. Zeigt relative Bedeutung eines Typs innerhalb jeder Fundstelle. | Pro Typ: Prozent bezogen auf Gesamtvorkommen des Typs. Zeigt Verteilungsschwerpunkte eines Typs über alle Fundstellen.;None: Absolute frequencies (raw counts). For simple distribution maps. | Per site: Percentage relative to total finds at each site. Shows relative importance of a type within each site. | Per type: Percentage relative to total occurrences of the type. Shows distribution centers of a type across all sites.
-typemap.display;📊 Darstellung;📊 Display
+typemap.display;Darstellung;Display
 typemap.display.abundance;Abundanz;Abundance
 typemap.display.presence;Präsenz/Absenz;Presence/Absence
 typemap.null.display;Null-Werte:;Null values:
 typemap.null.hide;Ausblenden;Hide
 typemap.null.gray;Grau zeigen;Show gray
-typemap.marker.style;📍 Marker-Stil;📍 Marker Style
-typemap.marker.pins;🍦 Eiswaffel-Pins;🍦 Ice cream pins
-typemap.marker.circles;⚫ Kreise;⚫ Circles
-typemap.size.title;📏 Größe;📏 Size
+typemap.marker.style;Marker-Stil;Marker Style
+typemap.marker.pins;Eiswaffel-Pins;Ice cream pins
+typemap.marker.circles;Kreise;Circles
+typemap.size.title;Größe;Size
 typemap.size.linear;Linear;Linear
 typemap.size.log;Logarithmisch;Logarithmic
 typemap.scale;Skalierung:;Scaling:
-typemap.overlap;📍 Überlappung;📍 Overlap
+typemap.overlap;Überlappung;Overlap
 typemap.overlap.distribute;Verteilen;Distribute
 typemap.overlap.stack;Stapeln;Stack
 typemap.distribution.radius;Verteilungsradius:;Distribution radius:
 typemap.tolerance;Toleranz:;Tolerance:
 typemap.show.legend;Legende zeigen;Show legend
 typemap.auto.zoom;Auto-Zoom;Auto-zoom
-typemap.utm.zone;🌍 UTM-Zone;🌍 UTM Zone
+typemap.utm.zone;UTM-Zone;UTM Zone
 typemap.utm.zone.label;Zone:;Zone:
 typemap.utm.hemisphere;Hemisphäre:;Hemisphere:
 typemap.utm.north;Nord;North
 typemap.utm.south;Süd;South
-typemap.help;🎯 Typenkartierung: Markergröße = Häufigkeit, Farbe = Typ. Hover für Details.;🎯 Type mapping: Marker size = frequency, color = type. Hover for details.
-typemap.stats;📊 Typ-Statistiken;📊 Type Statistics
-agg.site.title;🔗 Site-Aggregation;🔗 Site Aggregation
+typemap.help;Typenkartierung: Markergröße = Häufigkeit, Farbe = Typ. Hover für Details.;Type mapping: Marker size = frequency, color = type. Hover for details.
+typemap.stats;Typ-Statistiken;Type Statistics
+agg.site.title;Site-Aggregation;Site Aggregation
 agg.site.desc;Fassen Sie mehrere Sites temporär zusammen (z.B. verschiedene Befunde eines Fundorts). Die Aggregationen gelten bis zum Export und können jederzeit geändert werden.;Combine multiple sites temporarily (e.g. different features of a site). Aggregations apply until export and can be changed anytime.
-agg.site.add;➕ Neue Site-Aggregation erstellen;➕ Create new site aggregation
-agg.reset.all;🗑️ Alle zurücksetzen;🗑️ Reset all
-agg.type.title;🔗 Type-Aggregation;🔗 Type Aggregation
+agg.site.add;Neue Site-Aggregation erstellen;Create new site aggregation
+agg.reset.all;Alle zurücksetzen;Reset all
+agg.type.title;Type-Aggregation;Type Aggregation
 agg.type.desc;Fassen Sie mehrere Types temporär zusammen (z.B. Varianten eines Typs). Die Aggregationen gelten bis zum Export und können jederzeit geändert werden.;Combine multiple types temporarily (e.g. variants of a type). Aggregations apply until export and can be changed anytime.
-agg.type.add;➕ Neue Type-Aggregation erstellen;➕ Create new type aggregation
-agg.status;📊 Aggregations-Status;📊 Aggregation Status
-agg.modal.site.title;➕ Neue Site-Aggregation erstellen;➕ Create new site aggregation
+agg.type.add;Neue Type-Aggregation erstellen;Create new type aggregation
+agg.status;Aggregations-Status;Aggregation Status
+agg.modal.site.title;Neue Site-Aggregation erstellen;Create new site aggregation
 agg.modal.site.name;Name der aggregierten Site:;Name of aggregated site:
 agg.modal.site.placeholder;z.B. 'Vilsbiburg Gesamt' oder 'Rinkam Komplett';e.g. 'Vilsbiburg Total' or 'Rinkam Complete'
 agg.modal.site.select;Sites auswählen zum Zusammenfassen:;Select sites to combine:
 agg.modal.site.hint;Wählen Sie mindestens 2 Sites aus. Die Werte werden summiert.;Select at least 2 sites. Values will be summed.
-agg.modal.type.title;➕ Neue Type-Aggregation erstellen;➕ Create new type aggregation
+agg.modal.type.title;Neue Type-Aggregation erstellen;Create new type aggregation
 agg.modal.type.name;Name des aggregierten Types:;Name of aggregated type:
 agg.modal.type.placeholder;z.B. 'Fibel_Gesamt' oder 'Keramik_Typ_A';e.g. 'Brooch_Total' or 'Ceramic_Type_A'
 agg.modal.type.select;Types auswählen zum Zusammenfassen:;Select types to combine:
@@ -892,24 +892,24 @@ agg.summary.final.types;Finale Types;Final Types
 agg.summary.final.matrix;Finale Matrix;Final Matrix
 agg.summary.no.change;keine Änderung;no change
 agg.summary.hint;Die Aggregationen werden bei allen Analysen (CA, Seriation, etc.) automatisch angewendet und sind im Export enthalten.;Aggregations are automatically applied to all analyses (CA, Seriation, etc.) and are included in exports.
-chrono.tab.title;📅 14C-Integration;📅 14C Integration
+chrono.tab.title;14C-Integration;14C Integration
 chrono.tab.desc;14C-Daten importieren und mit CA-Matrix verknüpfen;Import 14C data and link with CA matrix
-chrono.tab.import;📥 Import & Mapping;📥 Import & Mapping
-chrono.tab.calib;📊 Kalibrierung & Export;📊 Calibration & Export
+chrono.tab.import;Import & Mapping;Import & Mapping
+chrono.tab.calib;Kalibrierung & Export;Calibration & Export
 chrono.tab.curve;⏱️ Chronology Curve;⏱️ Chronology Curve
-chrono.tab.oxcal;⚗️ OxCal (Sequenz);⚗️ OxCal (Sequence)
-filter.analysis.title;📊 Filter-Analyse;📊 Filter Analysis
+chrono.tab.oxcal;OxCal (Sequenz);OxCal (Sequence)
+filter.analysis.title;Filter-Analyse;Filter Analysis
 filter.dataset.overview;Datensatz-Übersicht;Dataset Overview
-filter.quality;📈 Datenqualität;📈 Data Quality
-filter.sites.select.title;🏛️ Sites-Auswahl;🏛️ Sites Selection
+filter.quality;Datenqualität;Data Quality
+filter.sites.select.title;Sites-Auswahl;Sites Selection
 filter.sites.select.desc;Wählen Sie Sites für die Analyse. Gefilterte Sites werden automatisch deselektiert.;Select sites for analysis. Filtered sites are automatically deselected.
-filter.types.select.title;🏺 Types-Auswahl;🏺 Types Selection
+filter.types.select.title;Types-Auswahl;Types Selection
 filter.types.select.desc;Wählen Sie Artefakttypen für die Analyse. Gefilterte Types werden automatisch deselektiert.;Select artifact types for analysis. Filtered types are automatically deselected.
 filter.btn.all;✅ Alle;✅ All
 filter.btn.none;❌ Keine;❌ None
-filter.btn.labels.all;🏷️ Labels: Alle;🏷️ Labels: All
-filter.btn.labels.none;🏷️ Labels: Keine;🏷️ Labels: None
-filter.btn.reset.weights;♻️ Gewichte zurücksetzen;♻️ Reset Weights
+filter.btn.labels.all;Labels: Alle;Labels: All
+filter.btn.labels.none;Labels: Keine;Labels: None
+filter.btn.reset.weights;Gewichte zurücksetzen;Reset Weights
 filter.format.error;Formatierungsfehler:;Formatting error:
 seriation.tooltip.methods;<b>Seriationsmethoden:</b><br/><b>CA (Empfohlen):</b> Correspondence Analysis - moderner Standard (Ford 1962, Ihm 1978). Robuste mathematische Grundlage, optimal für Häufigkeitsdaten. Nutzt Trägheitsmaximierung zur chronologischen Ordnung.<br/><b>RA (Historisch):</b> Reciprocal Averaging - klassische Methode (Hill 1973). Iterative Berechnung von Site- und Type-Scores durch wechselseitige gewichtete Mittelwerte. Einfacher Algorithmus, kann bei komplexen Daten instabil sein. Nur für Vergleichszwecke.;<b>Seriation Methods:</b><br/><b>CA (Recommended):</b> Correspondence Analysis - modern standard (Ford 1962, Ihm 1978). Robust mathematical foundation, optimal for frequency data. Uses inertia maximization for chronological ordering.<br/><b>RA (Historical):</b> Reciprocal Averaging - classical method (Hill 1973). Iterative calculation of site and type scores through reciprocal weighted averages. Simple algorithm, may be unstable with complex data. For comparison only.
 seriation.tooltip.transform;<b>Daten-Transformation:</b><br/><b>Keine:</b> Rohdaten (Abundanzen)<br/><b>Binär:</b> Präsenz (1) vs. Absenz (0) - klassische Seriation<br/><b>Relativ:</b> Normalisierte Häufigkeiten pro Site<br/><b>Log:</b> Logarithmierte Werte für stark schiefe Verteilungen;<b>Data Transformation:</b><br/><b>None:</b> Raw data (abundances)<br/><b>Binary:</b> Presence (1) vs. Absence (0) - classical seriation<br/><b>Relative:</b> Normalized frequencies per site<br/><b>Log:</b> Log-transformed values for highly skewed distributions
@@ -922,16 +922,16 @@ ca.tooltip.contrib.quantile;Elemente deren Contribution im obersten X% Quantil l
 ca.tooltip.jackknife;Elemente mit Influence > Threshold werden als strukturell kritisch markiert. Höherer Wert = nur sehr einflussreiche Elemente. Standard: 0.1 (10%).;Elements with Influence > Threshold are marked as structurally critical. Higher value = only very influential elements. Default: 0.1 (10%).
 ca.outlier.robust.active;✅ ROBUST-MODUS AKTIV;✅ ROBUST MODE ACTIVE
 ca.outlier.robust.desc;Nutzt automatisch Cos² + Jackknife für alle 4 Dimensionskombinationen. Keine Methodenwahl nötig!;Automatically uses Cos² + Jackknife for all 4 dimension combinations. No method selection needed!
-ca.outlier.robust.title;🎯 ROBUSTE OUTLIER-DETECTION;🎯 ROBUST OUTLIER DETECTION
+ca.outlier.robust.title;ROBUSTE OUTLIER-DETECTION;ROBUST OUTLIER DETECTION
 ca.outlier.robust.checks;Prüft automatisch ALLE 4 Dimensionskombinationen:;Automatically checks ALL 4 dimension combinations:
 ca.outlier.robust.result;Nur Outlier die in ≥ 2 Dimensionen problematisch sind → höchste Priorität!;Only outliers problematic in ≥ 2 dimensions → highest priority!
-ca.outlier.btn.recalc;🔄 Outlier neu erkennen;🔄 Recalculate outliers
+ca.outlier.btn.recalc;Outlier neu erkennen;Recalculate outliers
 ca.outlier.tip;Ändere Methode oder Dimensionen und klicke erneut, um verschiedene Outlier-Profile zu vergleichen!;Change method or dimensions and click again to compare different outlier profiles!
-ca.outlier.thresholds;📊 Schwellenwerte;📊 Thresholds
+ca.outlier.thresholds;Schwellenwerte;Thresholds
 ca.outlier.cos2.label;Untere X% für Cos² (schlecht repräsentiert):;Lower X% for Cos² (poorly represented):
 ca.outlier.contrib.label;Obere X% für Contribution (zu dominant):;Upper X% for Contribution (too dominant):
 ca.outlier.jackknife.label;Jackknife-Threshold (Influence):;Jackknife threshold (Influence):
-ca.outlier.found.title;📋 Gefundene Outlier;📋 Found Outliers
+ca.outlier.found.title;Gefundene Outlier;Found Outliers
 ca.outlier.filter.label;Anzeigen:;Show:
 ca.outlier.filter.sites;Sites;Sites
 ca.outlier.filter.types;Types;Types
@@ -945,33 +945,33 @@ ca.outlier.dim.12;Dim1 + Dim2 (Standard);Dim1 + Dim2 (Standard)
 ca.outlier.dim.13;Dim1 + Dim3;Dim1 + Dim3
 ca.outlier.dim.23;Dim2 + Dim3;Dim2 + Dim3
 ca.outlier.dim.123;Alle drei (Dim1+Dim2+Dim3);All three (Dim1+Dim2+Dim3)
-ca.outlier.dim.robust;🎯 Robust (alle Kombinationen);🎯 Robust (all combinations)
+ca.outlier.dim.robust;Robust (alle Kombinationen);Robust (all combinations)
 ca.outlier.robust.auto;für alle 4 Dimensionskombinationen;for all 4 dimension combinations
 ca.outlier.robust.noneed;Keine Methodenwahl nötig!;No method selection needed!
 ca.outlier.robust.result.label;Ergebnis:;Result:
-ca.outlier.legend;🚦 Ampel-Bedeutung:;🚦 Traffic light meaning:
+ca.outlier.legend;Ampel-Bedeutung:;Traffic light meaning:
 ca.outlier.legend.critical;🔴 KRITISCH - Sofort prüfen!;🔴 CRITICAL - Check immediately!
 ca.outlier.legend.structural;🟠 STRUKTURELL - Verändert CA-Struktur;🟠 STRUCTURAL - Changes CA structure
 ca.outlier.legend.marginal;🟡 MARGINAL - Schönheitsfehler;🟡 MARGINAL - Minor issue
-ca.outlier.btn.exclude;🔄 Ausgewählte Outlier ausschließen;🔄 Exclude selected outliers
-ca.outlier.btn.include;♻️ Alle Outlier wieder einschließen;♻️ Re-include all outliers
-ca.outlier.interp.title;💡 DETAILLIERTE INTERPRETATION:;💡 DETAILED INTERPRETATION:
-ca.outlier.interp.cos2.title;🟦 Niedrige Cos² (Quantil-Methode):;🟦 Low Cos² (Quantile method):
+ca.outlier.btn.exclude;Ausgewählte Outlier ausschließen;Exclude selected outliers
+ca.outlier.btn.include;Alle Outlier wieder einschließen;Re-include all outliers
+ca.outlier.interp.title;DETAILLIERTE INTERPRETATION:;DETAILED INTERPRETATION:
+ca.outlier.interp.cos2.title;Niedrige Cos² (Quantil-Methode):;Low Cos² (Quantile method):
 ca.outlier.interp.cos2.desc;Diese Elemente liegen 'außerhalb' der gewählten CA-Ebene und sind dort schlecht repräsentiert.;These elements lie 'outside' the chosen CA plane and are poorly represented there.
 ca.outlier.interp.causes;Mögliche Ursachen:;Possible causes:
-ca.outlier.interp.cos2.cause1;🏛️ Chronologisch inkonsistent: Aus einer anderen Kulturgruppe/Phase;🏛️ Chronologically inconsistent: From another cultural group/phase
-ca.outlier.interp.cos2.cause2;🔀 Vermischte Kontexte: Störungen, Umlagerungen;🔀 Mixed contexts: Disturbances, redeposition
-ca.outlier.interp.cos2.cause3;📊 Wichtige Info in Dim3/Dim4: NICHT automatisch entfernen! → Wähle Dim1+Dim3 und prüfe erneut;📊 Important info in Dim3/Dim4: Do NOT remove automatically! → Choose Dim1+Dim3 and check again
-ca.outlier.interp.contrib.title;🟥 Hohe Contribution (Quantil-Methode):;🟥 High Contribution (Quantile method):
+ca.outlier.interp.cos2.cause1;Chronologisch inkonsistent: Aus einer anderen Kulturgruppe/Phase;Chronologically inconsistent: From another cultural group/phase
+ca.outlier.interp.cos2.cause2;Vermischte Kontexte: Störungen, Umlagerungen;Mixed contexts: Disturbances, redeposition
+ca.outlier.interp.cos2.cause3;Wichtige Info in Dim3/Dim4: NICHT automatisch entfernen! → Wähle Dim1+Dim3 und prüfe erneut;Important info in Dim3/Dim4: Do NOT remove automatically! → Choose Dim1+Dim3 and check again
+ca.outlier.interp.contrib.title;Hohe Contribution (Quantil-Methode):;High Contribution (Quantile method):
 ca.outlier.interp.contrib.desc;Diese Elemente dominieren die CA unnatürlich stark und ziehen Dimensionen in ihre Richtung.;These elements dominate the CA unnaturally and pull dimensions in their direction.
-ca.outlier.interp.contrib.cause1;🏛️ Mega-Sites: Extreme Fundmengen verzerren Proportionen (z.B. 10.000 Funde vs. 50 Funde);🏛️ Mega-sites: Extreme find quantities distort proportions (e.g., 10,000 finds vs. 50 finds)
-ca.outlier.interp.contrib.cause2;🏺 Seltene Types: Kommen nur in 1-2 Sites vor → ziehen CA zu diesen Sites;🏺 Rare types: Occur only in 1-2 sites → pull CA toward these sites
+ca.outlier.interp.contrib.cause1;Mega-Sites: Extreme Fundmengen verzerren Proportionen (z.B. 10.000 Funde vs. 50 Funde);Mega-sites: Extreme find quantities distort proportions (e.g., 10,000 finds vs. 50 finds)
+ca.outlier.interp.contrib.cause2;Seltene Types: Kommen nur in 1-2 Sites vor → ziehen CA zu diesen Sites;Rare types: Occur only in 1-2 sites → pull CA toward these sites
 ca.outlier.interp.contrib.cause3;✅ Leitfossilien: Können tatsächlich wichtig sein! Prüfe archäologische Bedeutung;✅ Index fossils: May actually be important! Check archaeological significance
 ca.outlier.interp.influence.title;🔴 Hoher Influence (Jackknife-Methode):;🔴 High Influence (Jackknife method):
 ca.outlier.interp.influence.desc;Element verändert CA-Struktur ALLER anderen Elemente dramatisch wenn es entfernt wird.;Element dramatically changes CA structure of ALL other elements when removed.
-ca.outlier.interp.influence.cause1;🌉 Brückenelement: Verbindet zwei ansonsten getrennte Phasen chronologisch;🌉 Bridge element: Chronologically connects two otherwise separate phases
-ca.outlier.interp.influence.cause2;🚨 Struktureller Ausreißer: Verzerrt Gesamtstruktur (sollte evtl. entfernt werden);🚨 Structural outlier: Distorts overall structure (may need to be removed)
-ca.outlier.interp.influence.cause3;🎯 Definierendes Leitfossil: Etabliert chronologische Ordnung (NICHT entfernen!);🎯 Defining index fossil: Establishes chronological order (do NOT remove!)
+ca.outlier.interp.influence.cause1;Brückenelement: Verbindet zwei ansonsten getrennte Phasen chronologisch;Bridge element: Chronologically connects two otherwise separate phases
+ca.outlier.interp.influence.cause2;Struktureller Ausreißer: Verzerrt Gesamtstruktur (sollte evtl. entfernt werden);Structural outlier: Distorts overall structure (may need to be removed)
+ca.outlier.interp.influence.cause3;Definierendes Leitfossil: Etabliert chronologische Ordnung (NICHT entfernen!);Defining index fossil: Establishes chronological order (do NOT remove!)
 ca.outlier.interp.combined.title;🟠 Kombiniert: KRITISCH (Cos² + Influence):;🟠 Combined: CRITICAL (Cos² + Influence):
 ca.outlier.interp.combined.desc;Sowohl schlecht repräsentiert ALS AUCH strukturell problematisch → höchste Priorität für Prüfung!;Both poorly represented AND structurally problematic → highest priority for review!
 ca.outlier.interp.procedure.title;✅ EMPFOHLENES VORGEHEN:;✅ RECOMMENDED PROCEDURE:
@@ -987,20 +987,20 @@ ca.outlier.interp.procedure.step5;5️⃣ Nur;5️⃣ Only
 ca.outlier.interp.procedure.critical;KRITISCHE;CRITICAL
 ca.outlier.interp.procedure.remove;(kombinierte Methode) sollten entfernt werden;(combined method) should be removed
 ca.outlier.interp.procedure.step6;6️⃣ Dokumentiere Entscheidungen! Outlier können wichtig sein;6️⃣ Document decisions! Outliers can be important
-ca.outlier.interp.literature;📚 Literatur:;📚 Literature:
+ca.outlier.interp.literature;Literatur:;Literature:
 ca.biplot.symmetric.title;ℹ️ Symmetrischer Biplot:;ℹ️ Symmetric Biplot:
 ca.biplot.symmetric.desc;Sites und Types werden gleich skaliert.;Sites and types are scaled equally.
 ca.biplot.symmetric.interp;Interpretation:;Interpretation:
 ca.biplot.symmetric.dist1;• Abstände zwischen Sites untereinander interpretierbar;• Distances between sites are interpretable
 ca.biplot.symmetric.dist2;• Abstände zwischen Types untereinander interpretierbar;• Distances between types are interpretable
 ca.biplot.symmetric.dist3;• Abstände zwischen Sites und Types NICHT direkt interpretierbar;• Distances between sites and types are NOT directly interpretable
-ca.biplot.rowprincipal.title;📍 Asymmetrisch: Sites-fokussiert;📍 Asymmetric: Site-focused
+ca.biplot.rowprincipal.title;Asymmetrisch: Sites-fokussiert;Asymmetric: Site-focused
 ca.biplot.rowprincipal.desc;Types werden 'geschrumpft' und im Raum der Sites dargestellt.;Types are 'shrunk' and displayed in site space.
 ca.biplot.rowprincipal.interp1;• Je näher ein Site einem Type-Punkt liegt, desto häufiger kommt der Type in diesem Site vor;• The closer a site is to a type point, the more common that type is at that site
 ca.biplot.rowprincipal.interp2;• Projektionen von Sites auf Type-Vektoren geben relative Häufigkeiten an;• Projections of sites onto type vectors indicate relative frequencies
 ca.biplot.rowprincipal.interp3;• Ideal zur Frage: 'Welche Types charakterisieren einen Site?';• Ideal for the question: 'Which types characterize a site?'
 ca.biplot.rowprincipal.source;Quelle: Greenacre (2007) - Correspondence Analysis in R;Source: Greenacre (2007) - Correspondence Analysis in R
-ca.biplot.colprincipal.title;🔷 Asymmetrisch: Types-fokussiert;🔷 Asymmetric: Type-focused
+ca.biplot.colprincipal.title;Asymmetrisch: Types-fokussiert;Asymmetric: Type-focused
 ca.biplot.colprincipal.desc;Sites werden 'geschrumpft' und im Raum der Types dargestellt.;Sites are 'shrunk' and displayed in type space.
 ca.biplot.colprincipal.interp1;• Je näher ein Type einem Site-Punkt liegt, desto häufiger kommt dieser Site bei dem Type vor;• The closer a type is to a site point, the more common that site is for that type
 ca.biplot.colprincipal.interp2;• Projektionen von Types auf Site-Vektoren geben relative Häufigkeiten an;• Projections of types onto site vectors indicate relative frequencies
@@ -1030,7 +1030,7 @@ ca.outlier.exp.combined.structural;Strukturell:;Structural:
 ca.outlier.exp.combined.structural.desc;Nur hoher Influence → gut repräsentiert, aber beeinflusst CA-Struktur stark;Only high Influence → well represented, but strongly influences CA structure
 ca.outlier.exp.combined.ok;OK:;OK:
 ca.outlier.exp.combined.ok.desc;Weder niedrige Cos² noch hoher Influence;Neither low Cos² nor high Influence
-ca.outlier.exp.robust.title;🎯 ROBUST (Alle Dimensionen):;🎯 ROBUST (All dimensions):
+ca.outlier.exp.robust.title;ROBUST (Alle Dimensionen):;ROBUST (All dimensions):
 ca.outlier.exp.robust.desc;Kombiniert-Methode wird für ALLE 4 Dimensionskombinationen ausgeführt:;Combined method is run for ALL 4 dimension combinations:
 ca.outlier.exp.robust.dims;Dim1+Dim2, Dim1+Dim3, Dim2+Dim3, Dim1+Dim2+Dim3;Dim1+Dim2, Dim1+Dim3, Dim2+Dim3, Dim1+Dim2+Dim3
 ca.outlier.exp.robust.shows;Zeigt nur:;Shows only:
@@ -1042,7 +1042,7 @@ ca.outlier.exp.robust.marginal;Marginal: Nur Cos² in mehreren Dims;Marginal: On
 ca.outlier.exp.robust.structural;Strukturell: Nur Influence in mehreren Dims;Structural: Only Influence in multiple dims
 ca.outlier.exp.robust.advantage;Vorteil:;Advantage:
 ca.outlier.exp.robust.advantage.desc;Findet dimensionsübergreifend robuste Probleme - kein Zufallseffekt!;Finds cross-dimensional robust problems - no random effect!
-ca.outlier.exp.interp.title;🎯 INTERPRETATION:;🎯 INTERPRETATION:
+ca.outlier.exp.interp.title;INTERPRETATION:;INTERPRETATION:
 ca.outlier.exp.interp.cos2;Niedrige Cos²:;Low Cos²:
 ca.outlier.exp.interp.cos2.desc;Können andere Kulturgruppe sein, vermischte Kontexte, oder wichtige Info in höheren Dimensionen tragen → Prüfe andere Dimensionen (z.B. Dim1+Dim3)!;May be another cultural group, mixed contexts, or carry important info in higher dimensions → Check other dimensions (e.g. Dim1+Dim3)!
 ca.outlier.exp.interp.contrib;Hohe Contribution:;High Contribution:
@@ -1051,28 +1051,28 @@ ca.outlier.exp.interp.influence;Hoher Influence:;High Influence:
 ca.outlier.exp.interp.influence.desc;Können wichtige Leitfossilien sein die Phasen definieren ODER Ausreißer die Struktur verzerren → Visuell im Biplot prüfen!;May be important index fossils defining phases OR outliers distorting structure → Check visually in biplot!
 ca.outlier.exp.warning;⚠️ WICHTIG:;⚠️ IMPORTANT:
 ca.outlier.exp.warning.desc;Outlier sind nicht automatisch 'falsch'! Sie können wichtige chronologische Informationen enthalten. Entfernen Sie nur Elemente die offensichtlich das chronologische Muster stören.;Outliers are not automatically 'wrong'! They may contain important chronological information. Only remove elements that obviously disturb the chronological pattern.
-ca.outlier.exp.sources;📚 Quellen:;📚 Sources:
+ca.outlier.exp.sources;Quellen:;Sources:
 ca.outlier.exp.source1;Greenacre (2007) - Correspondence Analysis in Practice, Kap. 'Outliers and Influential Points';Greenacre (2007) - Correspondence Analysis in Practice, Ch. 'Outliers and Influential Points'
 ca.outlier.exp.source2;Baxter (1994) - Exploratory Multivariate Analysis in Archaeology, S. 89-95;Baxter (1994) - Exploratory Multivariate Analysis in Archaeology, pp. 89-95
 ca.outlier.exp.source3;Ihm (1978) - Statistik in der Archäologie - Probleme der Anwendung, allgemeine Methoden, Seriation;Ihm (1978) - Statistik in der Archäologie - Problems of application, general methods, seriation
-ca.download.excel;📊 Excel Daten;📊 Excel Data
-ca.download.csv;📄 CSV Daten;📄 CSV Data
+ca.download.excel;Excel Daten;Excel Data
+ca.download.csv;CSV Daten;CSV Data
 ca.eigen.variance.title;Varianzaufklärung der CA-Dimensionen;Variance explained by CA dimensions
-ca.eigen.help;❓ Hilfe;❓ Help
-ca.eigen.title;📊 Eigenwerte & Varianz;📊 Eigenvalues & Variance
-ca.eigen.stats.title;📈 Detaillierte Statistiken;📈 Detailed Statistics
-ca.eigen.scree.title;📉 Scree-Plot;📉 Scree Plot
+ca.eigen.help;Hilfe;Help
+ca.eigen.title;Eigenwerte & Varianz;Eigenvalues & Variance
+ca.eigen.stats.title;Detaillierte Statistiken;Detailed Statistics
+ca.eigen.scree.title;Scree-Plot;Scree Plot
 ca.eigen.scree.tooltip;Der Scree-Plot zeigt die Eigenwerte aller Dimensionen. Er hilft zu entscheiden, wie viele Dimensionen interpretiert werden sollten.\n\n🔍 WIE LESEN:\n• Suche visuell nach dem 'Ellbogen' (Knick in der Kurve)\n• Dimensionen VOR dem Knick = wichtig\n• Dimensionen NACH dem Knick = meist unwichtig\n\n🎯 BEISPIEL:\nWenn die blaue Linie nach Dim3 stark abflacht → interpretiere Dim1-3\n\n💡 TIPP: Der Ellbogen liegt oft dort, wo die Kurve von 'steil' zu 'flach' übergeht. Bei deinem Plot sieht man das meist sehr deutlich.\n\nDies ist das Standardverfahren in der multivariaten Statistik (Cattell 1966) und viel aussagekräftiger als statistische Signifikanztests bei großen Datensätzen.\n\nQuelle: Cattell (1966), Greenacre (2007);The Scree Plot shows eigenvalues of all dimensions. It helps decide how many dimensions should be interpreted.\n\n🔍 HOW TO READ:\n• Look visually for the 'elbow' (bend in the curve)\n• Dimensions BEFORE the bend = important\n• Dimensions AFTER the bend = usually unimportant\n\n🎯 EXAMPLE:\nIf the blue line flattens strongly after Dim3 → interpret Dim1-3\n\n💡 TIP: The elbow is usually where the curve transitions from 'steep' to 'flat'. In your plot this is usually very clear.\n\nThis is the standard procedure in multivariate statistics (Cattell 1966) and much more meaningful than statistical significance tests for large datasets.\n\nSource: Cattell (1966), Greenacre (2007)
 ca.eigen.scree.desc;Visuelle Hilfe zur Dimensionswahl - suche nach dem 'Ellbogen';Visual aid for dimension selection - look for the 'elbow'
-ca.eigen.malinvaud.title;🔬 Malinvaud-Test;🔬 Malinvaud Test
+ca.eigen.malinvaud.title;Malinvaud-Test;Malinvaud Test
 ca.eigen.malinvaud.tooltip;Der Malinvaud-Test prüft ob CA-Dimensionen statistisch signifikant sind oder nur Rauschen darstellen. Basiert auf Chi²-Verteilung mit Bartlett-Korrektur für sparse Matrizen.\n\n• p<0.001 (***): Dimension ist hoch signifikant\n• p<0.05 (*): Dimension ist signifikant\n• n.s.: Dimension ist statistisch nicht bedeutsam\n\n⚠️ WICHTIGE WARNUNG - SAMPLE SIZE PROBLEM:\n\nBei großen archäologischen Datensätzen (>5000 Fundstücke) werden fast ALLE Dimensionen signifikant - das ist mathematisch normal, aber IRREFÜHREND!\n\nWARUM? Der Test multipliziert Eigenwerte mit n (Anzahl Funde):\nChi² = (n - (p+q-1)/2) * Trägheit\n\nBei n=50.000: Selbst winzige Trägheit (0.001) → Chi²=50 → hoch signifikant\nBei n=500: Nur echte Struktur wird signifikant\n\n❌ FALSCHE INTERPRETATION:\n'Alle 10 Dimensionen sind ***, also muss ich alle interpretieren!'\n\n✅ RICHTIGE INTERPRETATION:\n'Der Test bestätigt dass meine CA echte Struktur hat (kein reines Rauschen). Für die AUSWAHL der Dimensionen nutze ich den SCREE-PLOT oben!'\n\n🎯 FAZIT: Bei >5000 Funden ist dieser Test wenig aussagekräftig. Nutze stattdessen: Scree-Plot (Ellbogen-Methode), Varianzaufklärung, visuelle Interpretation des Biplots.\n\nQuelle: Malinvaud (1987), Greenacre (2007);The Malinvaud test checks whether CA dimensions are statistically significant or just noise. Based on Chi² distribution with Bartlett correction for sparse matrices.\n\n• p<0.001 (***): Dimension is highly significant\n• p<0.05 (*): Dimension is significant\n• n.s.: Dimension is statistically not meaningful\n\n⚠️ IMPORTANT WARNING - SAMPLE SIZE PROBLEM:\n\nWith large archaeological datasets (>5000 finds) almost ALL dimensions become significant - this is mathematically normal but MISLEADING!\n\nWHY? The test multiplies eigenvalues with n (number of finds):\nChi² = (n - (p+q-1)/2) * Inertia\n\nWith n=50,000: Even tiny inertia (0.001) → Chi²=50 → highly significant\nWith n=500: Only real structure becomes significant\n\n❌ WRONG INTERPRETATION:\n'All 10 dimensions are ***, so I must interpret all of them!'\n\n✅ CORRECT INTERPRETATION:\n'The test confirms that my CA has real structure (not pure noise). For SELECTING dimensions I use the SCREE PLOT above!'\n\n🎯 CONCLUSION: With >5000 finds this test is not very meaningful. Use instead: Scree plot (elbow method), variance explained, visual interpretation of biplot.\n\nSource: Malinvaud (1987), Greenacre (2007)
 ca.eigen.malinvaud.desc;Testet statistische Signifikanz der CA-Dimensionen;Tests statistical significance of CA dimensions
-ca.eigen.between.title;🎯 Between-Group Inertia;🎯 Between-Group Inertia
+ca.eigen.between.title;Between-Group Inertia;Between-Group Inertia
 ca.eigen.between.desc;Varianzaufteilung zwischen vs. innerhalb Gruppen;Variance partitioning between vs. within groups
 ca.eigen.no.data;Keine Eigenwerte verfügbar;No eigenvalues available
-cluster.help.modal.title;🎯 Clustering-Hilfe: Methoden & Einstellungen;🎯 Clustering Help: Methods & Settings
+cluster.help.modal.title;Clustering-Hilfe: Methoden & Einstellungen;Clustering Help: Methods & Settings
 cluster.help.close;Schließen;Close
-cluster.help.overview.title;📊 Clustering in SeriARC;📊 Clustering in SeriARC
+cluster.help.overview.title;Clustering in SeriARC;Clustering in SeriARC
 cluster.help.overview.desc;SeriARC bietet vier statistische Clustering-Methoden zur Gruppierung archäologischer Daten im CA-Raum:;SeriARC offers four statistical clustering methods for grouping archaeological data in CA space:
 cluster.help.kmeans;K-Means:;K-Means:
 cluster.help.kmeans.desc;Partitionierendes Clustering (Standard);Partitioning clustering (default)
@@ -1084,7 +1084,7 @@ cluster.help.fuzzy;Fuzzy K-Means:;Fuzzy K-Means:
 cluster.help.fuzzy.desc;Unscharfe Cluster-Zugehörigkeit;Fuzzy cluster membership
 cluster.help.gmm;GMM:;GMM:
 cluster.help.gmm.desc;Probabilistische Gaußsche Mischmodelle;Probabilistic Gaussian mixture models
-cluster.help.comparison.title;🔬 Methodenvergleich;🔬 Method Comparison
+cluster.help.comparison.title;Methodenvergleich;Method Comparison
 cluster.help.principle;Prinzip:;Principle:
 cluster.help.advantages;Vorteile:;Advantages:
 cluster.help.disadvantages;Nachteile:;Disadvantages:
@@ -1159,7 +1159,7 @@ cluster.help.gmm.vvv.desc;Variabel (Volumen, Form, Orientierung) - maximale Flex
 cluster.help.gmm.eee.desc;Sphärisch und gleich - einfachstes Modell;Spherical and equal - simplest model
 cluster.help.gmm.vev.desc;Diagonal variabel - Kompromiss;Diagonal variable - compromise
 cluster.help.gmm.auto.desc;Wählt bestes Modell automatisch;Selects best model automatically
-cluster.help.settings.title;⚙️ Allgemeine Einstellungen;⚙️ General Settings
+cluster.help.settings.title;Allgemeine Einstellungen;General Settings
 cluster.help.settings.what;Was clustern:;What to cluster:
 cluster.help.settings.both;Beide (Sites + Types):;Both (Sites + Types):
 cluster.help.settings.both.desc;Gemeinsames Clustering (Standard für vollständigen Überblick);Joint clustering (default for complete overview)
@@ -1170,7 +1170,7 @@ cluster.help.settings.types;Nur Types:;Only Types:
 cluster.help.settings.types.desc;Artefakt-Typen gruppieren → Leitformen identifizieren;Group artifact types → identify index forms
 cluster.help.settings.k;Anzahl Cluster (k):;Number of clusters (k):
 cluster.help.settings.k.desc;Wie viele Gruppen sollen gebildet werden? Nutze den;How many groups should be formed? Use the
-cluster.help.settings.k.auto;🤖 Auto-Button;🤖 Auto button
+cluster.help.settings.k.auto;Auto-Button;Auto button
 cluster.help.settings.k.desc2;für eine datenbasierte Empfehlung (kombiniert Silhouette-, Elbow- und Gap-Statistik).;for a data-based recommendation (combines Silhouette, Elbow and Gap statistics).
 cluster.help.settings.dims;Dimensionen für Clustering:;Dimensions for clustering:
 cluster.help.settings.2d;Nur aktuell gewählte Achsen (x/y) → Visuell nachvollziehbar;Only currently selected axes (x/y) → Visually traceable
@@ -1182,7 +1182,7 @@ cluster.help.settings.seed.desc2;K-Means verwendet Zufallsinitialisierung; ein f
 cluster.help.settings.seed.default;Standard: Seed 123;Default: Seed 123
 cluster.help.settings.ellipses;95%-Konfidenzellipsen:;95% confidence ellipses:
 cluster.help.settings.ellipses.desc;Zeige statistischen Vertrauensbereich pro Cluster (nur für aktive Punkte, ≥3 Punkte pro Cluster nötig).;Show statistical confidence region per cluster (only for active points, ≥3 points per cluster required).
-cluster.help.quality.title;📊 Qualitätsmetriken;📊 Quality Metrics
+cluster.help.quality.title;Qualitätsmetriken;Quality Metrics
 cluster.help.quality.desc;SeriARC berechnet automatisch mehrere Strukturmaße zur Beurteilung der Cluster-Qualität:;SeriARC automatically calculates several structure measures to assess cluster quality:
 cluster.help.quality.silhouette;Silhouette-Koeffizient (-1 bis +1):;Silhouette coefficient (-1 to +1):
 cluster.help.quality.silhouette.desc;Misst, wie gut ein Punkt zu seinem eigenen Cluster passt vs. zum nächstgelegenen anderen Cluster.;Measures how well a point fits its own cluster vs. the nearest other cluster.
@@ -1206,7 +1206,7 @@ cluster.help.quality.bss.note;Achtung: Höher ≠ besser!;Note: Higher ≠ bette
 cluster.help.quality.bss.typical;In archäologischen Daten sind 30-50% oft sinnvoll.;In archaeological data, 30-50% is often reasonable.
 cluster.help.quality.warning;⚠️ Wichtig:;⚠️ Important:
 cluster.help.quality.warning.desc;Diese Metriken messen statistische Cluster-Kompaktheit, nicht archäologische Validität! Interpretiere Cluster immer im Kontext von Chronologie, Fundmaterial und Stratigraphie.;These metrics measure statistical cluster compactness, not archaeological validity! Always interpret clusters in the context of chronology, find material and stratigraphy.
-cluster.help.indextype.title;🏛️ Leittypen-Charakterisierung;🏛️ Index Type Characterization
+cluster.help.indextype.title;Leittypen-Charakterisierung;Index Type Characterization
 cluster.help.indextype.only;Nur verfügbar bei Sites-Clustering ("Beide" oder "Nur Sites").;Only available for Sites clustering ("Both" or "Sites only").
 cluster.help.indextype.desc;SeriARC identifiziert charakteristische Artefakt-Typen pro Cluster durch:;SeriARC identifies characteristic artifact types per cluster through:
 cluster.help.indextype.step1;Summierung:;Summation:
@@ -1224,10 +1224,10 @@ cluster.help.indextype.criteria;Leittyp-Kriterien:;Index type criteria:
 cluster.help.indextype.crit1;p-Wert < 0.05 (statistisch signifikant);p-value < 0.05 (statistically significant)
 cluster.help.indextype.crit2;Überrepräsentation > 30% (mindestens 30% häufiger als erwartet);Overrepresentation > 30% (at least 30% more frequent than expected)
 cluster.help.indextype.crit3;Mindestens 1 Fund (n > 0);At least 1 find (n > 0)
-cluster.help.indextype.tip;💡 Tipp:;💡 Tip:
+cluster.help.indextype.tip;Tipp:;Tip:
 cluster.help.indextype.tip.desc;Leittypen mit hoher Überrepräsentation (>1000%) sind oft exklusiv für einen Cluster und archäologisch besonders diagnostisch!;Index types with high overrepresentation (>1000%) are often exclusive to one cluster and archaeologically particularly diagnostic!
-cluster.help.packages.title;📦 Verwendete R-Pakete;📦 R Packages Used
-cluster.help.pub.title;📝 Empfehlungen für Publikationen;📝 Recommendations for Publications
+cluster.help.packages.title;Verwendete R-Pakete;R Packages Used
+cluster.help.pub.title;Empfehlungen für Publikationen;Recommendations for Publications
 cluster.help.pub.repro;Reproduzierbarkeit:;Reproducibility:
 cluster.help.pub.repro1;Seed fixieren (bei K-Means);Fix seed (for K-Means)
 cluster.help.pub.repro2;Alle Parameter dokumentieren (k, Dimensionen, Methode);Document all parameters (k, dimensions, method)
@@ -1325,20 +1325,20 @@ plot.battleship.nodata;SeriARC Battleship - Keine Daten;SeriARC Battleship - No 
 plot.battleship.html.title;SeriARC Battleship Curves - Interaktiver HTML Export;SeriARC Battleship Curves - Interactive HTML Export
 
 # --- K-Means / Clustering ---
-plot.kmeans.ellipse.title;📊 95%-Konfidenzellipsen - Erklärung;📊 95% Confidence Ellipses - Explanation
-plot.kmeans.dims.title;📊 Dimensionen für Clustering - Erklärung;📊 Dimensions for Clustering - Explanation
-plot.kmeans.auto.title;🤖 Auto-Analyse: Optimale Cluster-Anzahl (%s);🤖 Auto-Analysis: Optimal Number of Clusters (%s)
+plot.kmeans.ellipse.title;95%-Konfidenzellipsen - Erklärung;95% Confidence Ellipses - Explanation
+plot.kmeans.dims.title;Dimensionen für Clustering - Erklärung;Dimensions for Clustering - Explanation
+plot.kmeans.auto.title;Auto-Analyse: Optimale Cluster-Anzahl (%s);Auto-Analysis: Optimal Number of Clusters (%s)
 plot.kmeans.dendro.title;SeriARC Hierarchisches Clustering Dendrogramm;SeriARC Hierarchical Clustering Dendrogram
 plot.kmeans.dendro.subtitle;%s Linkage, %d Cluster;%s Linkage, %d Clusters
 mod_cluster.btn.close;Schließen;Close
 
 # --- Confidence Ellipse Modal ---
-mod_cluster.ellipse.stat.title;📈 Statistische Bedeutung;📈 Statistical Meaning
+mod_cluster.ellipse.stat.title;Statistische Bedeutung;Statistical Meaning
 mod_cluster.ellipse.stat.text1;Eine 95%-Konfidenzellipse zeigt den Bereich, in dem 95% der Punkte einer Gruppe liegen sollten, basierend auf bivariater Normalverteilung. Sie visualisiert die;A 95% confidence ellipse shows the region where 95% of a group's points should lie, based on bivariate normal distribution. It visualizes the
 mod_cluster.ellipse.stat.spread;Streuung und Homogenität;spread and homogeneity
 mod_cluster.ellipse.stat.text2;innerhalb eines Clusters.;within a cluster.
-mod_cluster.ellipse.arch.title;🏛️ Archäologische Interpretation;🏛️ Archaeological Interpretation
-mod_cluster.ellipse.large.title;🔵 Große Ellipse;🔵 Large Ellipse
+mod_cluster.ellipse.arch.title;Archäologische Interpretation;Archaeological Interpretation
+mod_cluster.ellipse.large.title;Große Ellipse;Large Ellipse
 mod_cluster.ellipse.large.item1;Gruppe ist heterogen;Group is heterogeneous
 mod_cluster.ellipse.large.item1b;→ Sites/Types mit großer typologischer/chronologischer Variabilität;→ Sites/Types with high typological/chronological variability
 mod_cluster.ellipse.large.item2;Beispiel: Fundort mit langer Besiedlungsdauer → große Streuung in CA;Example: Site with long occupation → high scatter in CA
@@ -1346,12 +1346,12 @@ mod_cluster.ellipse.small.title;🟢 Kleine Ellipse;🟢 Small Ellipse
 mod_cluster.ellipse.small.item1;Gruppe ist homogen;Group is homogeneous
 mod_cluster.ellipse.small.item1b;→ Sites/Types eng beieinander → ähnliches Fundspektrum;→ Sites/Types close together → similar assemblage
 mod_cluster.ellipse.small.item2;Beispiel: Kurzlebige Siedlung → kompakte Ellipse;Example: Short-lived settlement → compact ellipse
-mod_cluster.ellipse.overlap.title;🔶 Überlappung;🔶 Overlap
+mod_cluster.ellipse.overlap.title;Überlappung;Overlap
 mod_cluster.ellipse.overlap.no;Keine Überlappung;No overlap
 mod_cluster.ellipse.overlap.nob;→ Gruppen statistisch gut unterscheidbar;→ Groups statistically well separable
 mod_cluster.ellipse.overlap.yes;Überlappung;Overlap
 mod_cluster.ellipse.overlap.yesb;→ Gruppen nicht klar trennbar, mögliche Übergangszeit;→ Groups not clearly separable, possible transition period
-mod_cluster.ellipse.context.title;🎯 Im Clustering-Kontext;🎯 In Clustering Context
+mod_cluster.ellipse.context.title;Im Clustering-Kontext;In Clustering Context
 mod_cluster.ellipse.context.item1;Zeigt wie;Shows how
 mod_cluster.ellipse.context.item1b;sicher;certain
 mod_cluster.ellipse.context.item1c;die Cluster-Zuordnung ist;the cluster assignment is
@@ -1360,34 +1360,34 @@ mod_cluster.ellipse.context.item3;Keine Überlappung = klar getrennte Cluster;No
 mod_cluster.ellipse.context.item4;⚠️ Ellipsen nur für;⚠️ Ellipses only for
 mod_cluster.ellipse.context.item4b;aktive Punkte;active points
 mod_cluster.ellipse.context.item4c;(nicht supplementary);(not supplementary)
-mod_cluster.ellipse.tip.title;💡 Praktischer Tipp:;💡 Practical Tip:
+mod_cluster.ellipse.tip.title;Praktischer Tipp:;Practical Tip:
 mod_cluster.ellipse.tip.text;Aktivieren zum Vergleich von Fundorten/Phasen. Hilft bei der Bewertung ob Gruppierung sinnvoll ist.;Enable for comparing sites/phases. Helps evaluate whether grouping is meaningful.
 
 # --- Dimensions Modal ---
-mod_cluster.dims.arch.title;🏛️ Archäologisch-inhaltliche Bedeutung;🏛️ Archaeological-Content Meaning
+mod_cluster.dims.arch.title;Archäologisch-inhaltliche Bedeutung;Archaeological-Content Meaning
 mod_cluster.dims.arch.intro;In der Korrespondenzanalyse repräsentieren die Dimensionen unterschiedliche Aspekte der Variation:;In correspondence analysis, dimensions represent different aspects of variation:
-mod_cluster.dims.dim1.title;📍 Dimension 1 (Hauptgradient);📍 Dimension 1 (Main Gradient)
+mod_cluster.dims.dim1.title;Dimension 1 (Hauptgradient);Dimension 1 (Main Gradient)
 mod_cluster.dims.dim1.chrono;Meist chronologisch:;Usually chronological:
 mod_cluster.dims.dim1.chronob;früh ↔ spät, alt ↔ jung, serieller Verlauf;early ↔ late, old ↔ young, serial progression
 mod_cluster.dims.dim1.var;Erklärt meiste Varianz:;Explains most variance:
 mod_cluster.dims.dim1.varb;Wichtigster Ordnungsaspekt im Datensatz;Most important ordering aspect in the dataset
 mod_cluster.dims.dim1.time;Für zeitliche Gruppen:;For temporal groups:
 mod_cluster.dims.dim1.timeb;1D-Clustering auf Dim 1 = Phasen entlang Zeitachse;1D clustering on Dim 1 = phases along time axis
-mod_cluster.dims.dim2.title;📍 Dimension 2 (Sekundäre Ordnung);📍 Dimension 2 (Secondary Order)
+mod_cluster.dims.dim2.title;Dimension 2 (Sekundäre Ordnung);Dimension 2 (Secondary Order)
 mod_cluster.dims.dim2.region;Oft regional/funktional:;Often regional/functional:
 mod_cluster.dims.dim2.regionb;Räumliche oder stilistische Differenzierung;Spatial or stylistic differentiation
 mod_cluster.dims.dim2.comp;Ergänzt Dim 1:;Complements Dim 1:
 mod_cluster.dims.dim2.compb;Zeigt Nebenaspekte der Variation;Shows secondary aspects of variation
 mod_cluster.dims.dim2.cluster;2D-Clustering:;2D Clustering:
 mod_cluster.dims.dim2.clusterb;Klassischer Kompromiss - Zeit + zusätzliche Struktur;Classic compromise - time + additional structure
-mod_cluster.dims.higher.title;📍 Höhere Dimensionen (3-5);📍 Higher Dimensions (3-5)
+mod_cluster.dims.higher.title;Höhere Dimensionen (3-5);Higher Dimensions (3-5)
 mod_cluster.dims.higher.fine;Feinvarianten:;Fine variants:
 mod_cluster.dims.higher.fineb;Lokale Effekte, spezifische Merkmale;Local effects, specific features
 mod_cluster.dims.higher.var;Niedrigere Varianzerklärung:;Lower variance explanation:
 mod_cluster.dims.higher.varb;Oft gemischt mit Rauschen;Often mixed with noise
 mod_cluster.dims.higher.expl;Explorativ:;Exploratory:
 mod_cluster.dims.higher.explb;Sinnvoll für formale Typencluster, weniger für Phasen;Useful for formal type clusters, less for phases
-mod_cluster.dims.method.title;📊 Methodisch-statistische Aspekte;📊 Methodological-Statistical Aspects
+mod_cluster.dims.method.title;Methodisch-statistische Aspekte;Methodological-Statistical Aspects
 mod_cluster.dims.1d;1 Dimension:;1 Dimension:
 mod_cluster.dims.1d.item1;Cluster = Intervalle auf einer Achse (Abschnitte, Phasen);Clusters = intervals on one axis (segments, phases)
 mod_cluster.dims.1d.item2;Interpretierbar als serielle Abfolge;Interpretable as serial sequence
@@ -1400,21 +1400,21 @@ mod_cluster.dims.multi;Mehrere Dimensionen (3-5):;Multiple Dimensions (3-5):
 mod_cluster.dims.multi.item1;Abstände werden homogener (‚Fluch der Dimensionalität');Distances become more homogeneous ('curse of dimensionality')
 mod_cluster.dims.multi.item2;Cluster werden "kugelig", aber schwerer deutbar;Clusters become "spherical", but harder to interpret
 mod_cluster.dims.multi.item3;⚠️ Algorithmisch ok, interpretativ oft schlechter für Chronologie;⚠️ Algorithmically ok, often worse for chronology interpretation
-mod_cluster.dims.rec.title;🎯 Empfehlung: Wie wählen?;🎯 Recommendation: How to Choose?
+mod_cluster.dims.rec.title;Empfehlung: Wie wählen?;Recommendation: How to Choose?
 mod_cluster.dims.rec.time;Für zeitliche/serielle Gruppierung:;For temporal/serial grouping:
-mod_cluster.dims.rec.time1;🔵 1D (nur Dim 1): Phasen entlang Hauptgradient;🔵 1D (Dim 1 only): Phases along main gradient
-mod_cluster.dims.rec.time2;🔵 2D (Dim 1+2): Phasen + regionale/funktionale Differenzierung;🔵 2D (Dim 1+2): Phases + regional/functional differentiation
+mod_cluster.dims.rec.time1;1D (nur Dim 1): Phasen entlang Hauptgradient;1D (Dim 1 only): Phases along main gradient
+mod_cluster.dims.rec.time2;2D (Dim 1+2): Phasen + regionale/funktionale Differenzierung;2D (Dim 1+2): Phases + regional/functional differentiation
 mod_cluster.dims.rec.typo;Für typologische/formale Cluster:;For typological/formal clusters:
 mod_cluster.dims.rec.typo1;🟠 2-5D: Erfasst mehrere Aspekte der Formvariation;🟠 2-5D: Captures multiple aspects of form variation
 mod_cluster.dims.rec.expl;Für explorative Analyse:;For exploratory analysis:
 mod_cluster.dims.rec.expl1;🟡 Verschiedene Dimensionen testen und vergleichen;🟡 Test and compare different dimensions
-mod_cluster.dims.note;👉 Wichtig:;👉 Important:
+mod_cluster.dims.note;Wichtig:;Important:
 mod_cluster.dims.note.text;Mehr Dimensionen bedeuten nicht automatisch "bessere" Cluster, sondern andere Fragestellungen und Interpretationsebenen. Wählen Sie basierend auf Ihrer archäologischen Fragestellung.;More dimensions do not automatically mean "better" clusters, but different questions and interpretation levels. Choose based on your archaeological research question.
 
 # --- Auto-Cluster Modal ---
 mod_cluster.auto.info;ℹ️ Hinweis:;ℹ️ Note:
 mod_cluster.auto.calc.with;Berechnungen durchgeführt mit %s-Algorithmus.;Calculations performed with %s algorithm.
-mod_cluster.auto.silhouette.title;📊 Silhouette-Methode;📊 Silhouette Method
+mod_cluster.auto.silhouette.title;Silhouette-Methode;Silhouette Method
 mod_cluster.auto.what.measures;Was misst sie?;What does it measure?
 mod_cluster.auto.when.use;Wann verwenden?;When to use?
 mod_cluster.auto.silhouette.desc;Durchschnittliche Ähnlichkeit von Punkten innerhalb vs. zwischen Clustern.;Average similarity of points within vs. between clusters.
@@ -1424,16 +1424,16 @@ mod_cluster.auto.rank.2nd;2. Beste;2nd Best
 mod_cluster.auto.rank.3rd;3. Beste;3rd Best
 mod_cluster.auto.recommendation;Empfehlung:;Recommendation:
 mod_cluster.auto.clusters;%d Cluster;%d Clusters
-mod_cluster.auto.gap.title;📈 Gap-Statistik;📈 Gap Statistic
+mod_cluster.auto.gap.title;Gap-Statistik;Gap Statistic
 mod_cluster.auto.gap.desc;Vergleicht Within-Cluster-Dispersion mit Zufallsdaten (Bootstrap).;Compares within-cluster dispersion with random data (bootstrap).
 mod_cluster.auto.gap.when;Statistisch rigorose Wahl. Tibshirani et al. 2001.;Statistically rigorous choice. Tibshirani et al. 2001.
 mod_cluster.auto.gap.conservative;Konservativ (Standard);Conservative (Standard)
 mod_cluster.auto.gap.less.conservative;Weniger konservativ;Less conservative
-mod_cluster.auto.sqrt.title;📏 √(n/2)-Regel (Mardia et al. 1979);📏 √(n/2)-Rule (Mardia et al. 1979)
+mod_cluster.auto.sqrt.title;√(n/2)-Regel (Mardia et al. 1979);√(n/2)-Rule (Mardia et al. 1979)
 mod_cluster.auto.sqrt.what;Was ist das?;What is it?
 mod_cluster.auto.sqrt.desc;Heuristische Formel k ≈ √(n/2) basierend auf n=%d Datenpunkten.;Heuristic formula k ≈ √(n/2) based on n=%d data points.
 mod_cluster.auto.sqrt.when;Schnelle Erstorientierung ohne Berechnung. Nicht statistisch fundiert, aber praktisch für Startpunkt.;Quick first orientation without calculation. Not statistically founded, but practical as a starting point.
-mod_cluster.auto.help.title;💡 Wie sind die unterschiedlichen Cluster-Vorschläge zu verstehen?;💡 How to understand the different cluster suggestions?
+mod_cluster.auto.help.title;Wie sind die unterschiedlichen Cluster-Vorschläge zu verstehen?;How to understand the different cluster suggestions?
 mod_cluster.auto.help.intro;Die automatischen Methoden messen;The automatic methods measure
 mod_cluster.auto.help.intro2;unterschiedliche Aspekte von Struktur;different aspects of structure
 mod_cluster.auto.help.intro3;und liefern daher bewusst keine einheitliche Zahl:;and therefore intentionally do not provide a single number:
@@ -1507,7 +1507,7 @@ plot.chrono.ylab.time;Zeitindex (t_idx);Time Index (t_idx)
 
 # --- Chronology Curve UI ---
 mod_chrono.title;⏱️ Chronology Curve - Zentrales Prior-Interface;⏱️ Chronology Curve - Central Prior Interface
-mod_chrono.info.title;🎯 Wichtig:;🎯 Important:
+mod_chrono.info.title;Wichtig:;Important:
 mod_chrono.info.text;Dieses Modul bestimmt die chronologische Reihenfolge für <strong>OxCal</strong>.<br>Wählen Sie Methode und Richtung, dann klicken Sie <strong>'Berechnen'</strong>.;This module determines the chronological order for <strong>OxCal</strong>.<br>Select method and direction, then click <strong>'Calculate'</strong>.
 mod_chrono.method.label;Zeitindex-Berechnung:;Time index calculation:
 mod_chrono.method.tooltip;Dimension 1: Nutzt CA Dim1 (linear). Parabel: Bogenlänge auf quadratischer Kurve (klassische Seriation für Hufeisen-Muster).;Dimension 1: Uses CA Dim1 (linear). Parabola: Arc length on quadratic curve (classic seriation for horseshoe pattern).
@@ -1516,12 +1516,12 @@ mod_chrono.method.parabola;Parabel (Hufeisen);Parabola (Horseshoe)
 mod_chrono.loess.label;LOESS-Glättung aktivieren;Enable LOESS smoothing
 mod_chrono.loess.tooltip;Glättet Abstände zwischen Sites. Für OxCal (nur Reihenfolge) optional. Ohne LOESS: Rohe CA-Abstände werden verwendet.;Smooths distances between sites. Optional for OxCal (order only). Without LOESS: Raw CA distances are used.
 mod_chrono.loess.span;LOESS span:;LOESS span:
-mod_chrono.btn.calculate;🔄 Berechnen;🔄 Calculate
+mod_chrono.btn.calculate;Berechnen;Calculate
 mod_chrono.reverse.label;Richtung umkehren (Jung → Alt);Reverse direction (Young → Old)
 mod_chrono.reverse.tooltip;Standard: Links = Älteste, Rechts = Jüngste. Aktiviert: Links = Jüngste, Rechts = Älteste. Prüfen Sie im Plot, welche Richtung zu Ihren Daten passt.;Standard: Left = Oldest, Right = Youngest. Enabled: Left = Youngest, Right = Oldest. Check in the plot which direction fits your data.
 mod_chrono.auto.active;Richtung automatisch erkannt (¹⁴C-Daten). Checkbox wird ignoriert.;Direction auto-detected (¹⁴C data). Checkbox is ignored.
 mod_chrono.auto.inactive;Keine ¹⁴C-Daten verfügbar. Richtung manuell wählen.;No ¹⁴C data available. Select direction manually.
-mod_chrono.tip.title;💡 Tipp:;💡 Tip:
+mod_chrono.tip.title;Tipp:;Tip:
 mod_chrono.tip.text;Fahren Sie mit der Maus über die Punkte im Plot, um die Site-Namen zu sehen. Prüfen Sie, ob die Reihenfolge (älteste → jüngste) zu Ihren archäologischen Erwartungen passt. Falls nicht: <em>Richtung umkehren</em> aktivieren.;Hover over the points in the plot to see site names. Check if the order (oldest → youngest) matches your archaeological expectations. If not: enable <em>Reverse direction</em>.
 mod_chrono.source;Quelle: CA-Site-Scores aus mod_correspondence_analysis.R;Source: CA site scores from mod_correspondence_analysis.R
 
@@ -1554,7 +1554,7 @@ notify.chrono.loess.error;LOESS-Fehler:;LOESS error:
 # --- CA / Correspondence Analysis ---
 plot.ca.error;Fehler:;Error:
 plot.ca.title;SeriARC Korrespondenzanalyse;SeriARC Correspondence Analysis
-plot.ca.subtitle;📊 Inertia-basierte Profilanalyse (Chi²-Distanzen);📊 Inertia-based Profile Analysis (Chi² Distances)
+plot.ca.subtitle;Inertia-basierte Profilanalyse (Chi²-Distanzen);Inertia-based Profile Analysis (Chi² Distances)
 plot.ca.legend.sites;Sites;Sites
 plot.ca.legend.types;Types;Types
 plot.ca.legend.supplementary;Supplementary;Supplementary
@@ -1574,21 +1574,21 @@ plot.ca.cos2.yaxis;Cos² (Qualität);Cos² (Quality)
 plot.ca.cos2.upper.quartile;Oberes Quartil;Upper Quartile
 plot.ca.cos2.median;Median;Median
 plot.ca.cos2.lower.quartile;Unteres Quartil;Lower Quartile
-plot.ca.confidence.ellipse;🔵 Konfidenzellipse (95%);🔵 Confidence Ellipse (95%)
-plot.ca.centroid;📍 Schwerpunkt:;📍 Centroid:
+plot.ca.confidence.ellipse;Konfidenzellipse (95%);Confidence Ellipse (95%)
+plot.ca.centroid;Schwerpunkt:;Centroid:
 plot.ca.ellipse;Ellipse;Ellipse
 plot.ca.xaxis.tooltip;Hauptkomponente (Eigenvektor) mit höchster Varianzaufklärung;Principal component (eigenvector) with highest variance explained
 plot.ca.yaxis.tooltip;Zweite Hauptkomponente - orthogonal zur ersten;Second principal component - orthogonal to the first
 
 # --- Notifications / Errors ---
 notify.ca.error;⚠ CA Fehler:;⚠ CA Error:
-notify.export.html;🌐 HTML Export wird erstellt...;🌐 Creating HTML export...
+notify.export.html;HTML Export wird erstellt...;Creating HTML export...
 notify.export.html.success;✅ HTML Export abgeschlossen!;✅ HTML export completed!
 notify.export.html.error;⚠ HTML Export Fehler:;⚠ HTML export error:
-notify.export.excel;📋 Excel Export wird erstellt...;📋 Creating Excel export...
+notify.export.excel;Excel Export wird erstellt...;Creating Excel export...
 notify.export.excel.success;✅ Excel Export abgeschlossen!;✅ Excel export completed!
 notify.export.excel.error;⚠ Excel Export Fehler:;⚠ Excel export error:
-notify.export.csv;📄 CSV Export wird erstellt...;📄 Creating CSV export...
+notify.export.csv;CSV Export wird erstellt...;Creating CSV export...
 notify.export.csv.success;✅ CSV Export abgeschlossen!;✅ CSV export completed!
 notify.export.csv.error;⚠ CSV Export Fehler:;⚠ CSV export error:
 
@@ -1631,8 +1631,8 @@ bootstrap.table.caption;Bootstrap-Stabilität (%d Iter., %g%% Region, %s);Bootst
 bootstrap.critical.no.data;Keine Daten verfügbar;No data available
 bootstrap.critical.no.stability;⚠️ Keine validen Stabilitätsdaten;⚠️ No valid stability data
 bootstrap.critical.no.contrib;⚠️ Keine Elemente mit Contribution + Stabilität;⚠️ No elements with contribution + stability
-bootstrap.critical.caption.instab;🔥 Top-10 Instabile Elemente (Contribution nicht verfügbar);🔥 Top-10 Unstable Elements (Contribution unavailable)
-bootstrap.critical.caption;🔥 Top-10 Kritische;🔥 Top-10 Critical
+bootstrap.critical.caption.instab;Top-10 Instabile Elemente (Contribution nicht verfügbar);Top-10 Unstable Elements (Contribution unavailable)
+bootstrap.critical.caption;Top-10 Kritische;Top-10 Critical
 bootstrap.critical.rank;Rang;Rank
 bootstrap.critical.instab;Instab;Instab
 bootstrap.critical.contr;Contr;Contr
@@ -1697,15 +1697,15 @@ seriation.overlay.mode.both;Sites + Types;Sites + Types
 seriation.overlay.mode.none;Keine;None
 seriation.overlay.debug;Stil: %s | Achsen: %s | Transparenz: %.0f%%\nSites: %d | Types: %d | Farben: %d;Style: %s | Axes: %s | Transparency: %.0f%%\nSites: %d | Types: %d | Colors: %d
 seriation.overlay.cluster.info;\n\n🎯 CLUSTER-OVERLAYS:\nStil: %s | Achsen: %s | Transparenz: %.0f%%;\n\n🎯 CLUSTER OVERLAYS:\nStyle: %s | Axes: %s | Transparency: %.0f%%
-seriation.order.format;🏛️ CHRONOLOGISCHE SITES REIHENFOLGE (%d Sites):\n%s\n\n🔧 TYPOLOGISCHE REIHENFOLGE (%d Types):\n%s\n\n🔬 Seriationsmethode: %s\n📊 Transformation: %s%s\n\n✅ Nach Goldmann (1972) & Ihm (1983);🏛️ CHRONOLOGICAL SITE ORDER (%d Sites):\n%s\n\n🔧 TYPOLOGICAL ORDER (%d Types):\n%s\n\n🔬 Seriation Method: %s\n📊 Transformation: %s%s\n\n✅ Following Goldmann (1972) & Ihm (1983)
-seriation.quality.excellent;🔵 Exzellent (>15%);🔵 Excellent (>15%)
+seriation.order.format;CHRONOLOGISCHE SITES REIHENFOLGE (%d Sites):\n%s\n\n🔧 TYPOLOGISCHE REIHENFOLGE (%d Types):\n%s\n\n🔬 Seriationsmethode: %s\n📊 Transformation: %s%s\n\n✅ Nach Goldmann (1972) & Ihm (1983);CHRONOLOGICAL SITE ORDER (%d Sites):\n%s\n\n🔧 TYPOLOGICAL ORDER (%d Types):\n%s\n\n🔬 Seriation Method: %s\n📊 Transformation: %s%s\n\n✅ Following Goldmann (1972) & Ihm (1983)
+seriation.quality.excellent;Exzellent (>15%);Excellent (>15%)
 seriation.quality.verygood;🟢 Sehr gut (10-15%);🟢 Very good (10-15%)
 seriation.quality.good;🟡 Gut (5-10%);🟡 Good (5-10%)
 seriation.quality.acceptable;🟠 Ausreichend (2-5%);🟠 Acceptable (2-5%)
 seriation.quality.weak;🔴 Schwach (<2%);🔴 Weak (<2%)
 seriation.overlay.status.active;\n🎯 Cluster-Overlays: %s (nur Ford-Diagramm);\n🎯 Cluster Overlays: %s (Ford diagram only)
 seriation.overlay.status.disabled;\nℹ️ Cluster-Overlays: Deaktiviert;\nℹ️ Cluster Overlays: Disabled
-seriation.metrics.format;📈 SeriARC QUALITÄTSMETRIKEN:\n\n🔬 Algorithmus: %s\n📊 Transformation: %s\n\n📋 MATRIX:\n• Sites: %d\n• Types: %d\n• Gefüllte Zellen: %d/%d (%.1f%%)\n\n🎯 QUALITÄT: %s%s\n\n✅ Wissenschaftliche Grundlage: Goldmann (1972), Ihm (1983);📈 SeriARC QUALITY METRICS:\n\n🔬 Algorithm: %s\n📊 Transformation: %s\n\n📋 MATRIX:\n• Sites: %d\n• Types: %d\n• Filled cells: %d/%d (%.1f%%)\n\n🎯 QUALITY: %s%s\n\n✅ Scientific basis: Goldmann (1972), Ihm (1983)
+seriation.metrics.format;SeriARC QUALITÄTSMETRIKEN:\n\n🔬 Algorithmus: %s\n📊 Transformation: %s\n\n📋 MATRIX:\n• Sites: %d\n• Types: %d\n• Gefüllte Zellen: %d/%d (%.1f%%)\n\n🎯 QUALITÄT: %s%s\n\n✅ Wissenschaftliche Grundlage: Goldmann (1972), Ihm (1983);SeriARC QUALITY METRICS:\n\n🔬 Algorithm: %s\n📊 Transformation: %s\n\n📋 MATRIX:\n• Sites: %d\n• Types: %d\n• Filled cells: %d/%d (%.1f%%)\n\n🎯 QUALITY: %s%s\n\n✅ Scientific basis: Goldmann (1972), Ihm (1983)
 
 # =====================================================
 # BATTLESHIP MODULE - validate/notify messages
@@ -1722,23 +1722,23 @@ battleship.types.label;Types (Seriation-Reihenfolge):;Types (Seriation order):
 battleship.btn.all;Alle;All
 battleship.btn.none;Keine;None
 battleship.modal.title;ℹ️ Battleship Curves - Wissenschaftlicher Hintergrund;ℹ️ Battleship Curves - Scientific Background
-battleship.modal.theory.title;📚 Theoretische Basis (Ihm 1983):;📚 Theoretical Basis (Ihm 1983):
+battleship.modal.theory.title;Theoretische Basis (Ihm 1983):;Theoretical Basis (Ihm 1983):
 battleship.modal.theory.text;Battleship-Kurven visualisieren chronologische Entwicklungen von Artefakttypen.;Battleship curves visualize chronological developments of artifact types.
-battleship.modal.metaphor.title;🚢 Battleship-Metapher:;🚢 Battleship Metaphor:
+battleship.modal.metaphor.title;Battleship-Metapher:;Battleship Metaphor:
 battleship.modal.metaphor.rise;Aufstieg:;Rise:
 battleship.modal.metaphor.rise.text;Einführung des Typs;Introduction of the type
 battleship.modal.metaphor.max;Maximum:;Maximum:
 battleship.modal.metaphor.max.text;Häufigste Verwendung;Most frequent use
 battleship.modal.metaphor.decline;Abstieg:;Decline:
 battleship.modal.metaphor.decline.text;Auslaufen des Typs;Phasing out of the type
-battleship.modal.interpretation.title;🔍 Interpretation:;🔍 Interpretation:
+battleship.modal.interpretation.title;Interpretation:;Interpretation:
 battleship.modal.interpretation.width;Breite:;Width:
 battleship.modal.interpretation.width.text;Häufigkeit;Frequency
 battleship.modal.interpretation.position;Position:;Position:
 battleship.modal.interpretation.position.text;Chronologie (Seriation);Chronology (Seriation)
 battleship.modal.interpretation.overlap;Überlappungen:;Overlaps:
 battleship.modal.interpretation.overlap.text;Gleichzeitige Verwendung;Simultaneous use
-battleship.modal.application.title;🏛️ Anwendung (Siegmund 2015):;🏛️ Application (Siegmund 2015):
+battleship.modal.application.title;Anwendung (Siegmund 2015):;Application (Siegmund 2015):
 battleship.modal.application.text;Keramik-, Fibel- und Münzchronologien in der Seriation.;Ceramic, fibula and coin chronologies in seriation.
 battleship.modal.btn.ok;Verstanden;Understood
 battleship.description;Battleship Curves zeigen chronologische Entwicklung von Artefakttypen.;Battleship Curves show chronological development of artifact types.
@@ -1760,16 +1760,16 @@ validate.ca.no.eigenvalues;Keine Eigenwerte verfügbar;No eigenvalues available
 notify.ca.no.outliers;⚠️ Keine Outlier ausgewählt!;⚠️ No outliers selected!
 notify.ca.outliers.excluded;✅ %d Outlier ausgeschlossen. Klicken Sie '📊 CA berechnen' für Neuberechnung!;✅ %d outliers excluded. Click '📊 Calculate CA' to recalculate!
 notify.ca.outliers.selected;✅ %d Outlier ausgewählt!;✅ %d outliers selected!
-notify.ca.outlier.detection;🔍 Outlier-Detection läuft...;🔍 Running outlier detection...
-notify.ca.robust.detection;🎯 Robuste Outlier-Detection läuft... (4 Dimensionen);🎯 Running robust outlier detection... (4 dimensions)
+notify.ca.outlier.detection;Outlier-Detection läuft...;Running outlier detection...
+notify.ca.robust.detection;Robuste Outlier-Detection läuft... (4 Dimensionen);Running robust outlier detection... (4 dimensions)
 notify.ca.excel.complete;✅ Excel Export abgeschlossen: Alle Dimensionen für Sites & Types!;✅ Excel export completed: All dimensions for Sites & Types!
 ca.outlier.click.detect;ℹ️ Klicken Sie '🔄 Outlier neu erkennen' um die Analyse zu starten.\n\n👉 Wählen Sie zuerst Methode und Dimensionen, dann Button klicken.\n\n🎯 Tipp: Wählen Sie '🎯 Robust (alle Kombinationen)' um automatisch alle Dimensionen zu prüfen!;ℹ️ Click '🔄 Detect Outliers' to start the analysis.\n\n👉 First select method and dimensions, then click the button.\n\n🎯 Tip: Select '🎯 Robust (all combinations)' to automatically check all dimensions!
-ca.outlier.restored;♻️ Outlier-Ausschlüsse zurückgenommen!\n\nKlicken Sie '📊 CA berechnen' um neu zu berechnen.;♻️ Outlier exclusions restored!\n\nClick '📊 Calculate CA' to recalculate.
+ca.outlier.restored;Outlier-Ausschlüsse zurückgenommen!\n\nKlicken Sie '📊 CA berechnen' um neu zu berechnen.;Outlier exclusions restored!\n\nClick '📊 Calculate CA' to recalculate.
 ca.progress.running;CA durchführen...;Running CA...
 ca.grouping.unavailable;⚠️ Keine Gruppierung verfügbar.\n\nBitte aktivieren Sie 'Nach Gruppen färben' im CA-Biplot.;⚠️ No grouping available.\n\nPlease enable 'Color by groups' in the CA biplot.
 ca.btn.close;Schließen;Close
-ca.btn.select.all;☑️ Alle auswählen;☑️ Select all
-ca.btn.deselect.all;☐ Alle abwählen;☐ Deselect all
+ca.btn.select.all;Alle auswählen;Select all
+ca.btn.deselect.all;Alle abwählen;Deselect all
 
 # =====================================================
 # C14 MODULES - validate/notify messages
@@ -1796,7 +1796,7 @@ typenkartierung.select.types;Typen auswählen (max. 10);Select types (max. 10)
 typenkartierung.no.types.selected;Keine Typen ausgewählt;No types selected
 typenkartierung.too.many.types;⚠️ Zu viele Typen! Maximum: 10, ausgewählt:;⚠️ Too many types! Maximum: 10, selected:
 typenkartierung.types.selected;✅ %d von maximal 10 Typen ausgewählt;✅ %d of max. 10 types selected
-typenkartierung.type.selection.title;🎯 Typ-Auswahl (Artefakt-Verteilung):;🎯 Type Selection (Artifact Distribution):
+typenkartierung.type.selection.title;Typ-Auswahl (Artefakt-Verteilung):;Type Selection (Artifact Distribution):
 typenkartierung.btn.all;Alle;All
 typenkartierung.btn.none;Keine;None
 typenkartierung.btn.top5;Top 5;Top 5
@@ -1824,10 +1824,10 @@ export.run.seriation;Seriation durchführen;Run seriation
 # =====================================================
 # KMEANS/CLUSTERING MODULE
 # =====================================================
-notify.cluster.names.reset;⚙️ Cluster-Namen zurückgesetzt;⚙️ Cluster names reset
-notify.cluster.name.updated;✓ Cluster %d umbenannt zu "%s";✓ Cluster %d renamed to "%s"
+notify.cluster.names.reset;Cluster-Namen zurückgesetzt;Cluster names reset
+notify.cluster.name.updated;Cluster %d umbenannt zu "%s";Cluster %d renamed to "%s"
 mod_cluster.name.hint;Mit Enter bestätigen;Confirm with Enter
-cluster.auto.calculating;🤖 Berechne optimale Cluster-Anzahl für %s... (10-30 Sek.);🤖 Calculating optimal cluster count for %s... (10-30 sec.)
+cluster.auto.calculating;Berechne optimale Cluster-Anzahl für %s... (10-30 Sek.);Calculating optimal cluster count for %s... (10-30 sec.)
 cluster.no.data;Keine Cluster-Daten verfügbar.;No cluster data available.
 cluster.types.analysis.unavailable;Keine Typen-Analyse verfügbar (nur bei Sites-Clustering möglich, um Type-Häufigkeiten pro Cluster zu summieren).;No types analysis available (only possible with Sites clustering to sum type frequencies per cluster).
 cluster.no.types.with.frequency;Keine Typen mit Häufigkeit > 0;No types with frequency > 0
@@ -1973,19 +1973,19 @@ validate.ca.min.sites;⚠ Mindestens 2 aktive Sites erforderlich!;⚠ At least 2
 validate.ca.min.types;⚠ Mindestens 2 aktive Types erforderlich!;⚠ At least 2 active types required!
 
 # CA Cos² Quality Info Box
-ca.cos2.info.title;💡 INTERPRETATION DER QUARTIL-LINIEN:;💡 INTERPRETING THE QUARTILE LINES:
+ca.cos2.info.title;INTERPRETATION DER QUARTIL-LINIEN:;INTERPRETING THE QUARTILE LINES:
 ca.cos2.info.important;⚠️ Wichtig:;⚠️ Important:
 ca.cos2.info.no.thresholds;In der CA-Literatur gibt es;In CA literature, there are
 ca.cos2.info.no.absolute;KEINE etablierten absoluten Schwellenwerte;NO established absolute thresholds
 ca.cos2.info.for.cos2;für Cos²!;for Cos²!
-ca.cos2.info.quartiles.title;📊 Datenspezifische Quartile:;📊 Data-specific Quartiles:
+ca.cos2.info.quartiles.title;Datenspezifische Quartile:;Data-specific Quartiles:
 ca.cos2.info.upper.quartile;Oberes Quartil (75%):;Upper Quartile (75%):
 ca.cos2.info.upper.desc;Die besten 25% in diesem Datensatz;The best 25% in this dataset
 ca.cos2.info.median;Median (50%):;Median (50%):
 ca.cos2.info.median.desc;Typische Repräsentationsqualität für diesen Datensatz;Typical representation quality for this dataset
 ca.cos2.info.lower.quartile;Unteres Quartil (25%):;Lower Quartile (25%):
 ca.cos2.info.lower.desc;Die schwächsten 25% in diesem Datensatz;The weakest 25% in this dataset
-ca.cos2.info.science.title;🔬 Wissenschaftlicher Hintergrund:;🔬 Scientific Background:
+ca.cos2.info.science.title;Wissenschaftlicher Hintergrund:;Scientific Background:
 ca.cos2.info.science.text1;In archäologischen CA-Analysen sind niedrige Cos²-Werte (0.2-0.5);In archaeological CA analyses, low Cos² values (0.2-0.5) are
 ca.cos2.info.science.normal;völlig normal;completely normal
 ca.cos2.info.science.text2;, da die Struktur über viele Dimensionen verteilt ist.;, as the structure is distributed across many dimensions.
@@ -1993,7 +1993,7 @@ ca.cos2.info.recommendation;✅ Empfehlung:;✅ Recommendation:
 ca.cos2.info.recommend.text;Interpretieren Sie Cos²-Werte;Interpret Cos² values
 ca.cos2.info.recommend.relative;relativ;relatively
 ca.cos2.info.recommend.within;innerhalb Ihres Datensatzes, nicht absolut!;within your dataset, not absolutely!
-ca.cos2.info.sources;📚 Quellen:;📚 Sources:
+ca.cos2.info.sources;Quellen:;Sources:
 ca.cos2.info.benzecri;Contribution > Cos² als Qualitätskriterium;Contribution > Cos² as quality criterion
 
 # Eigenvalues Table & Statistics
@@ -2001,7 +2001,7 @@ ca.eigen.col.dimension;Dimension;Dimension
 ca.eigen.col.eigenvalue;Eigenwert;Eigenvalue
 ca.eigen.col.variance;Varianz (%);Variance (%)
 ca.eigen.col.cumulative;Kumuliert (%);Cumulative (%)
-ca.eigen.stats.format;📊 VARIANZAUFKLÄRUNG (Inertia):\n• Dimension 1: %.1f%%\n• Dimension 2: %.1f%%\n• Kumuliert (2D): %.1f%%\n\n📈 EIGENSCHAFTEN:\n• Gesamtträgheit: %.4f\n• Dimensionen: %d\n\nℹ️ Bei archäologischen Seriationen ist eine Parabel/Hufeisen-Form wichtiger als hohe Varianzwerte.\n\n📚 Quelle: Greenacre (2007), Baxter (1994);📊 VARIANCE EXPLAINED (Inertia):\n• Dimension 1: %.1f%%\n• Dimension 2: %.1f%%\n• Cumulative (2D): %.1f%%\n\n📈 PROPERTIES:\n• Total Inertia: %.4f\n• Dimensions: %d\n\nℹ️ In archaeological seriations, a parabola/horseshoe shape is more important than high variance values.\n\n📚 Source: Greenacre (2007), Baxter (1994)
+ca.eigen.stats.format;VARIANZAUFKLÄRUNG (Inertia):\n• Dimension 1: %.1f%%\n• Dimension 2: %.1f%%\n• Kumuliert (2D): %.1f%%\n\n📈 EIGENSCHAFTEN:\n• Gesamtträgheit: %.4f\n• Dimensionen: %d\n\nℹ️ Bei archäologischen Seriationen ist eine Parabel/Hufeisen-Form wichtiger als hohe Varianzwerte.\n\n📚 Quelle: Greenacre (2007), Baxter (1994);VARIANCE EXPLAINED (Inertia):\n• Dimension 1: %.1f%%\n• Dimension 2: %.1f%%\n• Cumulative (2D): %.1f%%\n\n📈 PROPERTIES:\n• Total Inertia: %.4f\n• Dimensions: %d\n\nℹ️ In archaeological seriations, a parabola/horseshoe shape is more important than high variance values.\n\n📚 Source: Greenacre (2007), Baxter (1994)
 
 # Malinvaud Test Table
 ca.malinvaud.col.dimension;Dimension;Dimension
@@ -2017,7 +2017,7 @@ ca.malinvaud.warning.title;⚠️ WARNUNG - Sample Size Problem erkannt!;⚠️ 
 ca.malinvaud.warning.text;%d von %d Dimensionen sind signifikant (%.0f%%) bei n=%s Fundstücken.;%d of %d dimensions are significant (%.0f%%) with n=%s artifacts.
 ca.malinvaud.warning.meaning;Dies bedeutet NICHT dass alle diese Dimensionen wichtig sind!;This does NOT mean that all these dimensions are important!
 ca.malinvaud.warning.explanation;Bei großen Datensätzen werden fast alle Dimensionen statistisch signifikant, selbst wenn sie kaum Varianz erklären.;With large datasets, almost all dimensions become statistically significant, even if they explain little variance.
-ca.malinvaud.warning.recommendation;🎯 Empfehlung:;🎯 Recommendation:
+ca.malinvaud.warning.recommendation;Empfehlung:;Recommendation:
 ca.malinvaud.warning.use.scree;Nutze den;Use the
 ca.malinvaud.warning.scree.plot;Scree-Plot oben;Scree plot above
 ca.malinvaud.warning.interpret;zur Dimensionswahl. Interpretiere nur Dimensionen VOR dem Ellbogen (typisch: Dim1-3).;for dimension selection. Only interpret dimensions BEFORE the elbow (typically: Dim1-3).
@@ -2028,7 +2028,7 @@ ca.malinvaud.small.meaningful;aussagekräftiger;more meaningful
 ca.malinvaud.small.caution;Nicht-signifikante Dimensionen (n.s.) sollten mit Vorsicht interpretiert werden.;Non-significant dimensions (n.s.) should be interpreted with caution.
 
 # 3D-CA Module
-3d.dim.select.title;🔍 Dimensionsauswahl;🔍 Dimension Selection
+3d.dim.select.title;Dimensionsauswahl;Dimension Selection
 3d.axis.x;X-Achse:;X-Axis:
 3d.axis.y;Y-Achse:;Y-Axis:
 3d.axis.z;Z-Achse:;Z-Axis:
@@ -2037,29 +2037,29 @@ ca.malinvaud.small.caution;Nicht-signifikante Dimensionen (n.s.) sollten mit Vor
 3d.legend.type.active;Type (aktiv);Type (active)
 3d.legend.type.suppl;Type (suppl.);Type (suppl.)
 3d.modal.title;ℹ️ 3D-Korrespondenzanalyse - Wissenschaftlicher Hintergrund;ℹ️ 3D Correspondence Analysis - Scientific Background
-3d.modal.theory.title;📚 Theoretische Basis (Greenacre 2007):;📚 Theoretical Basis (Greenacre 2007):
+3d.modal.theory.title;Theoretische Basis (Greenacre 2007):;Theoretical Basis (Greenacre 2007):
 3d.modal.theory.text;3D-Erweiterung der CA für simultane Visualisierung dreier Hauptdimensionen der Datenvarianz.;3D extension of CA for simultaneous visualization of three main dimensions of data variance.
-3d.modal.interpretation.title;🔍 Interpretation:;🔍 Interpretation:
+3d.modal.interpretation.title;Interpretation:;Interpretation:
 3d.modal.interpretation.dims;Dimensionsauswahl:;Dimension selection:
 3d.modal.interpretation.dims.text;Informativste Dimensionen nach erklärter Varianz;Most informative dimensions by explained variance
 3d.modal.interpretation.chi2;Chi²-Distanzen:;Chi² distances:
 3d.modal.interpretation.chi2.text;Geometrische Abstände = statistische Assoziationen;Geometric distances = statistical associations
 3d.modal.interpretation.ellipsoids;Ellipsoide:;Ellipsoids:
 3d.modal.interpretation.ellipsoids.text;95%-Konfidenzintervalle für Cluster-Stabilität;95% confidence intervals for cluster stability
-3d.modal.arch.title;🏛️ Archäologische Anwendung (Siegmund 2020):;🏛️ Archaeological Application (Siegmund 2020):
+3d.modal.arch.title;Archäologische Anwendung (Siegmund 2020):;Archaeological Application (Siegmund 2020):
 3d.modal.arch.text;Komplexe chronologische und kulturelle Muster in multivariater Seriation.;Complex chronological and cultural patterns in multivariate seriation.
 3d.modal.btn.ok;Verstanden;Understood
 3d.hover.type;Typ;Type
 3d.hover.contrib;Beitrag;Contribution
-3d.progress;🎯 3D-Visualisierung...;🎯 3D visualization...
+3d.progress;3D-Visualisierung...;3D visualization...
 3d.progress.ellipsoids;Ellipsoide...;Ellipsoids...
 3d.ellipsoid.status.on;✅ An;✅ On
 3d.ellipsoid.status.off;❌ Aus;❌ Off
-3d.stats.variance;📊 Varianz;📊 Variance
-3d.stats.points;📈 Punkte;📈 Points
+3d.stats.variance;Varianz;Variance
+3d.stats.points;Punkte;Points
 3d.stats.active;aktiv;active
 3d.stats.suppl;suppl.;suppl.
-3d.stats.ellipsoids;🔵 Ellipsoide;🔵 Ellipsoids
+3d.stats.ellipsoids;Ellipsoide;Ellipsoids
 3d.eigen.col.dimension;Dimension;Dimension
 3d.eigen.col.eigenvalue;Eigenwert;Eigenvalue
 3d.eigen.col.variance;Varianz;Variance
@@ -2074,7 +2074,7 @@ ca.malinvaud.small.caution;Nicht-signifikante Dimensionen (n.s.) sollten mit Vor
 kmeans.notify.success;✅ %s Clustering: %d aktive Punkte geclustert, %d supplementary projiziert!;✅ %s Clustering: %d active points clustered, %d supplementary projected!
 kmeans.notify.error;⚠ Clustering Fehler:;⚠ Clustering error:
 kmeans.plot.title;SeriARC K-Means Clustering;SeriARC K-Means Clustering
-kmeans.quality.title;📊 STRUKTURMASSE (%s):;📊 STRUCTURE METRICS (%s):
+kmeans.quality.title;STRUKTURMASSE (%s):;STRUCTURE METRICS (%s):
 kmeans.quality.silhouette.high;🟢 Hoch;🟢 High
 kmeans.quality.silhouette.moderate;🟡 Moderat;🟡 Moderate
 kmeans.quality.silhouette.low;🟠 Niedrig;🟠 Low
@@ -2088,23 +2088,23 @@ kmeans.quality.davies.na;Davies-Bouldin: N/A;Davies-Bouldin: N/A
 kmeans.quality.variance.label;Erklärte Streuung: %s%% (%s);Explained variance: %s%% (%s)
 kmeans.quality.wss;Within-Cluster SS: %.2f;Within-Cluster SS: %.2f
 kmeans.quality.bss;Between-Cluster SS: %.2f;Between-Cluster SS: %.2f
-kmeans.quality.datapoints;🎯 DATENPUNKTE:;🎯 DATA POINTS:
+kmeans.quality.datapoints;DATENPUNKTE:;DATA POINTS:
 kmeans.quality.active;Aktive: %d;Active: %d
 kmeans.quality.suppl;Supplementary: %d;Supplementary: %d
-kmeans.quality.dims;📐 Dimensionen: %dD | Methode: %s;📐 Dimensions: %dD | Method: %s
-kmeans.quality.seed;🎲 Seed: 123 (fest);🎲 Seed: 123 (fixed)
+kmeans.quality.dims;Dimensionen: %dD | Methode: %s;Dimensions: %dD | Method: %s
+kmeans.quality.seed;Seed: 123 (fest);Seed: 123 (fixed)
 kmeans.quality.cophenetic;Cophenetic Corr.: %.3f (%s, höher = besser);Cophenetic Corr.: %.3f (%s, higher = better)
 kmeans.quality.dunn;Dunn's Coeff.: %.3f (%s, höher = schärfer);Dunn's Coeff.: %.3f (%s, higher = sharper)
 kmeans.quality.sharp;🟢 Scharf;🟢 Sharp
 kmeans.quality.fuzzy;🟠 Fuzzy;🟠 Fuzzy
-kmeans.quality.fuzziness;🎛️ Fuzziness m: %.1f;🎛️ Fuzziness m: %.1f
+kmeans.quality.fuzziness;Fuzziness m: %.1f;Fuzziness m: %.1f
 kmeans.quality.bic;BIC: %.1f (höher = besser, mclust-Konvention);BIC: %.1f (higher = better, mclust convention)
 kmeans.quality.loglik;Log-Likelihood: %.1f (höher = besser);Log-Likelihood: %.1f (higher = better)
-kmeans.quality.covariance;📊 Kovarianz: %s;📊 Covariance: %s
-kmeans.quality.linkage;🌳 Linkage: %s;🌳 Linkage: %s
-kmeans.quality.pam.medoids;🎯 Medoide: %d reale Datenpunkte als Cluster-Zentren (χ²-konsistenter);🎯 Medoids: %d real data points as cluster centers (more χ²-consistent)
+kmeans.quality.covariance;Kovarianz: %s;Covariance: %s
+kmeans.quality.linkage;Linkage: %s;Linkage: %s
+kmeans.quality.pam.medoids;Medoide: %d reale Datenpunkte als Cluster-Zentren (χ²-konsistenter);Medoids: %d real data points as cluster centers (more χ²-consistent)
 kmeans.quality.note;⚠️ Hinweis: Diese Metriken messen Cluster-Kompaktheit, nicht archäologische Validität.;⚠️ Note: These metrics measure cluster compactness, not archaeological validity.
-kmeans.quality.complete;🏛️ SeriARC Clustering vollständig;🏛️ SeriARC Clustering complete
+kmeans.quality.complete;SeriARC Clustering vollständig;SeriARC Clustering complete
 kmeans.method.kmeans;K-Means;K-Means
 kmeans.method.hierarchical;Hierarchisch;Hierarchical
 kmeans.method.pam;PAM (Medoids);PAM (Medoids)
@@ -2118,69 +2118,69 @@ kmeans.dendro.packages.required;Dendrogramm benötigt 'ggdendro' und 'dendextend
 kmeans.dendro.error;Fehler beim Erstellen des Dendrogramms:\n%s;Error creating dendrogram:\n%s
 
 # K-Means Characterization Tab
-kmeans.char.mode.direct;🎯 Modus: Direkte Zuordnung;🎯 Mode: Direct Assignment
+kmeans.char.mode.direct;Modus: Direkte Zuordnung;Mode: Direct Assignment
 kmeans.char.mode.direct.active;(aktiv bei 'Beide (Sites + Types)');(active with 'Both (Sites + Types)')
 kmeans.char.mode.direct.desc;Types, die im CA-Raum direkt in diesen Cluster fallen, sortiert nach Gesamthäufigkeit.;Types that fall directly into this cluster in CA space, sorted by total frequency.
 kmeans.char.mode.direct.bold;Fett;Bold
 kmeans.char.mode.direct.top5;= Top 5 häufigste Typen;= Top 5 most frequent types
-kmeans.char.mode.direct.hint;💡 Für Häufigkeits-basierte Analyse (welche Typen in den Sites eines Clusters vorkommen): Wähle 'Nur Sites' und berechne neu.;💡 For frequency-based analysis (which types occur in sites of a cluster): Select 'Sites only' and recalculate.
+kmeans.char.mode.direct.hint;Für Häufigkeits-basierte Analyse (welche Typen in den Sites eines Clusters vorkommen): Wähle 'Nur Sites' und berechne neu.;For frequency-based analysis (which types occur in sites of a cluster): Select 'Sites only' and recalculate.
 kmeans.char.no.types;Keine Types in diesem Cluster;No types in this cluster
 kmeans.char.types.count;%d Types, Gesamt n=%d;%d types, total n=%d
 kmeans.char.types.count.simple;%d Types;%d types
-kmeans.char.mode.spectrum;📋 Modus: Typen-Spektrum;📋 Mode: Type Spectrum
+kmeans.char.mode.spectrum;Modus: Typen-Spektrum;Mode: Type Spectrum
 kmeans.char.mode.spectrum.active;(aktiv bei 'Nur Sites');(active with 'Sites only')
 kmeans.char.mode.spectrum.desc;Alle Typen pro Cluster, sortiert nach Häufigkeit (summiert über alle Sites im Cluster).;All types per cluster, sorted by frequency (summed across all sites in cluster).
 kmeans.char.mode.spectrum.legend;= Top 5 häufigste Typen &nbsp;|&nbsp; <span style='color:#c0392b;'>Rot</span> = Exklusiv (nur in diesem Cluster);= Top 5 most frequent types &nbsp;|&nbsp; <span style='color:#c0392b;'>Red</span> = Exclusive (only in this cluster)
-kmeans.char.mode.spectrum.hint;💡 Für direkte Typ-Zuordnung im CA-Raum: Wähle 'Beide (Sites + Types)' und berechne neu.;💡 For direct type assignment in CA space: Select 'Both (Sites + Types)' and recalculate.
+kmeans.char.mode.spectrum.hint;Für direkte Typ-Zuordnung im CA-Raum: Wähle 'Beide (Sites + Types)' und berechne neu.;For direct type assignment in CA space: Select 'Both (Sites + Types)' and recalculate.
 kmeans.char.no.finds;Keine Funde in diesem Cluster;No finds in this cluster
 kmeans.char.no.types.freq;Keine Typen mit Häufigkeit > 0;No types with frequency > 0
 kmeans.char.total;Gesamt: %d Funde, %d Typen;Total: %d finds, %d types
 kmeans.char.warning;⚠️ Warnung:;⚠️ Warning:
 kmeans.char.mismatch;Cluster-Charakterisierung wurde für %.0f Cluster berechnet, aber aktuell sind %.0f Cluster gewählt. Bitte Clustering neu berechnen.;Cluster characterization was calculated for %.0f clusters, but currently %.0f clusters are selected. Please recalculate clustering.
 kmeans.table.caption;SeriARC K-Means Cluster Zuordnungen;SeriARC K-Means Cluster Assignments
-c14.calib.title;📅 14C-Kalibrierung;📅 14C Calibration
+c14.calib.title;14C-Kalibrierung;14C Calibration
 c14.calib.tooltip;Kalibrierung mit lokaler IntCal20.14c-Datei; eigene Implementierung;Calibration with local IntCal20.14c file; own implementation
-c14.calib.tab.batch;📊 Batch-Kalibrierung;📊 Batch Calibration
-c14.calib.curve.title;📊 Kalibrierungskurve:;📊 Calibration curve:
+c14.calib.tab.batch;Batch-Kalibrierung;Batch Calibration
+c14.calib.curve.title;Kalibrierungskurve:;Calibration curve:
 c14.calib.curve.local;Lokale IntCal20.14c;Local IntCal20.14c
 c14.calib.curve.used;wird verwendet;is used
 c14.calib.curve.info;Alle Kalibrierungen nutzen Ihre lokale intcal20.14c-Datei;All calibrations use your local intcal20.14c file
-c14.calib.curve.standard;🔬 Standard-Kalibrierung ohne Outlier-Modell;🔬 Standard calibration without outlier model
+c14.calib.curve.standard;Standard-Kalibrierung ohne Outlier-Modell;Standard calibration without outlier model
 c14.calib.curve.outlier.note;Outlier-Behandlung nur in OxCal mit Constraints;Outlier handling only in OxCal with constraints
-c14.calib.btn.calibrate;🔬 Mit lokaler IntCal20 kalibrieren;🔬 Calibrate with local IntCal20
+c14.calib.btn.calibrate;Mit lokaler IntCal20 kalibrieren;Calibrate with local IntCal20
 c14.calib.running;⏳ Lokale IntCal20-Kalibrierung läuft... Bitte warten.;⏳ Local IntCal20 calibration running... Please wait.
 c14.calib.success;✅ Kalibrierung erfolgreich abgeschlossen!;✅ Calibration completed successfully!
-c14.calib.results.title;📊 Kalibrierte 14C-Daten;📊 Calibrated 14C Data
-c14.calib.export.title;📥 Export;📥 Export
+c14.calib.results.title;Kalibrierte 14C-Daten;Calibrated 14C Data
+c14.calib.export.title;Export;Export
 c14.calib.export.desc;Laden Sie die kalibrierten Daten als Excel-Datei herunter:;Download calibrated data as Excel file:
-c14.calib.export.btn;📊 Excel-Datei herunterladen;📊 Download Excel file
-c14.calib.export.hints.title;💡 Hinweise:;💡 Notes:
+c14.calib.export.btn;Excel-Datei herunterladen;Download Excel file
+c14.calib.export.hints.title;Hinweise:;Notes:
 c14.calib.export.hints.1;Multi-Sheet Excel mit Details und Zusammenfassung;Multi-sheet Excel with details and summary
 c14.calib.export.hints.2;HPD-Intervalle: 68% (1σ) und 95% (2σ);HPD intervals: 68% (1σ) and 95% (2σ)
 c14.calib.export.hints.3;Anzeige in cal BC/AD, Intervalle älter → jünger;Display in cal BC/AD, intervals older → younger
-c14.calib.export.hints.4;📁 Basiert auf Ihrer lokalen IntCal20.14c-Datei;📁 Based on your local IntCal20.14c file
-c14.calib.tab.single;🔬 Einzeldatenkalibrierung;🔬 Single Date Calibration
+c14.calib.export.hints.4;Basiert auf Ihrer lokalen IntCal20.14c-Datei;Based on your local IntCal20.14c file
+c14.calib.tab.single;Einzeldatenkalibrierung;Single Date Calibration
 c14.calib.single.standalone.title;Unabhängiges Werkzeug:;Standalone Tool:
 c14.calib.single.standalone.text;Diese Kalibrierung funktioniert immer – keine CA-Daten oder ¹⁴C-Tabelle erforderlich. Geben Sie einfach ein Datum manuell ein.;This calibration always works – no CA data or ¹⁴C table required. Simply enter a date manually.
 c14.calib.single.dataselect;Datenauswahl;Data Selection
 c14.calib.single.select.label;Datum auswählen:;Select date:
-c14.calib.single.select.hint;📄 Wählen Sie ein Datum aus den importierten Daten oder geben Sie es manuell ein;📄 Select a date from imported data or enter manually
+c14.calib.single.select.hint;Wählen Sie ein Datum aus den importierten Daten oder geben Sie es manuell ein;Select a date from imported data or enter manually
 c14.calib.single.input;Eingabe;Input
 c14.calib.single.labid;Labor-ID:;Lab ID:
 c14.calib.single.labid.placeholder;z.B. KIA-12345;e.g. KIA-12345
 c14.calib.single.age;14C-Alter (BP):;14C age (BP):
 c14.calib.single.error;± Fehler (BP):;± Error (BP):
-c14.calib.btn.single;🔬 Einzeldatum kalibrieren;🔬 Calibrate single date
-c14.calib.single.tab.plot;📊 Plot;📊 Plot
-c14.calib.single.btn.save;📅 Plot speichern (PNG);📅 Save plot (PNG)
-c14.calib.single.tab.result;📋 Kalibrierte Datierung;📋 Calibrated Date
+c14.calib.btn.single;Einzeldatum kalibrieren;Calibrate single date
+c14.calib.single.tab.plot;Plot;Plot
+c14.calib.single.btn.save;Plot speichern (PNG);Save plot (PNG)
+c14.calib.single.tab.result;Kalibrierte Datierung;Calibrated Date
 c14.calib.single.manual;— Manuelle Eingabe —;— Manual input —
 c14.calib.table.caption;Kalibrierte 14C-Datierungen mit HPD-Intervallen (Highest Posterior Density);Calibrated 14C dates with HPD intervals (Highest Posterior Density)
-c14.calib.table.bcad;📊 BC/AD-Erklärung;📊 BC/AD explanation
+c14.calib.table.bcad;BC/AD-Erklärung;BC/AD explanation
 c14.calib.table.bcad.tooltip;BC = Before Christ (vor Christus), AD = Anno Domini (nach Christus). Jahr 0 existiert nicht!;BC = Before Christ, AD = Anno Domini. Year 0 does not exist!
-c14.calib.table.interval;🕒 Intervall-Reihenfolge: älter → jünger;🕒 Interval order: older → younger
+c14.calib.table.interval;Intervall-Reihenfolge: älter → jünger;Interval order: older → younger
 c14.calib.table.interval.tooltip;Intervalle sind von älter (links) nach jünger (rechts) sortiert. Beispiel: 3000-2800 cal BC bedeutet von 3000 BC bis 2800 BC.;Intervals sorted from older (left) to younger (right). Example: 3000-2800 cal BC means from 3000 BC to 2800 BC.
-c14.calib.table.prob;📊 Wahrscheinlichkeiten (%);📊 Probabilities (%)
+c14.calib.table.prob;Wahrscheinlichkeiten (%);Probabilities (%)
 c14.calib.table.prob.tooltip;Wahrscheinlichkeiten in Klammern zeigen den Anteil der Posterior-Masse in diesem Intervall;Probabilities in parentheses show the proportion of posterior mass in this interval
 c14.calib.single.result.labid;Labor-ID;Lab ID
 c14.calib.single.result.age;14C-Alter;14C age
@@ -2214,7 +2214,7 @@ oxcal.boundary.explicit;Explizite Hiatusse;Explicit hiatuses
 oxcal.boundary.info;ℹ️ <strong>Boundary-Strategien:</strong><br>• <strong>Scharfe Übergänge:</strong> Eine gemeinsame Boundary zwischen Phasen erzwingt nahtlose Übergänge ohne Lücken oder Überlappungen (Standard)<br>• <strong>Explizite Hiatusse:</strong> Eigene Start/End-Boundaries je Phase — OxCal entscheidet anhand der ¹⁴C-Daten, ob Phasen sich überlappen, Lücken aufweisen oder direkt anschließen;ℹ️ <strong>Boundary strategies:</strong><br>• <strong>Sharp transitions:</strong> A shared boundary between phases enforces seamless transitions without gaps or overlaps (default)<br>• <strong>Explicit hiatuses:</strong> Independent start/end boundaries per phase — OxCal determines from the ¹⁴C data whether phases overlap, have gaps, or are contiguous
 oxcal.span.phase;Span je Site (Phase);Span per site (phase)
 oxcal.span.seq;Span der gesamten Sequenz;Span of entire sequence
-oxcal.outlier.model;🔬 Outlier-Modell;🔬 Outlier model
+oxcal.outlier.model;Outlier-Modell;Outlier model
 oxcal.ci.level;Konfidenzintervall;Confidence interval
 oxcal.ci.68;68 % (empfindlicher);68 % (more sensitive)
 oxcal.ci.95;95 % (konservativ);95 % (conservative)
@@ -2224,19 +2224,19 @@ oxcal.plot.intervals;Intervall-Balken;Interval bars
 oxcal.plot.density;Dichte-Kurven;Density curves
 oxcal.show.likelihood;Unmodellierte Daten anzeigen;Show unmodeled data
 oxcal.enhanced.cql;Enhanced CQL (stratigraphr);Enhanced CQL (stratigraphr)
-oxcal.enhanced.cql.info;📈 <strong>stratigraphr:</strong> Robustere CQL-Syntax nach Best Practices;📈 <strong>stratigraphr:</strong> More robust CQL syntax following best practices
-oxcal.charcoal.title;🌲 Holzkohle-Korrektur (Altholzeffekt);🌲 Charcoal correction (old wood effect)
+oxcal.enhanced.cql.info;<strong>stratigraphr:</strong> Robustere CQL-Syntax nach Best Practices;<strong>stratigraphr:</strong> More robust CQL syntax following best practices
+oxcal.charcoal.title;Holzkohle-Korrektur (Altholzeffekt);Charcoal correction (old wood effect)
 oxcal.charcoal.auto;Holzkohle-Daten automatisch korrigieren;Automatically correct charcoal data
 oxcal.charcoal.offset;Offset (Jahre jünger machen):;Offset (make years younger):
 oxcal.charcoal.info;<strong>Was passiert?</strong><br>• Holzkohle wird automatisch erkannt (Material-Spalte)<br>• BP-Alter wird direkt reduziert: <code>BP_neu = BP_alt - Offset</code><br>• Kompensiert Altholzeffekt (z.B. 200 Jahre alter Baum verbrannt)<br>• Empfehlung: 40 Jahre (konservativ) oder 80 Jahre (durchschnittlich);<strong>What happens?</strong><br>• Charcoal is automatically detected (material column)<br>• BP age is directly reduced: <code>BP_new = BP_old - Offset</code><br>• Compensates old wood effect (e.g. 200 year old tree burned)<br>• Recommendation: 40 years (conservative) or 80 years (average)
-oxcal.outlier.title;🔬 Outlier-Modell (für alle anderen Probleme);🔬 Outlier model (for all other problems)
+oxcal.outlier.title;Outlier-Modell (für alle anderen Probleme);Outlier model (for all other problems)
 oxcal.outlier.mode.label;Modus:;Mode:
 oxcal.outlier.none;Kein Outlier-Test;No outlier test
 oxcal.outlier.general;General: Alle Daten;General: All data
 oxcal.outlier.individual;Individual: Nur markierte;Individual: Marked only
 oxcal.outlier.combined;Combined: General + Individual;Combined: General + Individual
 oxcal.outlier.prior;Outlier-Prior p (%):;Outlier prior p (%):
-oxcal.cloud.title;☁️ Cloud-Modus;☁️ Cloud mode
+oxcal.cloud.title;Cloud-Modus;Cloud mode
 oxcal.cloud.desc;Die App läuft auf shinyapps.io - OxCal kann hier nicht ausgeführt werden.;The app is running on shinyapps.io - OxCal cannot be executed here.
 oxcal.cloud.howto;"<strong>💡 So geht's:</strong><br>1. CQL-Code unten aus der Vorschau kopieren<br>2. <a href='https://c14.arch.ox.ac.uk/oxcal/OxCal.html' target='_blank'>OxCal Online</a> öffnen<br>3. Code einfügen und ausführen";"<strong>💡 How to:</strong><br>1. Copy CQL code from preview below<br>2. Open <a href='https://c14.arch.ox.ac.uk/oxcal/OxCal.html' target='_blank'>OxCal Online</a><br>3. Paste code and run"
 oxcal.status.title;OxCal Status:;OxCal Status:
@@ -2259,16 +2259,16 @@ oxcal.legend.amodel;A_model ⓘ;A_model ⓘ
 oxcal.legend.amodel.tooltip;A_model: Maß für die Konsistenz der stratigraphischen Constraints. Werte <60% deuten auf Probleme mit der Modellstruktur hin.;A_model: Measure of consistency of stratigraphic constraints. Values <60% indicate problems with model structure.
 oxcal.legend.acomb;A_comb ⓘ;A_comb ⓘ
 oxcal.legend.acomb.tooltip;A_comb: Agreement für kombinierte Wahrscheinlichkeitsverteilungen. Zeigt — wenn keine Kombinationen im Modell existieren.;A_comb: Agreement for combined probability distributions. Shows — if no combinations exist in the model.
-oxcal.tab.summary;📋 Zusammenfassung;📋 Summary
-oxcal.tab.posterior;📊 Posterior-Intervalle;📊 Posterior Intervals
-oxcal.posterior.desc;🎤 <strong>Bayes'sche Sequenz-Analyse:</strong> Posterior-Verteilungen nach Einbeziehung der stratigraphischen Sequenz;🎤 <strong>Bayesian sequence analysis:</strong> Posterior distributions after incorporating the stratigraphic sequence
-oxcal.tab.phases;📈 Phasen-Analyse;📈 Phase Analysis
-oxcal.phases.desc;🔍 <strong>Quantitative Phasen-Analysen:</strong> Start/Ende/Dauer/Überlappungen/Lücken werden automatisch aus OxCal-Boundaries berechnet (funktioniert sobald Sie 'Boundaries automatisch' aktivieren und das Modell rechnen);🔍 <strong>Quantitative phase analyses:</strong> Start/end/duration/overlaps/gaps are automatically calculated from OxCal boundaries (works once you enable 'Automatic boundaries' and calculate the model)
-oxcal.phases.timeline;📅 Zeitstrahl;📅 Timeline
-oxcal.phases.export;📥 Zeitstrahl exportieren:;📥 Export timeline:
+oxcal.tab.summary;Zusammenfassung;Summary
+oxcal.tab.posterior;Posterior-Intervalle;Posterior Intervals
+oxcal.posterior.desc;<strong>Bayes'sche Sequenz-Analyse:</strong> Posterior-Verteilungen nach Einbeziehung der stratigraphischen Sequenz;<strong>Bayesian sequence analysis:</strong> Posterior distributions after incorporating the stratigraphic sequence
+oxcal.tab.phases;Phasen-Analyse;Phase Analysis
+oxcal.phases.desc;<strong>Quantitative Phasen-Analysen:</strong> Start/Ende/Dauer/Überlappungen/Lücken werden automatisch aus OxCal-Boundaries berechnet (funktioniert sobald Sie 'Boundaries automatisch' aktivieren und das Modell rechnen);<strong>Quantitative phase analyses:</strong> Start/end/duration/overlaps/gaps are automatically calculated from OxCal boundaries (works once you enable 'Automatic boundaries' and calculate the model)
+oxcal.phases.timeline;Zeitstrahl;Timeline
+oxcal.phases.export;Zeitstrahl exportieren:;Export timeline:
 oxcal.phases.html;HTML (interaktiv);HTML (interactive)
 oxcal.phases.export.hint;PNG/SVG: Statisches Bild | HTML: Interaktiver Plot zum Teilen;PNG/SVG: Static image | HTML: Interactive plot for sharing
-oxcal.phases.table;📋 Start/Ende/Dauer;📋 Start/End/Duration
+oxcal.phases.table;Start/Ende/Dauer;Start/End/Duration
 oxcal.status.ready;✅ OxCal bereit für Sequenz-Modellierung;✅ OxCal ready for sequence modeling
 oxcal.status.found;Installation gefunden:;Found installation:
 oxcal.status.path;• Pfad:;• Path:
@@ -2281,8 +2281,8 @@ oxcal.status.options;Optionen:;Options:
 oxcal.status.option.manual;1. 📁 Manueller Pfad: 'Pfad setzen';1. 📁 Manual path: 'Set path'
 oxcal.status.option.auto;2. 🔧 Neue Installation: 'Auto-Setup';2. 🔧 New installation: 'Auto-Setup'
 oxcal.status.console.hint;Details in der R-Konsole.;Details in the R console.
-oxcal.btn.auto.setup;🔧 Auto-Setup;🔧 Auto-Setup
-oxcal.btn.set.path;📁 Pfad setzen;📁 Set path
+oxcal.btn.auto.setup;Auto-Setup;Auto-Setup
+oxcal.btn.set.path;Pfad setzen;Set path
 oxcal.manual.path.title;Manueller OxCal-Pfad:;Manual OxCal path:
 oxcal.manual.path.placeholder;z.B. C:/OxCal/bin/OxCalWin.exe;e.g. C:/OxCal/bin/OxCalWin.exe
 oxcal.btn.set;Setzen;Set
@@ -2551,7 +2551,7 @@ transform.help.log.ex2;2 → log(3) ≈ <b>1.10</b>;2 → log(3) ≈ <b>1.10</b>
 transform.help.log.ex10;10 → log(11) ≈ <b>2.40</b>;10 → log(11) ≈ <b>2.40</b>
 transform.help.log.ex100;100 → log(101) ≈ <b>4.62</b>;100 → log(101) ≈ <b>4.62</b>
 transform.help.log.effect.title;Wichtiger Effekt:;Important effect:
-transform.help.log.effect;👉 Kleine Werte (1-3) werden stark komprimiert. Ein Wert von 1 wird zu 0.69, ein Wert von 100 wird zu 4.62. Das Verhältnis ändert sich von 1:100 auf etwa 1:7!;👉 Small values (1-3) are strongly compressed. A value of 1 becomes 0.69, a value of 100 becomes 4.62. The ratio changes from 1:100 to about 1:7!
+transform.help.log.effect;Kleine Werte (1-3) werden stark komprimiert. Ein Wert von 1 wird zu 0.69, ein Wert von 100 wird zu 4.62. Das Verhältnis ändert sich von 1:100 auf etwa 1:7!;Small values (1-3) are strongly compressed. A value of 1 becomes 0.69, a value of 100 becomes 4.62. The ratio changes from 1:100 to about 1:7!
 transform.help.log.when.title;Wann theoretisch sinnvoll?;When theoretically useful?
 transform.help.log.when1;Wenn einzelne Sites extrem viele Funde haben (z.B. 1000+ vs. 5);When individual Sites have extremely many finds (e.g., 1000+ vs. 5)
 transform.help.log.when2;Wenn einzelne Types extrem dominant sind (z.B. Keramik: 800, Fibel: 2);When individual Types are extremely dominant (e.g., pottery: 800, fibula: 2)
@@ -2590,9 +2590,9 @@ transform.help.summary.sit5;Viele kleine Werte (1–3);Many small values (1–3)
 transform.help.summary.rec5;Keine Transformation oder Normalisierung;No Transformation or Normalization
 transform.help.summary.sit6;Log führt zu vielen Nullen;Log leads to many zeros
 transform.help.summary.rec6;Nicht geeignet;Not suitable
-ca.outlier.sum.robust.header;🎯 ROBUSTE OUTLIER-ERKENNUNG\n\n🔍 METHODE: Vergleich über alle Dimensionen\n  • Dim1+Dim2\n  • Dim1+Dim3\n  • Dim2+Dim3\n  • Dim1+Dim2+Dim3\n\n🎯 Zeigt nur Outlier, die in MEHREREN Dimensionen problematisch sind!\n\n;🎯 ROBUST OUTLIER DETECTION\n\n🔍 METHOD: Comparison across all dimensions\n  • Dim1+Dim2\n  • Dim1+Dim3\n  • Dim2+Dim3\n  • Dim1+Dim2+Dim3\n\n🎯 Shows only outliers that are problematic in MULTIPLE dimensions!\n\n
-ca.outlier.sum.sites.header;🏛️ FUNDORTE (nur ≥ 2 Dimensionen):;🏛️ SITES (only ≥ 2 dimensions):
-ca.outlier.sum.types.header;🏺 TYPEN (nur ≥ 2 Dimensionen):;🏺 TYPES (only ≥ 2 dimensions):
+ca.outlier.sum.robust.header;ROBUSTE OUTLIER-ERKENNUNG\n\n🔍 METHODE: Vergleich über alle Dimensionen\n  • Dim1+Dim2\n  • Dim1+Dim3\n  • Dim2+Dim3\n  • Dim1+Dim2+Dim3\n\n🎯 Zeigt nur Outlier, die in MEHREREN Dimensionen problematisch sind!\n\n;ROBUST OUTLIER DETECTION\n\n🔍 METHOD: Comparison across all dimensions\n  • Dim1+Dim2\n  • Dim1+Dim3\n  • Dim2+Dim3\n  • Dim1+Dim2+Dim3\n\n🎯 Shows only outliers that are problematic in MULTIPLE dimensions!\n\n
+ca.outlier.sum.sites.header;FUNDORTE (nur ≥ 2 Dimensionen):;SITES (only ≥ 2 dimensions):
+ca.outlier.sum.types.header;TYPEN (nur ≥ 2 Dimensionen):;TYPES (only ≥ 2 dimensions):
 ca.outlier.sum.in.all4;\n  🔴 In ALLEN 4 Dimensionen: %d;\n  🔴 In ALL 4 dimensions: %d
 ca.outlier.sum.in.3of4;\n  🟠 In 3 von 4 Dimensionen: %d;\n  🟠 In 3 of 4 dimensions: %d
 ca.outlier.sum.in.2of4;\n  🟡 In 2 von 4 Dimensionen: %d\n\n;\n  🟡 In 2 of 4 dimensions: %d\n\n
@@ -2600,14 +2600,14 @@ ca.outlier.sum.critical44;🔴 KRITISCH (4/4):\n  ;🔴 CRITICAL (4/4):\n
 ca.outlier.sum.very.problematic;🟠 SEHR PROBLEMATISCH (3/4):\n  ;🟠 VERY PROBLEMATIC (3/4):\n
 ca.outlier.sum.more; ... (+%d weitere); ... (+%d more)
 ca.outlier.sum.recommendation;\n✅ EMPFEHLUNG:\n  • 🔴 Elemente (4/4): Höchste Priorität zur Überprüfung!\n  • 🟠 Elemente (3/4): Wahrscheinlich problematisch\n  • 🟡 Elemente (2/4): Möglicherweise dimensionsspezifisch – Vorsicht!\n\nℹ️ Elemente die nur in 1 Dimension auffällig sind, werden NICHT angezeigt.;\n✅ RECOMMENDATION:\n  • 🔴 Elements (4/4): Highest priority to review!\n  • 🟠 Elements (3/4): Likely problematic\n  • 🟡 Elements (2/4): May be dimension-specific - use caution!\n\nℹ️ Elements that are only conspicuous in 1 dimension are NOT shown.
-ca.outlier.sum.quantile.header;🔍 OUTLIER-ERKENNUNG: Quantil-basiert\n\n🎯 METHODE: Cos² + Contribution (Repräsentationsqualität)\n📊 DIMENSIONEN: %s\n\nℹ️ Identifiziert Elemente, die im gewählten Dimensionsraum schlecht repräsentiert sind.\n\n;🔍 OUTLIER DETECTION: Quantile-based\n\n🎯 METHOD: Cos² + Contribution (Representation quality)\n📊 DIMENSIONS: %s\n\nℹ️ Identifies elements that are poorly represented in the selected dimension space.\n\n
-ca.outlier.sum.jackknife.header;🔍 OUTLIER-ERKENNUNG: Jackknife-Influence\n\n🎯 METHODE: Leave-One-Out-Analyse (Strukturelle Kritikalität)\n📊 DIMENSIONEN: %s\n\nℹ️ Identifiziert Elemente, die die CA-Struktur stark beeinflussen.\n\n;🔍 OUTLIER DETECTION: Jackknife Influence\n\n🎯 METHOD: Leave-One-Out Analysis (Structural Criticality)\n📊 DIMENSIONS: %s\n\nℹ️ Identifies elements that strongly influence CA structure.\n\n
-ca.outlier.sum.combined.header;🔍 OUTLIER-ERKENNUNG: Kombiniert (Quantil + Jackknife)\n\n🎯 4 KATEGORIEN:\n  1️⃣ KRITISCH: Beide Probleme\n  2️⃣ Marginal: Nur niedrige Cos²\n  3️⃣ Strukturell: Nur hoher Influence\n  4️⃣ OK: Keine Probleme\n\n📊 DIMENSIONEN: %s\n\n;🔍 OUTLIER DETECTION: Combined (Quantile + Jackknife)\n\n🎯 4 CATEGORIES:\n  1️⃣ CRITICAL: Both problems\n  2️⃣ Marginal: Only low Cos²\n  3️⃣ Structural: Only high Influence\n  4️⃣ OK: No problems\n\n📊 DIMENSIONS: %s\n\n
+ca.outlier.sum.quantile.header;OUTLIER-ERKENNUNG: Quantil-basiert\n\n🎯 METHODE: Cos² + Contribution (Repräsentationsqualität)\n📊 DIMENSIONEN: %s\n\nℹ️ Identifiziert Elemente, die im gewählten Dimensionsraum schlecht repräsentiert sind.\n\n;OUTLIER DETECTION: Quantile-based\n\n🎯 METHOD: Cos² + Contribution (Representation quality)\n📊 DIMENSIONS: %s\n\nℹ️ Identifies elements that are poorly represented in the selected dimension space.\n\n
+ca.outlier.sum.jackknife.header;OUTLIER-ERKENNUNG: Jackknife-Influence\n\n🎯 METHODE: Leave-One-Out-Analyse (Strukturelle Kritikalität)\n📊 DIMENSIONEN: %s\n\nℹ️ Identifiziert Elemente, die die CA-Struktur stark beeinflussen.\n\n;OUTLIER DETECTION: Jackknife Influence\n\n🎯 METHOD: Leave-One-Out Analysis (Structural Criticality)\n📊 DIMENSIONS: %s\n\nℹ️ Identifies elements that strongly influence CA structure.\n\n
+ca.outlier.sum.combined.header;OUTLIER-ERKENNUNG: Kombiniert (Quantil + Jackknife)\n\n🎯 4 KATEGORIEN:\n  1️⃣ KRITISCH: Beide Probleme\n  2️⃣ Marginal: Nur niedrige Cos²\n  3️⃣ Strukturell: Nur hoher Influence\n  4️⃣ OK: Keine Probleme\n\n📊 DIMENSIONEN: %s\n\n;OUTLIER DETECTION: Combined (Quantile + Jackknife)\n\n🎯 4 CATEGORIES:\n  1️⃣ CRITICAL: Both problems\n  2️⃣ Marginal: Only low Cos²\n  3️⃣ Structural: Only high Influence\n  4️⃣ OK: No problems\n\n📊 DIMENSIONS: %s\n\n
 ca.outlier.sum.no.outliers;✅ Keine Outlier gefunden.;✅ No outliers found.
 ca.outlier.sum.no.structural;✅ Keine strukturell kritischen Elemente gefunden.;✅ No structurally critical elements found.
-ca.outlier.sum.total;📊 GESAMT: %d Outlier\n;📊 TOTAL: %d outliers\n
-ca.outlier.sum.total.structural;📊 GESAMT: %d strukturell kritische Elemente\n;📊 TOTAL: %d structurally critical elements\n
-ca.outlier.sum.total.combined;📊 GESAMT: %d Outlier\n\n;📊 TOTAL: %d outliers\n\n
+ca.outlier.sum.total;GESAMT: %d Outlier\n;TOTAL: %d outliers\n
+ca.outlier.sum.total.structural;GESAMT: %d strukturell kritische Elemente\n;TOTAL: %d structurally critical elements\n
+ca.outlier.sum.total.combined;GESAMT: %d Outlier\n\n;TOTAL: %d outliers\n\n
 ca.outlier.sum.sites.low.cos2;  • Fundorte (niedrige Cos²): %d\n;  • Sites (low Cos²): %d\n
 ca.outlier.sum.sites.high.contrib;  • Fundorte (hohe Contribution): %d\n;  • Sites (high Contrib): %d\n
 ca.outlier.sum.types.low.cos2;  • Typen (niedrige Cos²): %d\n;  • Types (low Cos²): %d\n
@@ -2619,7 +2619,7 @@ ca.outlier.sum.marginal;🟡 MARGINAL:\n;🟡 MARGINAL:\n
 ca.outlier.sum.structural;🟠 STRUKTURELL:\n;🟠 STRUCTURAL:\n
 ca.outlier.cb.no.detection;ℹ️ Noch keine Outlier-Erkennung durchgeführt;ℹ️ No outlier detection performed
 ca.outlier.cb.click.detect;Klicken Sie '🔄 Outlier neu erkennen'.;Click '🔄 Detect outliers'.
-ca.outlier.cb.robust.count;🎯 %d robuste Outlier (≥ 2 Dimensionen);🎯 %d robust outliers (≥ 2 dimensions)
+ca.outlier.cb.robust.count;%d robuste Outlier (≥ 2 Dimensionen);%d robust outliers (≥ 2 dimensions)
 ca.outlier.cb.reason.critical;KRITISCH: Niedrige Cos² in ALLEN Dimensionen – durchgehend schlecht repräsentiert;CRITICAL: Low Cos² in ALL dimensions - consistently poorly represented
 ca.outlier.cb.reason.very.problematic;SEHR PROBLEMATISCH: Niedrige Cos² in 3 von 4 Dimensionen – wahrscheinlich ein echter Outlier;VERY PROBLEMATIC: Low Cos² in 3 of 4 dimensions - likely a true outlier
 ca.outlier.cb.reason.dimension.specific;DIMENSIONSSPEZIFISCH: Niedrige Cos² in 2 von 4 Dimensionen – könnte strukturbedingt sein;DIMENSION-SPECIFIC: Low Cos² in 2 of 4 dimensions - could be structure-related
@@ -2629,4 +2629,4 @@ ca.outlier.cb.reason.low.cos2;Niedrige Repräsentationsqualität;Low representat
 ca.outlier.cb.reason.too.dominant;Zu dominant;Too dominant
 ca.outlier.cb.reason.structural;Strukturell kritisch;Structurally critical
 ca.outlier.cb.no.found;✅ Keine Outlier gefunden;✅ No outliers found
-ca.outlier.cb.count;📋 %d Outlier gefunden;📋 %d outliers found
+ca.outlier.cb.count;%d Outlier gefunden;%d outliers found
