@@ -2630,3 +2630,49 @@ ca.outlier.cb.reason.too.dominant;Zu dominant;Too dominant
 ca.outlier.cb.reason.structural;Strukturell kritisch;Structurally critical
 ca.outlier.cb.no.found;✅ Keine Outlier gefunden;✅ No outliers found
 ca.outlier.cb.count;%d Outlier gefunden;%d outliers found
+ca.eigenval.help.title;Eigenwerte-Reiter: Hilfe & Interpretation;Eigenvalues Tab: Help & Interpretation
+ca.eigenval.help.q;Was zeigt dieser Reiter?;What does this tab show?
+ca.eigenval.help.intro;Der Eigenwerte-Reiter bietet statistische Analysen zur Qualität und Signifikanz der Korrespondenzanalyse.;The Eigenvalues tab provides statistical analyses for quality and significance of the correspondence analysis.
+ca.eigenval.help.s1.title;1. Eigenwerte & Varianz;1. Eigenvalues & Variance
+ca.eigenval.help.s1.intro;Diese Tabelle zeigt die erklärte Varianz jeder CA-Dimension:;This table shows the variance explained by each CA dimension:
+ca.eigenval.help.s1.ev;Eigenwert:;Eigenvalue:
+ca.eigenval.help.s1.ev.text;Inertia-Wert der Dimension;Inertia value of the dimension
+ca.eigenval.help.s1.pct;Varianzanteil:;Percentage of variance:
+ca.eigenval.help.s1.pct.text;Wie viel % der Gesamtvarianz erklärt diese Dimension?;How much % of total variance does this dimension explain?
+ca.eigenval.help.s1.cum;Kumulativer Varianzanteil:;Cumulative % of variance:
+ca.eigenval.help.s1.cum.text;Kumulativ erklärte Varianz bis zu dieser Dimension;Cumulative variance explained up to this dimension
+ca.eigenval.help.s1.note;Wichtig:;Important:
+ca.eigenval.help.s1.note.text;Niedrige Varianzen sind bei CA völlig normal!;Low variance values are completely normal in CA!
+ca.eigenval.help.s2.title;2. Malinvaud-Test;2. Malinvaud Test
+ca.eigenval.help.s2.intro;Statistischer Signifikanztest für CA-Dimensionen:;Statistical significance test for CA dimensions:
+ca.eigenval.help.s2.chi;Chi-Quadrat:;Chi-Square:
+ca.eigenval.help.s2.chi.text;Teststatistik;Test statistic
+ca.eigenval.help.s2.df;df:;df:
+ca.eigenval.help.s2.df.text;Freiheitsgrade;Degrees of freedom
+ca.eigenval.help.s2.p;p-Wert:;p-value:
+ca.eigenval.help.s2.p.text;Signifikanzniveau;Significance level
+ca.eigenval.help.s2.sig;Signifikanz:;Significance:
+ca.eigenval.help.s2.sig.text;*** p<0.001 (hochsignifikant), ** p<0.01, * p<0.05, n.s. (nicht signifikant);*** p<0.001 (highly significant), ** p<0.01, * p<0.05, n.s. (not significant)
+ca.eigenval.help.s2.interp;Interpretation:;Interpretation:
+ca.eigenval.help.s2.interp.text;Dimensionen mit p<0.05 sind statistisch bedeutsam. Typischerweise sind Dim1-Dim3 signifikant, höhere Dimensionen oft nicht.;Dimensions with p<0.05 are statistically meaningful. Typically Dim1-Dim3 are significant, higher dimensions often not.
+ca.eigenval.help.s3.title;3. Zwischen-Gruppen-Inertia;3. Between-Group Inertia
+ca.eigenval.help.s3.intro;Misst, wie gut Gruppen voneinander getrennt sind:;Measures how well groups are separated from each other:
+ca.eigenval.help.s3.between;Zwischen-Gruppen:;Between-Group:
+ca.eigenval.help.s3.between.text;Varianz ZWISCHEN den Gruppen (= Unterschiede zwischen Phasen);Variance BETWEEN groups (= differences between phases)
+ca.eigenval.help.s3.within;Innerhalb der Gruppen:;Within-Group:
+ca.eigenval.help.s3.within.text;Varianz INNERHALB der Gruppen (= Streuung innerhalb der Phasen);Variance WITHIN groups (= scatter within phases)
+ca.eigenval.help.s3.assess;Bewertung:;Assessment:
+ca.eigenval.help.s3.good;>70% Zwischen = Gruppen gut getrennt (klare chronologische Phasen);>70% Between = Groups are well separated (clear chronological phases)
+ca.eigenval.help.s3.ok;50-70% Zwischen = Teilüberlappung (Phasen nicht klar trennbar);50-70% Between = Partial overlap (phases not clearly separable)
+ca.eigenval.help.s3.bad;<50% Zwischen = Schwache Trennung (Gruppierung möglicherweise nicht sinnvoll);<50% Between = Weak separation (grouping may not be meaningful)
+ca.eigenval.help.s3.note;Hinweis:;Note:
+ca.eigenval.help.s3.note.text;Zwischen-Gruppen-Inertia wird nur berechnet, wenn 'Farbe nach Gruppen' im CA-Biplot aktiviert ist.;Between-Group Inertia is only calculated when 'Color by groups' is enabled in the CA biplot.
+ca.eigenval.help.refs;Literatur;References
+oxcal.seq.nocurve.title;CHRONOLOGIE-KURVE FEHLT;CHRONOLOGY CURVE MISSING
+oxcal.seq.nocurve.intro;Das OxCal-Sequenz-Modul benötigt die Chronologie-Kurve, um die korrekte Phasenreihenfolge zu bestimmen.;The OxCal Sequence module requires the Chronology Curve to determine the correct phase order.
+oxcal.seq.nocurve.step1a;Wechsle zum Tab 'Chronologie-Kurve';Switch to the 'Chronology Curve' tab
+oxcal.seq.nocurve.step1b;und berechne die Chronologie-Kurve;and calculate the Chronology Curve
+oxcal.seq.nocurve.step2;Die Kurve liefert die korrekte Fundort-Reihenfolge (;The Curve provides the correct site order (
+oxcal.seq.nocurve.step3;Dann kann hier das OxCal-Sequenz-Modell erstellt werden;Then you can create the OxCal Sequence model here
+oxcal.seq.nocurve.warn;WICHTIG:;IMPORTANT:
+oxcal.seq.nocurve.warn.text;Ohne Chronologie-Kurve kann keine korrekte Sequenz-Reihenfolge bestimmt werden!;Without Chronology Curve, no correct sequence order can be determined!

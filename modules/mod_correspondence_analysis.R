@@ -2169,25 +2169,25 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
   # ===== EIGENVALUES TAB HELP MODAL =====
   observeEvent(input$help_eigenwerte, {
     showModal(modalDialog(
-      title = "📊 Eigenvalues Tab: Help & Interpretation",
+      title = paste0("📊 ", tr("ca.eigenval.help.title")),
       size = "l",
       easyClose = TRUE,
       footer = modalButton(tr("ca.btn.close")),
-      
-      h4("📊 What does this tab show?"),
-      p("The Eigenvalues tab provides statistical analyses for quality and significance of the correspondence analysis."),
+
+      h4(paste0("📊 ", tr("ca.eigenval.help.q"))),
+      p(tr("ca.eigenval.help.intro")),
 
       hr(),
 
-      h4("📈 1. Eigenvalues & Variance"),
-      p("This table shows the variance explained by each CA dimension:"),
+      h4(paste0("📈 ", tr("ca.eigenval.help.s1.title"))),
+      p(tr("ca.eigenval.help.s1.intro")),
       tags$ul(
-        tags$li(tags$b("Eigenvalue:"), " Inertia value of the dimension"),
-        tags$li(tags$b("Percentage of variance:"), " How much % of total variance does this dimension explain?"),
-        tags$li(tags$b("Cumulative % of variance:"), " Cumulative variance explained up to this dimension")
+        tags$li(tags$b(tr("ca.eigenval.help.s1.ev")), " ", tr("ca.eigenval.help.s1.ev.text")),
+        tags$li(tags$b(tr("ca.eigenval.help.s1.pct")), " ", tr("ca.eigenval.help.s1.pct.text")),
+        tags$li(tags$b(tr("ca.eigenval.help.s1.cum")), " ", tr("ca.eigenval.help.s1.cum.text"))
       ),
-      div(class="alert alert-info",
-          tags$b("ℹ️ Important:"), " Low variance values are completely normal in CA!", br(), br(),
+      div(class = "alert alert-info",
+          tags$b(paste0("ℹ️ ", tr("ca.eigenval.help.s1.note"))), " ", tr("ca.eigenval.help.s1.note.text"), br(), br(),
           tags$b("Greenacre (2017):"), " \"In sparse contingency tables the first dimensions often account for only ",
           tags$b("10-20%"), " of the total inertia. This is entirely normal and does not affect the interpretability of the solution.\"", br(), br(),
           tags$b("Benzécri (1992):"), " \"Because the chi-square distance captures structure in many small contrasts, the explained inertia of the first axes is usually low. A dimension with only ",
@@ -2198,40 +2198,41 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
 
       hr(),
 
-      h4("🔬 2. Malinvaud Test"),
-      p("Statistical significance test for CA dimensions:"),
+      h4(paste0("🔬 ", tr("ca.eigenval.help.s2.title"))),
+      p(tr("ca.eigenval.help.s2.intro")),
       tags$ul(
-        tags$li(tags$b("Chi-Square:"), " Test statistic"),
-        tags$li(tags$b("df:"), " Degrees of freedom"),
-        tags$li(tags$b("p-value:"), " Significance level"),
-        tags$li(tags$b("Significance:"), " *** p<0.001 (highly significant), ** p<0.01, * p<0.05, n.s. (not significant)")
+        tags$li(tags$b(tr("ca.eigenval.help.s2.chi")), " ", tr("ca.eigenval.help.s2.chi.text")),
+        tags$li(tags$b(tr("ca.eigenval.help.s2.df")), " ", tr("ca.eigenval.help.s2.df.text")),
+        tags$li(tags$b(tr("ca.eigenval.help.s2.p")), " ", tr("ca.eigenval.help.s2.p.text")),
+        tags$li(tags$b(tr("ca.eigenval.help.s2.sig")), " ", tr("ca.eigenval.help.s2.sig.text"))
       ),
-      div(class="alert alert-success",
-          tags$b("✅ Interpretation:"), " Dimensions with p<0.05 are statistically meaningful. ",
-          "Typically Dim1-Dim3 are significant, higher dimensions often not."
+      div(class = "alert alert-success",
+          tags$b(paste0("✅ ", tr("ca.eigenval.help.s2.interp"))), " ",
+          tr("ca.eigenval.help.s2.interp.text")
       ),
 
       hr(),
 
-      h4("🎯 3. Between-Group Inertia"),
-      p("Measures how well groups are separated from each other:"),
+      h4(paste0("🎯 ", tr("ca.eigenval.help.s3.title"))),
+      p(tr("ca.eigenval.help.s3.intro")),
       tags$ul(
-        tags$li(tags$b("Between-Group:"), " Variance BETWEEN groups (= differences between phases)"),
-        tags$li(tags$b("Within-Group:"), " Variance WITHIN groups (= scatter within phases)")
+        tags$li(tags$b(tr("ca.eigenval.help.s3.between")), " ", tr("ca.eigenval.help.s3.between.text")),
+        tags$li(tags$b(tr("ca.eigenval.help.s3.within")), " ", tr("ca.eigenval.help.s3.within.text"))
       ),
-      tags$b("Assessment:"),
+      tags$b(tr("ca.eigenval.help.s3.assess")),
       tags$ul(
-        tags$li("✅ >70% Between = Groups are well separated (clear chronological phases)"),
-        tags$li("⚠️ 50-70% Between = Partial overlap (phases not clearly separable)"),
-        tags$li("❌ <50% Between = Weak separation (grouping may not be meaningful)")
+        tags$li(paste0("✅ ", tr("ca.eigenval.help.s3.good"))),
+        tags$li(paste0("⚠️ ", tr("ca.eigenval.help.s3.ok"))),
+        tags$li(paste0("❌ ", tr("ca.eigenval.help.s3.bad")))
       ),
-      div(class="alert alert-warning",
-          tags$b("⚠️ Note:"), " Between-Group Inertia is only calculated when 'Color by groups' is enabled in the CA biplot."
+      div(class = "alert alert-warning",
+          tags$b(paste0("⚠️ ", tr("ca.eigenval.help.s3.note"))), " ",
+          tr("ca.eigenval.help.s3.note.text")
       ),
 
       hr(),
 
-      h4("📚 References"),
+      h4(paste0("📚 ", tr("ca.eigenval.help.refs"))),
       tags$ul(
         tags$li("Benzécri, J.-P. (1992). ", tags$em("Correspondence Analysis Handbook"), ". Marcel Dekker."),
         tags$li("Greenacre, M. (2017). ", tags$em("Correspondence Analysis in Practice"), " (3rd ed.). Chapman & Hall/CRC."),

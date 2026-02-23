@@ -61,16 +61,16 @@ mod_oxcal_seq_server <- function(id, c14_table_reactive, chrono_curve_reactive,
       
       if (is_invalid) {
         div(class = "alert alert-danger", style = "margin: 20px 0;",
-            h4("⚠️ CHRONOLOGY CURVE MISSING", class = "mt-0"),
-            p("The OxCal Sequence module requires the Chronology Curve to determine the correct phase order."),
+            h4(paste0("⚠️ ", tr("oxcal.seq.nocurve.title")), class = "mt-0"),
+            p(tr("oxcal.seq.nocurve.intro")),
             tags$ol(
-              tags$li(strong("Switch to the 'Chronology Curve' tab"), " and calculate the Chronology Curve"),
-              tags$li("The Curve provides the correct site order (", code("t_idx"), ")"),
-              tags$li("Then you can create the OxCal Sequence model here")
+              tags$li(strong(tr("oxcal.seq.nocurve.step1a")), " ", tr("oxcal.seq.nocurve.step1b")),
+              tags$li(tr("oxcal.seq.nocurve.step2"), code("t_idx"), ")"),
+              tags$li(tr("oxcal.seq.nocurve.step3"))
             ),
             p(class = "text-danger",
-              strong("❌ IMPORTANT:"),
-              " Without Chronology Curve, no correct sequence order can be determined!")
+              strong(paste0("❌ ", tr("oxcal.seq.nocurve.warn"))),
+              " ", tr("oxcal.seq.nocurve.warn.text"))
         )
       } else {
         NULL
