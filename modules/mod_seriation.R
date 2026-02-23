@@ -543,30 +543,34 @@ mod_seriation_server <- function(filtered_data, cache, get_site_group, get_eleme
           font = list(size = 12, color = "#2c3e50")
         )
 
-        # Values with circles as SHAPES
-        # y_start: Closer to title when transposed!
-        y_start <- if (transpose_active) 0.94 else 0.91
-        n_vals <- length(legend_vals)
-        # SPACING: Scales with plot_height - more spacing for numbers in circle
-        base_spacing <- if (n_vals <= 3) 0.08 else if (n_vals <= 5) 0.07 else 0.06
-        # Reduce spacing for taller plots (Transpose)
-        y_spacing <- base_spacing * (600 / plot_height)
+        # --- Legend circle sizes: EXACT match to the plot formula ---
+        # Plot uses: diameter_px = max(sizemin, sqrt(val) / sizeref)
+        #          = max(2, 30 * sqrt(val / max_val))
+        # Legend uses scale = 1.0 so the circles directly mirror the data.
+        sizeref_val <- sqrt(max_val) / 30   # same as marker sizeref
+        sizemin_val <- 2                    # same as marker sizemin
+
+        # Effective plot-area height (paper [0,1] maps to this many pixels)
+        effective_ht <- max(400, plot_height - 110)  # subtract top(30) + bottom(80) margins
+
+        # Fixed 44px between circle centres — consistent regardless of plot height
+        y_spacing <- 44 / effective_ht
+        y_start   <- if (transpose_active) 0.94 else 0.91
 
         for (i in seq_along(legend_vals)) {
-          val <- legend_vals[i]
+          val   <- legend_vals[i]
           y_pos <- y_start - (i - 1) * y_spacing
 
-          # FIXED pixel sizes for legend
-          rel_size <- sqrt(val) / sqrt(max_val)
-          # Minimum size so numbers are readable
-          pixel_diameter <- max(25, 35 * rel_size)
-          radius_px <- pixel_diameter / 2
+          # Exact plotly formula (no scale-up) — legend mirrors actual bubble size
+          actual_px      <- max(sizemin_val, sqrt(val) / sizeref_val)
+          pixel_diameter <- max(5, actual_px)   # min 5px so tiny values remain visible
+          radius_px      <- pixel_diameter / 2
 
-          # For perfectly round circles: equal radius in both directions
-          # Use fixed aspect correction based on typical plot size
-          radius_paper <- radius_px / 600  # Normalized
+          # Paper-coordinate radius (based on y-axis scale; slight x-ellipse is
+          # acceptable since browser width is unknown)
+          radius_paper <- radius_px / effective_ht
 
-          # Circle as shape - PERFECTLY ROUND with equal radius!
+          # Circle shape
           legend_shapes[[length(legend_shapes) + 1]] <- list(
             type = "circle",
             xref = "paper", yref = "paper",
@@ -579,14 +583,14 @@ mod_seriation_server <- function(filtered_data, cache, get_site_group, get_eleme
             line = list(color = "white", width = 1)
           )
 
-          # Number LEFT of circle, vertically centered on circle center!
+          # Number label left of circle, vertically centred on circle
           legend_annotations[[length(legend_annotations) + 1]] <- list(
             xref = "paper", yref = "paper",
-            x = 1.12 - radius_paper - 0.01, y = y_pos,  # Left of circle, same height as center
+            x = 1.12 - radius_paper - 0.01, y = y_pos,
             text = as.character(round(val, 0)),
             showarrow = FALSE,
             xanchor = "right",
-            yanchor = "middle",  # Vertically centered
+            yanchor = "middle",
             font = list(size = 10, color = "#2c3e50")
           )
         }
