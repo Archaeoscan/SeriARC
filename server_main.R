@@ -34,8 +34,10 @@ server <- function(input, output, session) {
   is_example_data <- import$is_example_data
   
   # === WELCOME/LOADING SCREEN MANAGEMENT ===
+  # Welcome screen stays visible until the user uploads their own file.
+  # Example data (DEFAULT_DATASET) does NOT hide the welcome screen.
   observe({
-    if (!is.null(data_raw())) {
+    if (!is.null(data_raw()) && !is_example_data()) {
       shinyjs::hide("welcome-screen-import")
       shinyjs::hide("data-loading-indicator")
     } else {
