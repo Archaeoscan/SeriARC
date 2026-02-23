@@ -341,7 +341,7 @@ welcome.structure.col1;Spalte 1:;Column 1:
 welcome.structure.col1.desc;Site-Namen;Site names
 welcome.structure.required;Pflicht;Required
 welcome.structure.col2;Spalte 2-4:;Columns 2-4:
-welcome.structure.col2.desc;Optional: Gruppen, Phasen;Optional: Groups, phases
+welcome.structure.col2.desc;Optional: Gruppen, Phasen oder Koordinaten (X/Y);Optional: Groups, phases or coordinates (X/Y)
 welcome.structure.col5;Ab Spalte 5:;From column 5:
 welcome.structure.col5.desc;Artefakt-Typen mit Zählwerten;Artifact types with count values
 welcome.structure.empty;Leere Zellen werden als 0 interpretiert;Empty cells are interpreted as 0
