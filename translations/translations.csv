@@ -513,6 +513,7 @@ cluster.expert.mode;🔬 Experten-Modus (Fuzzy/GMM);🔬 Expert Mode (Fuzzy/GMM)
 cluster.method;Methode:;Method:
 cluster.method.kmeans;K-Means;K-Means
 cluster.method.hierarchical;Hierarchisch;Hierarchical
+cluster.method.pam;PAM (Medoids);PAM (Medoids)
 cluster.method.fuzzy;Fuzzy K-Means;Fuzzy K-Means
 cluster.method.gmm;GMM (Gaussian Mixture);GMM (Gaussian Mixture)
 cluster.what;Was clustern:;What to cluster:
@@ -520,6 +521,9 @@ cluster.both;Beide (Sites + Types);Both (Sites + Types)
 cluster.rows;Nur Sites;Sites only
 cluster.cols;Nur Types;Types only
 cluster.both.warning;⚠️ Hinweis: Sites+Types gleichzeitig zu clustern kann methodisch problematisch sein. Empfohlen: Nur Sites clustern (dann Types charakterisieren), oder nur Types clustern.;⚠️ Note: Clustering sites+types simultaneously can be methodologically problematic. Recommended: Cluster sites only (then characterize types), or cluster types only.
+cluster.ca.metric.caveat.title;Hinweis zur CA-Geometrie;Note on CA geometry
+cluster.ca.metric.caveat.desc;Clustering operiert auf CA-Koordinaten (euklidische Distanz). Da CA intern die χ²-Metrik verwendet, sind k-Means und Ward-Clustering pragmatische Näherungen. Ergebnisse als explorative Analyse interpretieren.;Clustering operates on CA coordinates (Euclidean distance). Since CA internally uses the χ²-metric, k-means and Ward clustering are pragmatic approximations. Interpret results as exploratory analysis.
+cluster.ca.metric.caveat.help.full;Clustering auf CA-Koordinaten ist methodisch pragmatisch: CA verwendet intern die χ²-Metrik und Gewichtung, während k-Means, Ward und ähnliche Verfahren euklidische Distanzen voraussetzen. In der Praxis liefert dieses Vorgehen robuste explorative Ergebnisse, kann aber in Grenzfällen (sehr ungleiche Zeilensummen, starke Ausreißer) von einer χ²-konsistenten Clusterung abweichen. Für eine metrisch konsistentere Alternative kann hierarchisches Clustering mit Average-Linkage verwendet werden.;Clustering on CA coordinates is methodologically pragmatic: CA internally uses the χ²-metric and mass-weighting, while k-means, Ward, and similar methods assume Euclidean distances. In practice, this approach yields robust exploratory results, but may deviate from a χ²-consistent clustering in edge cases (very unequal row sums, strong outliers). For a more metric-consistent alternative, hierarchical clustering with average linkage can be used.
 cluster.auto.suggest;🤖 Auto-Vorschlag für Cluster-Anzahl;🤖 Auto-suggest cluster count
 cluster.num;Anzahl Cluster:;Number of clusters:
 cluster.dimensions;Dimensionen für Clustering:;Dimensions for clustering:
@@ -565,6 +569,7 @@ cluster.welcome.hint;Bitte lade zuerst eine Datenmatrix im Import Tab.;Please lo
 cluster.what.title;🎯 Was macht Clustering?;🎯 What does clustering do?
 cluster.what.kmeans;K-Means: Klassischer, schneller Algorithmus für kompakte Cluster;K-Means: Classic, fast algorithm for compact clusters
 cluster.what.hierarchical;Hierarchisch: Zeigt Verwandtschaftsbeziehungen im Dendrogramm;Hierarchical: Shows relationships in dendrogram
+cluster.what.pam;PAM (Medoids): χ²-konsistentere Alternative zu K-Means, robuster gegenüber Ausreißern;PAM (Medoids): More χ²-consistent alternative to K-Means, more robust to outliers
 cluster.what.fuzzy;Fuzzy K-Means: Weiche Zugehörigkeiten für Übergangsobjekte;Fuzzy K-Means: Soft memberships for transitional objects
 cluster.what.gmm;GMM: Probabilistische Clusterung mit Gauß-Mischmodellen;GMM: Probabilistic clustering with Gaussian mixture models
 seriation.settings.title;🔬 Seriations-Einstellungen;🔬 Seriation Settings
@@ -1073,6 +1078,8 @@ cluster.help.kmeans;K-Means:;K-Means:
 cluster.help.kmeans.desc;Partitionierendes Clustering (Standard);Partitioning clustering (default)
 cluster.help.hierarchical;Hierarchisches Clustering:;Hierarchical Clustering:
 cluster.help.hierarchical.desc;Dendrogramm-basierte Gruppierung;Dendrogram-based grouping
+cluster.help.pam.overview;PAM (Medoids):;PAM (Medoids):
+cluster.help.pam.overview.desc;χ²-konsistentere Medoid-Clusterung;More χ²-consistent medoid clustering
 cluster.help.fuzzy;Fuzzy K-Means:;Fuzzy K-Means:
 cluster.help.fuzzy.desc;Unscharfe Cluster-Zugehörigkeit;Fuzzy cluster membership
 cluster.help.gmm;GMM:;GMM:
@@ -1100,7 +1107,7 @@ cluster.help.hclust.adv4;Deterministisch (keine Zufälligkeit);Deterministic (no
 cluster.help.hclust.disadv1;Langsamer bei großen Datensätzen (O(n²) Speicher);Slower for large datasets (O(n²) memory)
 cluster.help.hclust.disadv2;Keine iterative Optimierung;No iterative optimization
 cluster.help.hclust.disadv3;Linkage-Methode beeinflusst Ergebnis stark;Linkage method strongly influences result
-cluster.help.hclust.rec;Nutze Ward.D2 für ausgewogene Cluster. Gut für explorative Analysen.;Use Ward.D2 for balanced clusters. Good for exploratory analyses.
+cluster.help.hclust.rec;Nutze Average-Linkage als χ²-konsistentere Option auf CA-Koordinaten. Ward.D2 liefert kompaktere, aber metrisch stärker verzerrte Cluster.;Use Average linkage as a more χ²-consistent option on CA coordinates. Ward.D2 produces more compact but metrically more distorted clusters.
 cluster.help.linkage;Linkage-Methoden:;Linkage methods:
 cluster.help.fuzzy.principle;Jeder Punkt gehört zu allen Clustern mit graduellen Mitgliedschaftswerten (0-1).;Each point belongs to all clusters with gradual membership values (0-1).
 cluster.help.fuzzy.adv1;Modelliert Übergangszonen zwischen Clustern;Models transition zones between clusters
@@ -1117,10 +1124,19 @@ cluster.help.kmeans.param2;Maximale Iterationen;Maximum iterations
 cluster.help.kmeans.param3;Seed fixieren;Fix seed
 cluster.help.kmeans.param3.desc;für Reproduzierbarkeit in Publikationen!;for reproducibility in publications!
 cluster.help.hclust.title;Hierarchisches Clustering;Hierarchical Clustering
-cluster.help.hclust.linkage.ward;(Standard) - Minimiert Varianz-Inkrement, kompakte Cluster;(Default) - Minimizes variance increment, compact clusters
+cluster.help.hclust.linkage.ward;Minimiert Varianz-Inkrement, kompakte Cluster (metrisch stärker verzerrt auf CA-Koordinaten);Minimizes variance increment, compact clusters (more metrically distorted on CA coordinates)
 cluster.help.hclust.linkage.complete;Maximum-Distanz, tendenziell gleich große Cluster;Maximum distance, tends to equal-sized clusters
-cluster.help.hclust.linkage.average;Mittel-Distanz, ausgeglichenes Ergebnis;Mean distance, balanced result
+cluster.help.hclust.linkage.average;(Standard) - Mittel-Distanz, ausgeglichenes Ergebnis, χ²-konsistentere Näherung auf CA-Koordinaten;(Default) - Mean distance, balanced result, more χ²-consistent approximation on CA coordinates
 cluster.help.hclust.linkage.single;Minimum-Distanz, neigt zu 'Chaining';Minimum distance, prone to 'chaining'
+cluster.help.pam.desc;χ²-konsistentere Alternative: Cluster-Zentren sind reale Datenpunkte (Medoide), robuster gegenüber Ausreißern;More χ²-consistent alternative: cluster centers are real data points (medoids), more robust to outliers
+cluster.help.pam.principle;Wählt für jeden Cluster einen realen Datenpunkt (Medoid) als Zentrum, minimiert Summe der Abstände zu Medoiden. Arbeitet auf Distanzmatrix, keine Annahmen über Cluster-Form.;Selects a real data point (medoid) as the center of each cluster, minimizes the sum of distances to medoids. Works on a distance matrix, no assumptions about cluster shape.
+cluster.help.pam.adv1;Medoide sind reale Datenpunkte – direkt interpretierbar als Leitfunde;Medoids are real data points – directly interpretable as index finds
+cluster.help.pam.adv2;Robuster gegenüber Ausreißern als K-Means;More robust to outliers than K-Means
+cluster.help.pam.adv3;Konsistenter mit χ²-Distanz der CA als K-Means;More consistent with χ²-distance of CA than K-Means
+cluster.help.pam.adv4;Kein Seed nötig (deterministisch);No seed needed (deterministic)
+cluster.help.pam.disadv1;Langsamer als K-Means (O(n²) Distanzberechnung);Slower than K-Means (O(n²) distance computation)
+cluster.help.pam.disadv2;Kein Dendrogramm verfügbar;No dendrogram available
+cluster.help.pam.rec;Empfohlen für CA-basiertes Clustering als χ²-konsistentere Alternative zu K-Means. Besonders geeignet bei kleinen bis mittleren Datensätzen und wenn die Medoide als archaeologisch sinnvolle Referenzobjekte interpretiert werden sollen.;Recommended for CA-based clustering as a more χ²-consistent alternative to K-Means. Particularly suitable for small to medium datasets and when medoids are to be interpreted as archaeologically meaningful reference objects.
 cluster.help.fuzzy.title;Fuzzy K-Means (FANNY);Fuzzy K-Means (FANNY)
 cluster.help.fuzzy.disadv1;Komplexere Interpretation;More complex interpretation
 cluster.help.fuzzy.disadv2;Membership-Matrix statt harter Zuordnung;Membership matrix instead of hard assignment
@@ -1232,6 +1248,7 @@ cluster.help.pub.best;✅ Best Practice:;✅ Best Practice:
 cluster.help.pub.best.desc;Kombiniere statistische Clustering-Ergebnisse immer mit archäologischer Expertise und stratigraphischer Kontrolle!;Always combine statistical clustering results with archaeological expertise and stratigraphic control!
 cluster.help.packages.kmeans;K-Means Clustering.;K-Means Clustering.
 cluster.help.packages.hclust;Hierarchisches Clustering.;Hierarchical Clustering.
+cluster.help.packages.pam;Partitioning Around Medoids – χ²-konsistentere Clusterung auf CA-Koordinaten.;Partitioning Around Medoids – more χ²-consistent clustering on CA coordinates.
 cluster.help.packages.fanny;Fuzzy Analysis Clustering.;Fuzzy Analysis Clustering.
 cluster.help.packages.mclust;Gaussian Finite Mixture Models.;Gaussian Finite Mixture Models.
 cluster.help.packages.silhouette;Silhouette-Koeffizient.;Silhouette coefficient.
@@ -2085,10 +2102,12 @@ kmeans.quality.bic;BIC: %.1f (höher = besser, mclust-Konvention);BIC: %.1f (hig
 kmeans.quality.loglik;Log-Likelihood: %.1f (höher = besser);Log-Likelihood: %.1f (higher = better)
 kmeans.quality.covariance;📊 Kovarianz: %s;📊 Covariance: %s
 kmeans.quality.linkage;🌳 Linkage: %s;🌳 Linkage: %s
+kmeans.quality.pam.medoids;🎯 Medoide: %d reale Datenpunkte als Cluster-Zentren (χ²-konsistenter);🎯 Medoids: %d real data points as cluster centers (more χ²-consistent)
 kmeans.quality.note;⚠️ Hinweis: Diese Metriken messen Cluster-Kompaktheit, nicht archäologische Validität.;⚠️ Note: These metrics measure cluster compactness, not archaeological validity.
 kmeans.quality.complete;🏛️ SeriARC Clustering vollständig;🏛️ SeriARC Clustering complete
 kmeans.method.kmeans;K-Means;K-Means
 kmeans.method.hierarchical;Hierarchisch;Hierarchical
+kmeans.method.pam;PAM (Medoids);PAM (Medoids)
 kmeans.method.fuzzy;Fuzzy K-Means;Fuzzy K-Means
 kmeans.ellipse.confidence;95%% Konfidenz %s;95%% Confidence %s
 

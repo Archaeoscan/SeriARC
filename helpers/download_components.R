@@ -477,7 +477,7 @@ create_kmeans_excel_sheets <- function(kmeans_result, get_cluster_name_func = NU
                        "50", "200")
     } else if (method == "hierarchical") {
       param_names <- c(param_names, "Linkage-Methode")
-      param_values <- c(param_values, as.character(parameters$hclust_method %||% "ward.D2"))
+      param_values <- c(param_values, as.character(parameters$hclust_method %||% "average"))
     } else if (method == "fuzzy") {
       param_names <- c(param_names, "Fuzziness-Parameter (m)", "max. Iterationen")
       param_values <- c(param_values, as.character(parameters$fuzzy_m %||% 2), "500")

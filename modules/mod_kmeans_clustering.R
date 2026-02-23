@@ -301,8 +301,8 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
         method <- method_raw
       }
     } else {
-      # Basic mode: Only kmeans/hierarchical valid
-      if (is.null(method_raw) || !(method_raw %in% c("kmeans", "hierarchical"))) {
+      # Basic mode: kmeans/hierarchical/pam valid
+      if (is.null(method_raw) || !(method_raw %in% c("kmeans", "hierarchical", "pam"))) {
         method <- "kmeans"  # Default for basic mode
       } else {
         method <- method_raw
@@ -312,6 +312,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
     method_label <- switch(method,
                           "kmeans" = "K-Means",
                           "hierarchical" = "Hierarchical",
+                          "pam" = "PAM (Medoids)",
                           "fuzzy" = "Fuzzy K-Means",
                           "gmm" = "GMM",
                           "K-Means")
@@ -376,9 +377,12 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
             km <- kmeans(coords, centers = k, nstart = 25, iter.max = 100)
             clusters <- km$cluster
           } else if (method == "hierarchical") {
-            hc_method_val <- isolate(input$hclust_method %||% "ward.D2")
+            hc_method_val <- isolate(input$hclust_method %||% "average")
             hc <- hclust(dist(coords), method = hc_method_val)
             clusters <- cutree(hc, k = k)
+          } else if (method == "pam") {
+            pam_result <- cluster::pam(coords, k = k)
+            clusters <- pam_result$clustering
           } else if (method == "fuzzy") {
             fuzzy_m_val <- isolate(input$fuzzy_m %||% 2)
             fuzzy_result <- cluster::fanny(coords, k = k, memb.exp = fuzzy_m_val, maxit = 100, tol = 0.001)
@@ -437,7 +441,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
       method2_when <- ""
       
       # Isolate parameters ONCE at the beginning for all method-2 calculations
-      hc_method_val <- isolate(input$hclust_method %||% "ward.D2")
+      hc_method_val <- isolate(input$hclust_method %||% "average")
       fuzzy_m_val <- isolate(input$fuzzy_m %||% 2)
       gmm_model_type_val <- isolate(input$gmm_model_type %||% "auto")
       
@@ -493,6 +497,20 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
           k_range[which.max(pc_values)]
         }, error = function(e) NA)
         
+      } else if (method == "pam") {
+        # AVERAGE SILHOUETTE WIDTH for PAM (built-in via pam$silinfo)
+        method2_name <- "Average Silhouette Width (ASW)"
+        method2_desc <- "Mean silhouette value computed directly from PAM's internal distance matrix."
+        method2_when <- "Ideal for PAM: uses the same distance matrix as the clustering itself. Higher = better separated clusters."
+
+        method2_k <- tryCatch({
+          asw_values <- sapply(k_range, function(k) {
+            pam_result <- cluster::pam(coords, k = k)
+            pam_result$silinfo$avg.width
+          })
+          k_range[which.max(asw_values)]
+        }, error = function(e) NA)
+
       } else if (method == "gmm") {
         # BIC for GMM
         method2_name <- "BIC (Bayesian Information Criterion)"
@@ -562,6 +580,17 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
                 list(cluster = cutree(hc, k = k))
               })
             }
+          } else if (method == "pam") {
+            function(x, k) {
+              tryCatch({
+                pam_result <- cluster::pam(x, k = k)
+                list(cluster = pam_result$clustering)
+              }, error = function(e) {
+                # Fallback: K-Means
+                km <- kmeans(x, centers = k, nstart = 10, iter.max = 50)
+                list(cluster = km$cluster)
+              })
+            }
           } else if (method == "fuzzy") {
             function(x, k) {
               tryCatch({
@@ -578,7 +607,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
               })
             }
           }
-          
+
           # Gap statistic WITH CORRECT FUN
           gap_result <- cluster::clusGap(coords, FUN = cluster_fun, K.max = max_k,
                                         B = gap_B, verbose = FALSE)
@@ -981,7 +1010,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
     num_clusters <- isolate(input$num_clusters %||% 3)
     cluster_on_val <- isolate(input$cluster_on %||% "both")
     n_dims_val <- isolate(input$kmeans_n_dims %||% 2)
-    hc_method_val <- isolate(input$hclust_method %||% "ward.D2")
+    hc_method_val <- isolate(input$hclust_method %||% "average")
     fuzzy_m_val <- isolate(input$fuzzy_m %||% 2)
     gmm_model_type_val <- isolate(input$gmm_model_type %||% "auto")
     x_dim_val <- isolate(input$x_dim)
@@ -989,6 +1018,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
     method_label <- switch(method,
                           "kmeans" = "K-Means",
                           "hierarchical" = "Hierarchical",
+                          "pam" = "PAM (Medoids)",
                           "fuzzy" = "Fuzzy K-Means",
                           "gmm" = "GMM")
 
@@ -1154,6 +1184,16 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
           clustering_result$centers <- centers
           clustering_result$hc_tree <- hc  # Store for dendrogram
 
+        } else if (method == "pam") {
+          # === PAM (Partitioning Around Medoids) ===
+          # χ²-consistent alternative: uses real data points as cluster centers,
+          # works with any distance metric, more robust to outliers than k-means.
+          pam_result <- cluster::pam(coords, k = num_clusters, metric = "euclidean")
+
+          clustering_result$cluster  <- pam_result$clustering
+          clustering_result$centers  <- pam_result$medoids
+          clustering_result$pam_obj  <- pam_result  # store for silinfo
+
         } else if (method == "fuzzy") {
           # === FUZZY K-MEANS ===
           fuzzy_m <- fuzzy_m_val
@@ -1301,7 +1341,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
         if (length(empty_clusters) > 0) {
           # For K-Means/Hierarchical: ERROR (critical)
           # For Fuzzy/GMM: WARNING (hard assignment can be empty despite existing memberships)
-          if (method %in% c("kmeans", "hierarchical")) {
+          if (method %in% c("kmeans", "hierarchical", "pam")) {
             stop(sprintf(
               "❌ Clustering produced %d empty cluster(s) (%s)! Possible solutions: (1) Choose different cluster count, (2) Try different seed, (3) Try different method. Empty clusters occur when algorithm assigns no points to certain centers.",
               length(empty_clusters),
@@ -1679,7 +1719,9 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
     method_label <- switch(method,
                           "kmeans" = tr("kmeans.method.kmeans"),
                           "hierarchical" = tr("kmeans.method.hierarchical"),
-                          "fuzzy" = tr("kmeans.method.fuzzy"))
+                          "pam" = tr("kmeans.method.pam"),
+                          "fuzzy" = tr("kmeans.method.fuzzy"),
+                          method)
     dims_info <- sprintf(tr("kmeans.quality.dims"), n_dims, method_label)
     seed_info <- if (method == "kmeans") paste0("\n", tr("kmeans.quality.seed")) else ""
 
@@ -1708,7 +1750,9 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
       gmm_info <- paste0(gmm_info, sprintf(paste0("\n", tr("kmeans.quality.covariance")), gmm_model))
       method_specific <- gmm_info
     } else if (method == "hierarchical") {
-      method_specific <- sprintf(paste0("\n", tr("kmeans.quality.linkage")), input$hclust_method %||% "ward.D2")
+      method_specific <- sprintf(paste0("\n", tr("kmeans.quality.linkage")), input$hclust_method %||% "average")
+    } else if (method == "pam") {
+      method_specific <- sprintf(paste0("\n", tr("kmeans.quality.pam.medoids")), input$num_clusters %||% 3)
     }
 
     paste0(
@@ -2542,7 +2586,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
           )
       } else {
         num_clusters <- input$num_clusters %||% 3
-        hc_method <- input$hclust_method %||% "ward.D2"
+        hc_method <- input$hclust_method %||% "average"
         
         # Cluster-Farben
         colors <- seri_arc_colors()
@@ -2732,7 +2776,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
       km_data <- kmeans_res()
       hc_tree <- km_data$clustering_result$hc_tree
       num_clusters <- input$num_clusters %||% 3
-      hc_method <- input$hclust_method %||% "ward.D2"
+      hc_method <- input$hclust_method %||% "average"
       
       png(file, width = 1200, height = 800, res = 150)
       
@@ -2785,7 +2829,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
       km_data <- kmeans_res()
       hc_tree <- km_data$clustering_result$hc_tree
       num_clusters <- input$num_clusters %||% 3
-      hc_method <- input$hclust_method %||% "ward.D2"
+      hc_method <- input$hclust_method %||% "average"
       
       svg(file, width = 12, height = 8)
 
@@ -2836,7 +2880,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
       km_data <- kmeans_res()
       hc_tree <- km_data$clustering_result$hc_tree
       num_clusters <- input$num_clusters %||% 3
-      hc_method <- input$hclust_method %||% "ward.D2"
+      hc_method <- input$hclust_method %||% "average"
       
       pdf(file, width = 12, height = 8)
       

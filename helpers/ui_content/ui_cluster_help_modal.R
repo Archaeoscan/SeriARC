@@ -10,6 +10,12 @@ observeEvent(input$show_cluster_help, {
     footer = modalButton(tr("cluster.help.close")),
 
     tagList(
+      # === CA METRIC CAVEAT ===
+      div(class = "alert alert-warning", role = "alert",
+        tags$strong("⚠️ ", tr("cluster.ca.metric.caveat.title")), " ",
+        tr("cluster.ca.metric.caveat.help.full")
+      ),
+
       # === OVERVIEW ===
       div(class = "seriarc-panel",
         h4(tr("cluster.help.overview.title"), class = "mt-0"),
@@ -17,6 +23,7 @@ observeEvent(input$show_cluster_help, {
         tags$ul(
           tags$li(tags$strong(tr("cluster.help.kmeans")), " ", tr("cluster.help.kmeans.desc")),
           tags$li(tags$strong(tr("cluster.help.hierarchical")), " ", tr("cluster.help.hierarchical.desc")),
+          tags$li(tags$strong("PAM (Medoids)"), " ", tr("cluster.help.pam.desc")),
           tags$li(tags$strong(tr("cluster.help.fuzzy")), " ", tr("cluster.help.fuzzy.desc")),
           tags$li(tags$strong(tr("cluster.help.gmm")), " ", tr("cluster.help.gmm.desc"))
         ),
@@ -84,6 +91,27 @@ observeEvent(input$show_cluster_help, {
               tags$li(tags$strong("Single"), " - ", tr("cluster.help.hclust.linkage.single"))
             )
           )
+        ),
+
+        # PAM (Medoids)
+        div(class = "well well-sm",
+          h5(tags$strong("PAM (Partitioning Around Medoids)")),
+          p(tags$strong(tr("cluster.help.principle")), " ", tr("cluster.help.pam.principle")),
+          p(tags$strong(tr("cluster.help.advantages")),
+            tags$ul(
+              tags$li(tr("cluster.help.pam.adv1")),
+              tags$li(tr("cluster.help.pam.adv2")),
+              tags$li(tr("cluster.help.pam.adv3")),
+              tags$li(tr("cluster.help.pam.adv4"))
+            )
+          ),
+          p(tags$strong(tr("cluster.help.disadvantages")),
+            tags$ul(
+              tags$li(tr("cluster.help.pam.disadv1")),
+              tags$li(tr("cluster.help.pam.disadv2"))
+            )
+          ),
+          p(tags$strong(tr("cluster.help.recommendation")), tags$em(tr("cluster.help.pam.rec")))
         ),
 
         # Fuzzy K-Means
@@ -294,6 +322,13 @@ observeEvent(input$show_cluster_help, {
             tr("cluster.help.packages.hclust"), " R Core Team (2024).",
             tags$br(),
             tags$em("Murtagh, F. & Legendre, P. (2014). Ward's Hierarchical Agglomerative Clustering Method. Journal of Classification, 31, 274-295.")
+          ),
+
+          tags$dt(tags$strong("cluster::pam")),
+          tags$dd(
+            tr("cluster.help.packages.pam"), " Maechler, M., Rousseeuw, P., et al. (2023). cluster: Cluster Analysis Basics and Extensions. R package.",
+            tags$br(),
+            tags$em("Kaufman, L. & Rousseeuw, P. J. (1990). Finding Groups in Data: An Introduction to Cluster Analysis. Wiley.")
           ),
 
           tags$dt(tags$strong("cluster::fanny")),

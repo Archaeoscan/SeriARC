@@ -14,8 +14,8 @@ output$clustering_method_ui <- renderUI({
   } else {
     selectInput("clustering_method", tr("cluster.method"),
                 choices = setNames(
-                  c("kmeans", "hierarchical"),
-                  c(tr("cluster.method.kmeans"), tr("cluster.method.hierarchical"))
+                  c("kmeans", "hierarchical", "pam"),
+                  c(tr("cluster.method.kmeans"), tr("cluster.method.hierarchical"), tr("cluster.method.pam"))
                 ),
                 selected = "kmeans")
   }
@@ -61,6 +61,10 @@ output$cluster_main_content <- renderUI({
 
                   checkboxInput("expert_clustering_mode", tr("cluster.expert.mode"), FALSE),
                   uiOutput("clustering_method_ui"),
+                  div(class = "alert alert-info", style = "padding: 8px 10px; margin-bottom: 10px; font-size: 0.88em;",
+                    tags$strong("ℹ️ ", tr("cluster.ca.metric.caveat.title")), " ",
+                    tr("cluster.ca.metric.caveat.desc")
+                  ),
                   selectInput("cluster_on", tr("cluster.what"),
                     choices = setNames(
                       c("both", "rows", "cols"),
@@ -93,9 +97,10 @@ output$cluster_main_content <- renderUI({
                     condition = "input.clustering_method == 'hierarchical'",
                     selectInput("hclust_method", tr("cluster.hclust.method"),
                       choices = setNames(
-                        c("ward.D2", "complete", "average", "single"),
-                        c(tr("cluster.hclust.ward"), tr("cluster.hclust.complete"), tr("cluster.hclust.average"), tr("cluster.hclust.single"))
-                      )),
+                        c("average", "ward.D2", "complete", "single"),
+                        c(tr("cluster.hclust.average"), tr("cluster.hclust.ward"), tr("cluster.hclust.complete"), tr("cluster.hclust.single"))
+                      ),
+                      selected = "average"),
                     checkboxInput("show_cluster_blocks", tr("cluster.show.blocks"), TRUE)
                   ),
 
@@ -270,6 +275,7 @@ welcome_cluster_ui <- function(tr = function(x) x) {
     tags$ul(class = "text-left", style = "max-width: 600px; margin: 0 auto;",
       tags$li(tags$strong("K-Means:"), " ", tr("cluster.what.kmeans")),
       tags$li(tags$strong("Hierarchical:"), " ", tr("cluster.what.hierarchical")),
+      tags$li(tags$strong("PAM (Medoids):"), " ", tr("cluster.what.pam")),
       tags$li(tags$strong("Fuzzy K-Means:"), " ", tr("cluster.what.fuzzy")),
       tags$li(tags$strong("GMM:"), " ", tr("cluster.what.gmm"))
     ),
