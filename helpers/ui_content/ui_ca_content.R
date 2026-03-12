@@ -639,7 +639,8 @@ output$ca_main_content <- renderUI({
                     style="color: #6c757d; font-size: 0.9em;"),
                   verbatimTextOutput("ca_between_group")
                 )
-              )
+              ),
+
             )
           )
         )

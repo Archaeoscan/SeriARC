@@ -68,6 +68,29 @@ output$battleship_main_content <- renderUI({
                     checkboxInput("bship_aggregate_clusters", tr("battleship.agg.sites.clusters"), FALSE),
                     checkboxInput("bship_aggregate_types", tr("battleship.agg.types.clusters"), FALSE),
                     checkboxInput("bship_aggregate_type_groups", tr("battleship.agg.sites.groups"), FALSE)
+                  ),
+
+                  # Site ordering section
+                  div(class = "seriarc-panel-success", style = "margin-top: 10px;",
+                    div(style = "display: flex; align-items: center; gap: 6px; margin-bottom: 6px;",
+                      h6(tr("bship.order.title"), style = "margin: 0;"),
+                      tooltip_info(tr("bship.order.tooltip"))
+                    ),
+                    radioButtons("bship_order_by", NULL,
+                      choices = setNames(
+                        c("seriation", "arc_length"),
+                        c(paste0(" ", tr("bship.order.seriation")),
+                          paste0(" ", tr("bship.order.arclength")))
+                      ),
+                      selected = "seriation"
+                    ),
+                    conditionalPanel(
+                      condition = "input.bship_order_by == 'arc_length'",
+                      div(class = "alert alert-warning", style = "font-size: 0.8em; padding: 6px 8px; margin-top: 4px; margin-bottom: 0;",
+                        tags$span(class = "glyphicon glyphicon-warning-sign", style = "margin-right: 4px;"),
+                        tr("bship.order.arclength.hint")
+                      )
+                    )
                   )
                 )
               )

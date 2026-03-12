@@ -281,7 +281,7 @@ output$count_summary <- renderText({
     }
 
     sprintf(
-      "📈 %s: %d Sites × %d Types\n🔍 %s: %d Sites × %d Types\n\n✅ %s: %d Sites, %d Types\n🔗 %s: %d Sites, %d Types\n\n💾 %s: %s%s\n🏛️ SeriARC v.1.5 %s",
+      "📈 %s: %d Sites × %d Types\n🔍 %s: %d Sites × %d Types\n\n✅ %s: %d Sites, %d Types\n🔗 %s: %d Sites, %d Types\n\n💾 %s: %s%s\n🏛️ SeriARC %s",
       tr("data.summary.original"), nrow(original), ncol(original) - 1,
       tr("data.summary.filtered"), nrow(filtered), ncol(filtered),
       tr("data.summary.active"), active_sites, active_types,

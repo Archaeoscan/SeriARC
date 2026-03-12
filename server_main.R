@@ -119,6 +119,19 @@ server <- function(input, output, session) {
 
   # Note: c14_calibrated_ref and oxcal_results_ref are updated by observers after modules are created (see below)
   
+  # Polynomial projection module (arc length time scale)
+  polynomial_module <- mod_polynomial_projection_server(
+    filtered_data = aggregated_data,
+    cache = cache,
+    meta_data = aggregated_meta,
+    get_site_group = get_site_group,
+    get_element_details = get_element_details,
+    c14_calibrated = c14_calibrated_ref,
+    oxcal_results  = oxcal_results_ref,
+    input = input, output = output, session = session,
+    tr = tr
+  )
+
   # Detrended CA module
   detrended_ca_module <- mod_detrended_ca_server(
     filtered_data = aggregated_data,
@@ -223,6 +236,7 @@ server <- function(input, output, session) {
   source("helpers/ui_content/ui_filter_content.R", local = TRUE)
   source("helpers/ui_content/ui_aggregation_content.R", local = TRUE)
   source("helpers/ui_content/ui_ca_content.R", local = TRUE)
+  source("helpers/ui_content/ui_poly_content.R", local = TRUE)
   source("helpers/ui_content/ui_detrended_ca_content.R", local = TRUE)
   source("helpers/ui_content/ui_bootstrap_content.R", local = TRUE)
   source("helpers/ui_content/ui_3d_ca_content.R", local = TRUE)
@@ -263,6 +277,7 @@ server <- function(input, output, session) {
     "chrono",
     ca_scores_reactive = ca_module$get_ca_scores,
     c14_data_reactive = chronology_module$c14_data,
+    cache = cache,
     tr = tr
   )
   

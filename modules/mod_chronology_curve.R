@@ -26,9 +26,25 @@ mod_chronology_curve_ui <- function(id, tr = function(x) x) {
             tooltip_icon(tr("mod_chrono.method.tooltip"))
           ),
           radioButtons(ns("method"), NULL,
-            choices = setNames(c("dim1", "parabola"),
-                               c(tr("mod_chrono.method.dim1"), tr("mod_chrono.method.parabola"))),
+            choices = setNames(
+              c("dim1", "parabola", "poly_arclength"),
+              c(tr("mod_chrono.method.dim1"),
+                tr("mod_chrono.method.parabola"),
+                tr("mod_chrono.method.poly_arclength"))
+            ),
             selected = "dim1"
+          ),
+
+          # Hint: polynomial projection must be computed first
+          conditionalPanel(
+            condition = "input.method == 'poly_arclength'",
+            ns = ns,
+            div(class = "alert alert-warning",
+                style = "padding: 6px 8px; font-size: 0.82em; margin-top: -4px;",
+              tags$span(class = "glyphicon glyphicon-warning-sign",
+                        style = "margin-right: 4px;"),
+              tr("mod_chrono.poly_arclength.hint")
+            )
           ),
           
           # LOESS smoothing
@@ -74,7 +90,8 @@ mod_chronology_curve_ui <- function(id, tr = function(x) x) {
   )
 }
 
-mod_chronology_curve_server <- function(id, ca_scores_reactive, c14_data_reactive = NULL, tr = function(x) x) {
+mod_chronology_curve_server <- function(id, ca_scores_reactive, c14_data_reactive = NULL,
+                                        cache = NULL, tr = function(x) x) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     req <- shiny::req
@@ -150,6 +167,35 @@ mod_chronology_curve_server <- function(id, ca_scores_reactive, c14_data_reactiv
             method_info <- tr("plot.chrono.method.fallback.error")
             parabola_details <- NULL
           })
+        }
+
+      } else if (method_choice == "poly_arclength") {
+        # === POLYNOMPROJEKTION-BOGENLÄNGE (aus CA-Tab) ===
+        poly_res <- if (!is.null(cache)) cache$polynomial_result else NULL
+
+        if (is.null(poly_res) || is.null(poly_res$arc_length)) {
+          showNotification(tr("notify.chrono.poly_missing"), type = "warning", duration = 8)
+          x_values <- df$dim1
+          method_info <- tr("plot.chrono.method.fallback")
+        } else {
+          # Match arc lengths to current sites by name
+          site_ids <- if ("site_id" %in% names(df)) df$site_id else as.character(seq_len(nrow(df)))
+          arc_vec  <- poly_res$arc_length$ArcLength[match(site_ids, poly_res$arc_length$Site)]
+
+          n_missing <- sum(is.na(arc_vec))
+          if (n_missing > 0) {
+            showNotification(
+              paste0(n_missing, " ", tr("notify.chrono.poly_partial")),
+              type = "warning", duration = 6
+            )
+            # Fallback for unmatched sites: use normalized Dim1
+            d1_range <- range(df$dim1, na.rm = TRUE)
+            dim1_norm <- (df$dim1 - d1_range[1]) / diff(d1_range)
+            arc_vec[is.na(arc_vec)] <- dim1_norm[is.na(arc_vec)]
+          }
+
+          x_values    <- arc_vec
+          method_info <- if (use_loess_flag) tr("plot.chrono.method.poly_arclength.loess") else tr("plot.chrono.method.poly_arclength")
         }
       }
       
