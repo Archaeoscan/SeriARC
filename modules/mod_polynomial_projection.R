@@ -40,6 +40,8 @@ mod_polynomial_projection_server <- function(
   # Evaluate polynomial at x values
   # coef: named vector from lm (Intercept, poly1, poly2, ...)
   eval_poly <- function(coef, x) {
+    coef <- as.numeric(coef)          # strip names/attributes → plain numeric
+    x    <- as.numeric(x)
     degree <- length(coef) - 1
     y <- rep(coef[1], length(x))
     for (d in seq_len(degree)) {
@@ -64,8 +66,12 @@ mod_polynomial_projection_server <- function(
   # influence, reducing rank disruption caused by large Dim2 residuals.
   project_point_to_curve <- function(px, py, poly_coef, x_range, n = 2000,
                                      w1 = 1, w2 = 1) {
+    px <- as.numeric(px)[[1L]]        # ensure plain scalar (strips names/dim)
+    py <- as.numeric(py)[[1L]]
+    w1 <- as.numeric(w1)[[1L]]
+    w2 <- as.numeric(w2)[[1L]]
     xs <- seq(x_range[1], x_range[2], length.out = n)
-    ys <- eval_poly(poly_coef, xs)
+    ys <- eval_poly(poly_coef, xs)    # already returns plain numeric via eval_poly
     dists <- sqrt((w1 * (xs - px))^2 + (w2 * (ys - py))^2)
     xs[which.min(dists)]
   }
@@ -262,12 +268,12 @@ mod_polynomial_projection_server <- function(
     # Eigenvalue weights: use CA singular values so Dim1 gets proportionally
     # more influence (sv[1] > sv[2] always). Default = equal weights (1/1).
     sv <- if (use_ev_weight && !is.null(ca_obj$sv) && length(ca_obj$sv) >= 2) {
-      ca_obj$sv[1:2]
+      as.numeric(ca_obj$sv)[1:2]      # flatten to plain numeric (handles matrix/named)
     } else {
       c(1, 1)
     }
-    proj_w1 <- sv[1]
-    proj_w2 <- sv[2]
+    proj_w1 <- sv[[1L]]               # scalar double, no names/dims
+    proj_w2 <- sv[[2L]]
 
     if (fit_target == "sites") {
       fit_dim1 <- active_site_coords[, 1]
