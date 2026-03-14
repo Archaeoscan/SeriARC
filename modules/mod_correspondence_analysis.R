@@ -147,6 +147,9 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
     } else if (type_transform == "log") {
       mat_transformed <- log1p(mat_transformed)
       transform_info <- c(transform_info, tr("ca.types.log"))
+    } else if (type_transform == "binary") {
+      mat_transformed <- (mat_transformed > 0) * 1L
+      transform_info <- c(transform_info, tr("ca.types.binary"))
     }
 
     # Transform sites (rows) - normalize to proportions
@@ -158,6 +161,9 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
     } else if (site_transform == "log") {
       mat_transformed <- log1p(mat_transformed)
       transform_info <- c(transform_info, tr("ca.sites.log"))
+    } else if (site_transform == "binary") {
+      mat_transformed <- (mat_transformed > 0) * 1L
+      transform_info <- c(transform_info, tr("ca.sites.binary"))
     }
     
     list(matrix = mat_transformed, info = transform_info)

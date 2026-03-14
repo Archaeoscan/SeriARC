@@ -56,8 +56,8 @@ output$ca_main_content <- renderUI({
                   tags$small(tr("ca.transform.types"), style = "color: #666;"),
                   radioButtons("ca_transform_types", NULL,
                     choices = setNames(
-                      c("none", "normalize", "log"),
-                      c(tr("ca.transform.none"), tr("ca.transform.normalize"), tr("ca.transform.log"))
+                      c("none", "normalize", "log", "binary"),
+                      c(tr("ca.transform.none"), tr("ca.transform.normalize"), tr("ca.transform.log"), tr("ca.transform.binary"))
                     ),
                     selected = "none", inline = TRUE
                   ),
@@ -65,8 +65,8 @@ output$ca_main_content <- renderUI({
                   tags$small(tr("ca.transform.sites"), style = "color: #666;"),
                   radioButtons("ca_transform_sites", NULL,
                     choices = setNames(
-                      c("none", "normalize", "log"),
-                      c(tr("ca.transform.none"), tr("ca.transform.normalize"), tr("ca.transform.log"))
+                      c("none", "normalize", "log", "binary"),
+                      c(tr("ca.transform.none"), tr("ca.transform.normalize"), tr("ca.transform.log"), tr("ca.transform.binary"))
                     ),
                     selected = "none", inline = TRUE
                   ),
