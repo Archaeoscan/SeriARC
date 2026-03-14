@@ -50,12 +50,6 @@ output$poly_main_content <- renderUI({
 
                   tags$hr(style = "margin: 8px 0;"),
 
-                  # EV-Gewichtung
-                  div(style = "display: flex; align-items: center; gap: 5px; margin-bottom: 5px;",
-                    checkboxInput("poly_ev_weight", tr("ca.poly.ev.weight"), value = FALSE),
-                    tooltip_info(tr("ca.poly.ev.weight.tooltip"))
-                  ),
-
                   # Types im Zeitstrahl (nur wenn Types projiziert)
                   conditionalPanel(
                     condition = "input.poly_fit_on != 'sites'",

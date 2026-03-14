@@ -60,10 +60,7 @@ mod_polynomial_projection_server <- function(
     coef(fit)
   }
 
-  # For each point (px, py), find x on curve that minimizes distance.
-  # w1/w2: optional dimension weights (default 1 = unweighted Euclidean).
-  # With eigenvalue weighting: w1 = sv[1], w2 = sv[2] → Dim1 gets more
-  # influence, reducing rank disruption caused by large Dim2 residuals.
+  # For each point (px, py), find x on curve that minimizes distance (unweighted Euclidean).
   project_point_to_curve <- function(px, py, poly_coef, x_range, n = 2000,
                                      w1 = 1, w2 = 1) {
     px <- as.numeric(px)[[1L]]        # ensure plain scalar (strips names/dim)
@@ -262,18 +259,7 @@ mod_polynomial_projection_server <- function(
       ca_obj$col$coord else NULL
 
     # ── Projection options ──────────────────────────────────────
-    fit_target    <- input$poly_fit_on %||% "sites"
-    use_ev_weight <- isTRUE(input$poly_ev_weight %||% FALSE)
-
-    # Eigenvalue weights: use CA singular values so Dim1 gets proportionally
-    # more influence (sv[1] > sv[2] always). Default = equal weights (1/1).
-    sv <- if (use_ev_weight && !is.null(ca_obj$sv) && length(ca_obj$sv) >= 2) {
-      as.numeric(ca_obj$sv)[1:2]      # flatten to plain numeric (handles matrix/named)
-    } else {
-      c(1, 1)
-    }
-    proj_w1 <- sv[[1L]]               # scalar double, no names/dims
-    proj_w2 <- sv[[2L]]
+    fit_target <- input$poly_fit_on %||% "sites"
 
     if (fit_target == "sites") {
       fit_dim1 <- active_site_coords[, 1]
@@ -314,8 +300,7 @@ mod_polynomial_projection_server <- function(
     # ── Project active sites ─────────────────────────────────────
     active_sites <- project_group(
       active_site_coords[, 1], active_site_coords[, 2],
-      rownames(active_site_coords), poly_coef, x_range, x_min, total_len,
-      w1 = proj_w1, w2 = proj_w2
+      rownames(active_site_coords), poly_coef, x_range, x_min, total_len
     )
     active_sites$SiteType <- "active"
 
@@ -324,8 +309,7 @@ mod_polynomial_projection_server <- function(
     if (!is.null(ca_obj$row.sup) && !is.null(ca_obj$row.sup$coord)) {
       sc <- ca_obj$row.sup$coord
       supp_sites <- project_group(
-        sc[, 1], sc[, 2], rownames(sc), poly_coef, x_range, x_min, total_len,
-        w1 = proj_w1, w2 = proj_w2
+        sc[, 1], sc[, 2], rownames(sc), poly_coef, x_range, x_min, total_len
       )
       supp_sites$SiteType <- "supplementary"
     }
@@ -344,8 +328,7 @@ mod_polynomial_projection_server <- function(
     if (!is.null(active_type_coords)) {
       types_df <- project_group(
         active_type_coords[, 1], active_type_coords[, 2],
-        rownames(active_type_coords), poly_coef, x_range, x_min, total_len,
-        w1 = proj_w1, w2 = proj_w2
+        rownames(active_type_coords), poly_coef, x_range, x_min, total_len
       )
       types_df$TypeCat <- "active"
     }
@@ -355,8 +338,7 @@ mod_polynomial_projection_server <- function(
     if (!is.null(ca_obj$col.sup) && !is.null(ca_obj$col.sup$coord)) {
       stc <- ca_obj$col.sup$coord
       supp_types_df <- project_group(
-        stc[, 1], stc[, 2], rownames(stc), poly_coef, x_range, x_min, total_len,
-        w1 = proj_w1, w2 = proj_w2
+        stc[, 1], stc[, 2], rownames(stc), poly_coef, x_range, x_min, total_len
       )
       supp_types_df$TypeCat <- "supplementary"
     }
