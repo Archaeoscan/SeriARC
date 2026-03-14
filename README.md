@@ -61,10 +61,10 @@ SeriARC supports two execution modes:
 - Recommended for intensive analysis work
 
 ### 2. Cloud/Web Deployment
-- Runs on shinyapps.io or similar platforms
+- Runs on shinyapps.io
+- URL: https://archaeoscan.shinyapps.io/SeriARC-v-1-0-0
 - OxCal modules automatically disabled
 - CQL code can be exported and run in OxCal separately
-- Example: https://archaeoscan.shinyapps.io/SeriARC
 
 ## Usage
 
