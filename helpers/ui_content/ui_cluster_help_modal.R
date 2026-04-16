@@ -16,6 +16,32 @@ observeEvent(input$show_cluster_help, {
         tr("cluster.ca.metric.caveat.help.full")
       ),
 
+      # === ARC LENGTH AS CLUSTERING BASIS ===
+      div(class = "seriarc-panel",
+        h4(tr("cluster.help.arclength.title"), class = "mt-0", style = "color: #388E3C;"),
+        p(tr("cluster.help.arclength.desc")),
+
+        div(class = "well well-sm", style = "background-color: #e8f5e9; border-left: 4px solid #4CAF50;",
+          h5(tags$strong("🏺 ", tr("cluster.help.arclength.why"))),
+          p(tr("cluster.help.arclength.why.desc"))
+        ),
+
+        div(class = "well well-sm",
+          h5(tags$strong("⚙️ ", tr("cluster.help.arclength.howto"))),
+          p(tr("cluster.help.arclength.howto.desc")),
+          tags$ol(
+            tags$li(tags$strong(tr("cluster.help.arclength.1d")), " — ", tr("cluster.help.arclength.1d.desc")),
+            tags$li(tags$strong(tr("cluster.help.arclength.vs.dim1")), " — ", tr("cluster.help.arclength.vs.dim1.desc"))
+          )
+        ),
+
+        div(class = "alert alert-info",
+          tags$strong("💡 "), tr("cluster.feature.arclength.note")
+        ),
+
+        tags$hr()
+      ),
+
       # === OVERVIEW ===
       div(class = "seriarc-panel",
         h4(tr("cluster.help.overview.title"), class = "mt-0"),

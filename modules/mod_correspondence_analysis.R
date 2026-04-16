@@ -793,8 +793,8 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
   output$ca_dim_select <- renderUI({
     req(ca_res())
 
-    # ca package: dimensions from sv (singular values)
-    n_dims <- length(ca_res()$sv)
+    # FactoMineR CA: sv ist list(vs, U, V) → vs enthält die Singulärwerte
+    n_dims <- length(ca_res()$sv$vs)
     dims <- paste0("Dim", seq_len(n_dims))
 
     list(

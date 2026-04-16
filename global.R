@@ -61,15 +61,27 @@ library(purrr)
                  stringsAsFactors = FALSE,
                  fileEncoding = "UTF-8",
                  check.names = FALSE,
-                 sep = ";")
+                 sep = ";",
+                 quote = "")   # disable quote-parsing: translation strings may contain literal "
+
+  # Validate expected columns
+  expected_cols <- c("key", "de", "en")
+  missing_cols  <- setdiff(expected_cols, names(df))
+  if (length(missing_cols) > 0) {
+    message("i18n: CSV missing columns: ", paste(missing_cols, collapse = ", "),
+            " | found: ", paste(names(df), collapse = ", "))
+    return(list())
+  }
 
   trans_list <- list()
   for (i in seq_len(nrow(df))) {
     key <- as.character(df[i, "key"])
-    trans_list[[key]] <- list(
-      de = as.character(df[i, "de"]),
-      en = as.character(df[i, "en"])
-    )
+    if (!is.na(key) && nzchar(key) && !startsWith(key, "#")) {
+      trans_list[[key]] <- list(
+        de = as.character(df[i, "de"]),
+        en = as.character(df[i, "en"])
+      )
+    }
   }
 
   message("i18n: ", length(trans_list), " translations loaded")
@@ -446,6 +458,7 @@ all_modules <- c(
   "mod_meta_editor.R",
   "mod_correspondence_analysis.R",
   "mod_detrended_ca.R",
+  "mod_polynomial_projection.R",
   "mod_bootstrap.R",
   "mod_3d_ca.R",
   "mod_kmeans_clustering.R",

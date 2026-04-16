@@ -23,6 +23,30 @@ output$battleship_main_content <- renderUI({
           div(class = "seriarc-panel",
             h4(tr("battleship.settings"), class="mt-0", style = "margin-bottom: 10px;"),
 
+            # ===================== ORDERING (always visible at top) =====================
+            div(style = "margin-bottom: 12px;",
+              div(style = "display: flex; align-items: center; gap: 6px; margin-bottom: 4px;",
+                tags$label(tr("bship.order.title"), style = "margin: 0; font-weight: bold;"),
+                tooltip_info(tr("bship.order.tooltip"))
+              ),
+              selectInput("bship_order_by", NULL,
+                choices = setNames(
+                  c("dim1", "seriation", "arc_length"),
+                  c(tr("bship.order.dim1"),
+                    tr("bship.order.seriation"),
+                    tr("bship.order.arclength"))
+                ),
+                selected = "dim1"
+              ),
+              conditionalPanel(
+                condition = "input.bship_order_by == 'arc_length'",
+                div(class = "alert alert-warning", style = "font-size: 0.8em; padding: 6px 8px; margin-top: -8px; margin-bottom: 0;",
+                  tags$span(class = "glyphicon glyphicon-warning-sign", style = "margin-right: 4px;"),
+                  tr("bship.order.arclength.hint")
+                )
+              )
+            ),
+
             # ===================== PANEL 0: TYPE SELECTION (open by default) =====================
             div(class = "panel panel-success", style = "margin-bottom: 10px;",
               div(class = "panel-heading", style = "cursor: pointer; padding: 8px 12px;",
@@ -68,7 +92,8 @@ output$battleship_main_content <- renderUI({
                     checkboxInput("bship_aggregate_clusters", tr("battleship.agg.sites.clusters"), FALSE),
                     checkboxInput("bship_aggregate_types", tr("battleship.agg.types.clusters"), FALSE),
                     checkboxInput("bship_aggregate_type_groups", tr("battleship.agg.sites.groups"), FALSE)
-                  )
+                  ),
+
                 )
               )
             ),

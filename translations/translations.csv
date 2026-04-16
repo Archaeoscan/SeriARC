@@ -1513,9 +1513,11 @@ mod_chrono.title;⏱️ Chronology Curve - Zentrales Prior-Interface;⏱️ Chro
 mod_chrono.info.title;Wichtig:;Important:
 mod_chrono.info.text;Dieses Modul bestimmt die chronologische Reihenfolge für <strong>OxCal</strong>.<br>Wählen Sie Methode und Richtung, dann klicken Sie <strong>'Berechnen'</strong>.;This module determines the chronological order for <strong>OxCal</strong>.<br>Select method and direction, then click <strong>'Calculate'</strong>.
 mod_chrono.method.label;Zeitindex-Berechnung:;Time index calculation:
-mod_chrono.method.tooltip;Dimension 1: Nutzt CA Dim1 (linear). Parabel: Bogenlänge auf quadratischer Kurve (klassische Seriation für Hufeisen-Muster).;Dimension 1: Uses CA Dim1 (linear). Parabola: Arc length on quadratic curve (classic seriation for horseshoe pattern).
+mod_chrono.method.tooltip;Dimension 1: Nutzt CA Dim1 direkt als Zeitindex (linear, Standardmethode). Parabel (Hufeisen): Bogenlänge entlang einer gefitteten Parabel im Dim1×Dim2-Raum – ändert nur die Abstände, nicht die Reihenfolge der Sites. Polynomprojektion: Übernimmt die orthogonale Bogenlänge aus dem CA-Tab (Polynomprojektion muss dort zuerst berechnet werden) – kann im Gegensatz zur Parabel die Reihenfolge der Sites verändern.;Dimension 1: Uses CA Dim1 directly as time index (linear, default). Parabola (Horseshoe): Arc length along a fitted parabola in Dim1×Dim2 space – changes spacing but not the order of sites. Polynomial Projection: Uses the orthogonal arc length from the CA tab (polynomial projection must be computed there first) – unlike the parabola, this can change the order of sites.
 mod_chrono.method.dim1;Dimension 1;Dimension 1
 mod_chrono.method.parabola;Parabel (Hufeisen);Parabola (Horseshoe)
+mod_chrono.method.poly_arclength;Polynomprojektion (CA-Tab);Polynomial Projection (CA tab)
+mod_chrono.poly_arclength.hint;Bogenlänge aus dem CA-Tab übernehmen. Bitte zuerst im Tab „Korrespondenzanalyse → Polynomprojektion" auf „Berechnen" klicken, damit die Werte verfügbar sind.;Takes arc lengths from the CA tab. Please first click „Calculate" in the „Correspondence Analysis → Polynomial Projection" tab to make the values available.
 mod_chrono.loess.label;LOESS-Glättung aktivieren;Enable LOESS smoothing
 mod_chrono.loess.tooltip;Glättet Abstände zwischen Sites. Für OxCal (nur Reihenfolge) optional. Ohne LOESS: Rohe CA-Abstände werden verwendet.;Smooths distances between sites. Optional for OxCal (order only). Without LOESS: Raw CA distances are used.
 mod_chrono.loess.span;LOESS span:;LOESS span:
@@ -1540,6 +1542,8 @@ plot.chrono.method.dim1;Dimension 1;Dimension 1
 plot.chrono.method.dim1.loess;Dimension 1 (mit LOESS);Dimension 1 (with LOESS)
 plot.chrono.method.parabola;Parabel (Hufeisen);Parabola (Horseshoe)
 plot.chrono.method.parabola.loess;Parabel (Hufeisen) mit LOESS;Parabola (Horseshoe) with LOESS
+plot.chrono.method.poly_arclength;Polynomprojektion (CA-Tab);Polynomial Projection (CA tab)
+plot.chrono.method.poly_arclength.loess;Polynomprojektion (CA-Tab) mit LOESS;Polynomial Projection (CA tab) with LOESS
 plot.chrono.method.fallback;Fallback: Dimension 1;Fallback: Dimension 1
 plot.chrono.method.fallback.dim2;Fallback: Dimension 1 (Dim2 fehlt);Fallback: Dimension 1 (Dim2 missing)
 plot.chrono.method.fallback.error;Fallback: Dimension 1 (Parabel-Fehler);Fallback: Dimension 1 (Parabola error)
@@ -1553,6 +1557,8 @@ notify.chrono.dim1.missing;Fehler: Dim1-Spalte nicht gefunden;Error: Dim1 column
 notify.chrono.dim2.missing;Parabel benötigt Dim2 - Fallback zu Dim1;Parabola requires Dim2 - Fallback to Dim1
 notify.chrono.parabola.error;Parabel-Fehler:;Parabola error:
 notify.chrono.loess.error;LOESS-Fehler:;LOESS error:
+notify.chrono.poly_missing;Keine Bogenlängen-Daten vorhanden. Bitte zuerst im Tab „Polynomprojektion" berechnen, dann erneut auf „Berechnen" klicken.;No arc length data available. Please compute the Polynomial Projection in the CA tab first, then click „Calculate" again.
+notify.chrono.poly_partial;Sites ohne Bogenlänge (kein Treffer in der Polynomprojektion) – Fallback zu normiertem Dim1.;sites without arc length (no match in polynomial projection) – fallback to normalised Dim1.
 
 # --- CA / Correspondence Analysis ---
 plot.ca.error;Fehler:;Error:
@@ -2691,3 +2697,127 @@ oxcal.seq.nocurve.step2;Die Kurve liefert die korrekte Fundort-Reihenfolge (;The
 oxcal.seq.nocurve.step3;Dann kann hier das OxCal-Sequenz-Modell erstellt werden;Then you can create the OxCal Sequence model here
 oxcal.seq.nocurve.warn;WICHTIG:;IMPORTANT:
 oxcal.seq.nocurve.warn.text;Ohne Chronologie-Kurve kann keine korrekte Sequenz-Reihenfolge bestimmt werden!;Without Chronology Curve, no correct sequence order can be determined!
+ca.tab.polynomial;Polynomprojektion;Polynomial Projection
+ca.poly.exp.title;Was ist Polynomprojektion?;What is Polynomial Projection?
+ca.poly.exp.toggle;(Klicken zum Ein-/Ausblenden);(Click to expand/collapse)
+ca.poly.exp.intro;Die Polynomprojektion ist eine Methode zur Transformation der CA-Scores. Anstatt die Sites nur auf Dim1 zu projizieren, wird eine Polynomkurve durch die Punktwolke im Dim1–Dim2-Raum gefittet. Die Position eines Sites entlang dieser Kurve (gemessen als Bogenlänge) wird anschließend als eindimensionale Chronologieskala verwendet. Diese Transformation kann geometrische Verzerrungen reduzieren, die bei parabelförmigen CA-Strukturen durch die reine Dim1-Projektion entstehen. Die Methode erzeugt keine neue Information, sondern nutzt die vorhandene Geometrie der CA-Punktwolke.;Polynomial projection is a method for transforming CA scores. Instead of projecting sites onto Dim1 alone, a polynomial curve is fitted through the point cloud in Dim1–Dim2 space. The position of each site along this curve (measured as arc length) is then used as a one-dimensional chronological scale. This transformation can reduce geometric distortions that arise from pure Dim1 projection in parabolic CA structures. The method does not generate new information, but makes better use of the existing geometry of the CA point cloud.
+ca.poly.exp.algo.title;Algorithmus (3 Schritte);Algorithm (3 Steps)
+ca.poly.exp.algo.1;Polynom an die aktiven Site-Punkte im Dim1 × Dim2-Raum fitten;Fit a polynomial to the active site points in Dim1 × Dim2 space
+ca.poly.exp.algo.2;Jeden Site-Punkt orthogonal auf den nächstgelegenen Kurvenpunkt projizieren;Project each site point orthogonally onto the nearest point on the curve
+ca.poly.exp.algo.3;Bogenlänge entlang der Kurve (vom frühesten zum spätesten Punkt) als normierte Zeitskala berechnen;Compute arc length along the curve (from earliest to latest point) as a normalized time scale
+ca.poly.exp.when.title;Wann ist die Methode sinnvoll?;When is this method useful?
+ca.poly.exp.when.text;Die Polynomprojektion ist besonders dann sinnvoll, wenn der CA-Plot eine deutlich parabelförmige Struktur zeigt (Dim2 ≈ quadratische Funktion von Dim1). In diesem Fall komprimiert die reine Dim1-Projektion die zeitlichen Abstände an den Rändern der Parabel. Ist die CA-Struktur hingegen annähernd linear oder klar zweidimensional, bringt die Methode keinen wesentlichen Gewinn.;Polynomial projection is most useful when the CA plot shows a clearly parabolic structure (Dim2 ≈ quadratic function of Dim1). In this case, pure Dim1 projection compresses temporal distances at the parabola's edges. If the CA structure is nearly linear or clearly two-dimensional, the method offers no substantial benefit.
+ca.poly.exp.literature;Literatur;Literature
+ca.poly.settings.title;Polynomprojektion;Polynomial Projection
+ca.poly.panel.fitting;Fitting & Projektion;Fitting & Projection
+ca.poly.show.supp;Supplementary Sites einbeziehen;Include supplementary sites
+ca.poly.show.supp.tooltip;Supplementary Sites werden auf die Polynomkurve projiziert und erhalten eine Bogenlänge, tragen aber nicht zum Polynom-Fitting bei. Hilfreich um zu sehen, ob die Kurve auch auf nicht-aktive Sites gut passt.;Supplementary sites are projected onto the polynomial curve and receive an arc length, but do not contribute to the fitting. Useful to see how well the curve generalizes to non-active sites.
+ca.poly.show.projlines;Projektionslinien anzeigen;Show projection lines
+ca.poly.show.projonly;Nur Projektion auf Parabel;Show parabola projection only
+ca.poly.show.projonly.tooltip;Blendet die CA-Originalkoordinaten aus und zeigt nur die auf die Parabel projizierten Punkte – größer und mit Labels. Gut um die Reihenfolge entlang der Kurve direkt abzulesen.;Hides the original CA coordinates and shows only the points projected onto the parabola – displayed larger and with labels. Good for reading the ordering along the curve directly.
+ca.poly.exp.gradient.title;Hauptgradient und Hufeisen-Effekt;Main Gradient and Horseshoe Effect
+ca.poly.exp.gradient.intro;CA-Biplots chronologisch geordneter Fundstellen zeigen häufig eine parabolische Struktur (Hufeisen- oder Arch-Effekt). Dieser entsteht weil eine eindimensionale zeitliche Abfolge durch die CA in einen zweidimensionalen Raum entfaltet wird. Der Hauptgradient – die chronologische Abfolge – verläuft entlang dieser Parabel.;CA biplots of chronologically ordered assemblages often show a parabolic structure (horseshoe or arch effect). This arises because a one-dimensional temporal sequence is unfolded by the CA into two-dimensional space. The main gradient – the chronological sequence – runs along this parabola.
+ca.poly.exp.gradient.dim1;Dim1 allein: Fundstellen an den Parabelenden erhalten ähnliche Dim1-Werte, obwohl sie zeitlich weit auseinander liegen. Reihenfolge und Abstände können verzerrt sein.;Dim1 alone: assemblages at the ends of the parabola receive similar Dim1 values despite being far apart in time. Ordering and distances may be distorted.
+ca.poly.exp.gradient.al;Bogenlänge entlang der Parabel: berücksichtigt beide CA-Dimensionen und liefert eine realistischere Schätzung der zeitlichen Abstände und Reihenfolge.;Arc length along the parabola: accounts for both CA dimensions and provides a more realistic estimate of temporal distances and ordering.
+ca.poly.show.projlines.tooltip;Zeigt senkrechte Verbindungslinien von jedem Site-Punkt zur Polynomkurve. Macht den Projektionsalgorithmus sichtbar — bei vielen Sites jedoch unübersichtlich. Standardmäßig ausgeschaltet.;Shows perpendicular connection lines from each site point to the polynomial curve. Makes the projection algorithm visible — but cluttered with many sites. Off by default.
+ca.poly.ev.weight;EV-gewichtete Projektion;EV-weighted projection
+ca.poly.ev.weight.tooltip;Gewichtet die Dim1- und Dim2-Abstände bei der orthogonalen Projektion mit den CA-Singulärwerten (w1 = sv[1], w2 = sv[2]). Da sv[1] > sv[2], bekommt Dim1 mehr Einfluss — Punkte mit großem Dim2-Abstand von der Kurve (hohe Residuen) werden weniger stark umgeordnet. Empirisch testen: exportieren, in OxCal als Sequenz modellieren und Amodel/Aoverall mit/ohne vergleichen.;Weights the Dim1 and Dim2 distances in the orthogonal projection by the CA singular values (w1 = sv[1], w2 = sv[2]). Since sv[1] > sv[2], Dim1 gets more influence — points with large Dim2 residuals are redistributed less. Test empirically: export, model as OxCal sequence, compare Amodel/Aoverall with/without.
+ca.poly.export;Bogenlängen exportieren (CSV);Export arc lengths (CSV)
+ca.poly.export.tooltip;Exportiert eine CSV-Datei mit Site-Name, Dim1-Koordinate, projiziertem x-Wert auf der Kurve, normierter Bogenlänge (0–1) und dem Dim1-Rang sowie Bogenlängen-Rang.;Exports a CSV with site name, Dim1 coordinate, projected x on the curve, normalized arc length (0–1), Dim1 rank, and arc length rank.
+ca.poly.plot.title;CA-Biplot mit Polynomkurve;CA Biplot with Polynomial Curve
+ca.poly.plot.tooltip;Zeigt den CA-Biplot (Dim1 × Dim2) mit der gefitteten Polynomkurve. Jeder Site-Punkt wird orthogonal auf die Kurve projiziert — die Position entlang der Kurve ist die Bogenlänge.;Shows the CA biplot (Dim1 × Dim2) with the fitted polynomial curve. Each site point is projected orthogonally onto the curve — the position along the curve is the arc length.
+ca.poly.table.title;Rang-Vergleich: Dim1 vs. Bogenlänge;Rank comparison: Dim1 vs. Arc length
+ca.poly.table.tooltip;Vergleicht die Rangfolge der Sites nach Dim1 (Standard-CA-Projektion) mit der Bogenlänge (Polynomprojektion). Große Differenzen markieren Sites, bei denen die Wahl der Projektionsmethode die chronologische Position erheblich beeinflusst.;Compares site ranks by Dim1 (standard CA projection) with arc length (polynomial projection). Large differences mark sites where the choice of projection method substantially affects chronological position.
+ca.poly.no.result;Führen Sie zuerst die CA im Tab 'Standard CA' durch.;Run CA in the 'Standard CA' tab first.
+ca.poly.col.site;Site;Site
+ca.poly.col.dim1;Dim1;Dim1
+ca.poly.col.arclength;Bogenlänge;Arc length
+ca.poly.col.dim1rank;Rang (Dim1);Rank (Dim1)
+ca.poly.col.alrank;Rang (Bogenlänge);Rank (Arc length)
+ca.poly.col.diff;Differenz;Difference
+ca.poly.col.type;Typ;Type
+bship.order.title;Reihenfolge der Sites;Site ordering
+bship.order.tooltip;Standardmäßig werden Sites in der Reihenfolge der Seriation (oder der Originaldaten) angezeigt. Mit 'CA Bogenlänge' wird stattdessen die Polynomprojektion aus dem CA-Tab als Zeitskala verwendet. Führen Sie die Polynomprojektion zuerst durch.;By default, sites are shown in seriation order (or original data order). With 'CA Arc Length', the polynomial projection from the CA tab is used as the time scale. Run polynomial projection first.
+bship.order.seriation;Seriation;Seriation
+bship.order.arclength;CA Bogenlänge (Polynomprojektion);CA Arc Length (Polynomial Projection)
+bship.order.arclength.hint;Führen Sie zuerst die Polynomprojektion im CA-Tab durch, um diese Option zu verwenden.;Run Polynomial Projection in the CA tab first to use this option.
+bship.order.dim1;CA Dim1 (Faktor 1);CA Dim1 (Factor 1)
+bship.order.dim1.hint;Sortiert Sites nach ihren CA-Koordinaten auf der ersten Achse. Führen Sie zuerst die Korrespondenzanalyse durch.;Sorts sites by their CA coordinates on the first axis. Run Correspondence Analysis first.
+ca.poly.controls.hint;Labels, Schriftgröße und Punktgröße werden aus den Anzeigeeinstellungen im CA-Tab übernommen.;Label text, font size and point size are taken from the display settings in the CA tab.
+ca.poly.fit.on;Fitting-Ziel;Fitting target
+ca.poly.fit.on.tooltip;Legt fest, welche Punkte für das Polynom-Fitting verwendet werden. Sites (Standardmethode nach Weninger & Krauß 2021): Das Polynom wird an die aktiven Site-Koordinaten gefittet – Types werden nur passiv projiziert. Types: Das Polynom wird an die aktiven Type-Koordinaten gefittet – Sites werden passiv projiziert. Sites + Types: Beide Gruppen fließen gemeinsam ins Fitting ein.;Determines which points are used for polynomial fitting. Sites (default per Weninger & Krauß 2021): the polynomial is fitted to active site coordinates — types are projected passively. Types: the polynomial is fitted to active type coordinates — sites are projected passively. Sites + Types: both groups contribute jointly to the fit.
+ca.poly.show.passive;Passive Gruppe anzeigen;Show passive group
+ca.poly.show.passive.tooltip;Zeigt oder verbirgt die Gruppe, die nicht für das Polynom-Fitting verwendet wurde. Die passive Gruppe wird auf die Kurve projiziert und erhält eine Bogenlänge, trägt aber nicht zur Kurvenform bei. Ausblenden kann den Biplot übersichtlicher machen.;Shows or hides the group not used for polynomial fitting. The passive group is projected onto the curve and receives an arc length, but does not influence the curve shape. Hiding it can reduce clutter in the biplot.
+
+# --- Polynomial Projection: Standalone Tab ---
+nav.analyse;📐 Analyse;📐 Analysis
+nav.poly;Polynomprojektion;Polynomial Projection
+poly.tab.biplot;Biplot;Biplot
+poly.tab.timeline;Zeitstrahl;Timeline
+poly.tab.ranking;Rangwechsel;Rank Changes
+poly.tab.table;Tabelle;Table
+ca.poly.show.types.timeline;Types im Zeitstrahl anzeigen;Show types in timeline
+ca.poly.show.types.timeline.tooltip;Zeigt Types als Dreiecke im Zeitstrahl wenn Fitting-Ziel Types oder Sites + Types ist.;Shows types as triangles in the timeline when fitting target is Types or Sites + Types.
+ca.poly.show.timeline.lines;Verbindungslinien anzeigen;Show connection lines
+ca.poly.show.timeline.lines.tooltip;Zeichnet für jeden Site eine Linie zwischen seiner Dim1-Position und seiner Bogenlängen-Position. Farbe = Betrag des Rangwechsels (grau = kein Wechsel, rot = großer Sprung).;Draws a line for each site connecting its Dim1 and arc length positions. Color = magnitude of rank change (gray = no change, red = large jump).
+ca.poly.timeline.title;Zeitstrahl: Dim1 vs. Bogenlänge;Timeline: Dim1 vs. Arc Length
+ca.poly.timeline.tooltip;Beide Reihen sind auf [0,1] normiert. Die Verschiebung der Punkte zwischen den Reihen zeigt die geometrische Verzerrungskorrektur der Polynomprojektion.;Both rows are normalized to [0,1]. The shift of points between rows shows the geometric distortion correction of polynomial projection.
+ca.poly.timeline.hint;Beide Achsen sind auf [0,1] normiert. Die Abstände zwischen Punkten zeigen die Dichte der Zeitskala - bei Dim1 werden Parabel-Ränder komprimiert, bei der Bogenlänge gleichmäßiger verteilt.;Both axes are normalized to [0,1]. Distances between points reflect the time scale density - Dim1 compresses parabola edges, arc length distributes them more evenly.
+ca.poly.timeline.xaxis;Normierte Position (0 = früh, 1 = spät);Normalized position (0 = early, 1 = late)
+ca.poly.timeline.row.dim1;Dim1 (normiert);Dim1 (normalized)
+ca.poly.timeline.row.arclength;Bogenlänge;Arc Length
+ca.poly.bump.title;Rangwechsel: Dim1 - Bogenlänge;Rank Changes: Dim1 - Arc Length
+ca.poly.bump.tooltip;Zeigt wie sich die Rang-Reihenfolge ändert wenn von Dim1 auf Bogenlänge gewechselt wird. Je stärker die Linie geneigt ist, desto mehr verändert die Polynomprojektion die chronologische Position dieses Sites.;Shows how the rank order changes when switching from Dim1 to arc length. The steeper the line, the more the polynomial projection changes this sites chronological position.
+ca.poly.bump.xlab.dim1;Dim1-Rang;Dim1 Rank
+ca.poly.bump.xlab.al;Bogenlänge-Rang;Arc Length Rank
+ca.poly.bump.ylab;Rang (1 = älteste);Rank (1 = oldest)
+ca.poly.diag.title;Diagnose: Scheitel-Instabilität;Diagnostics: Apex Instability
+ca.poly.diag.hint;Große Abstände und Rangsprünge im mittleren Bereich sind typisch – sie bedeuten nicht, dass die Methode falsch ist, sondern dass die Daten dort weniger chronologische Information enthalten.;Large distances and rank shifts in the middle zone are typical – they do not mean the method is wrong, but that the data contain less chronological information there.
+ca.poly.diag.dist.title;Abstand zur Parabel;Distance to Parabola
+ca.poly.diag.dist.tooltip;Zeigt wie weit jede Site von der gefitteten Parabel abweicht. Sites mit großem Abstand sind potenzielle Mischkontexte, Langläufer oder funktionale Sonderfälle.;Shows how far each site deviates from the fitted parabola. Sites with large distance are potential mixed contexts, long-runners, or functional outliers.
+ca.poly.diag.dist.xlab;Dim1-Rang (Position);Dim1 rank (position)
+ca.poly.diag.dist.ylab;Abstand zur Parabel;Distance to parabola
+ca.poly.diag.rankshift.title;Rangverschiebung pro Position;Rank Shift per Position
+ca.poly.diag.rankshift.tooltip;Zeigt wo entlang des Gradienten die größten Rangsprünge auftreten. Typisches Muster: Spitze im Scheitelbereich (Mitte), kleine Werte an den Flanken.;Shows where along the gradient the largest rank shifts occur. Typical pattern: peak in the apex region (middle), small values at the flanks.
+ca.poly.diag.rankshift.xlab;Dim1-Rang (Position);Dim1 rank (position)
+ca.poly.diag.rankshift.ylab;|Rang-Differenz|;|Rank Difference|
+ca.poly.timescale.show;Zeitskala anzeigen;Show time scale
+ca.poly.timescale.show.tooltip;Überlagert den Zeitstrahl mit einer absoluten Zeitskala. Frühestes/Spätestes Datum bezieht sich auf die Enden der normierten [0,1]-Achse.;Overlays the timeline with an absolute time scale. Earliest/latest date refers to the ends of the normalised [0,1] axis.
+ca.poly.timescale.left;↤ Datum links (Pos. 0);↤ Date left (pos. 0)
+ca.poly.timescale.right;Datum rechts (Pos. 1) ↦;Date right (pos. 1) ↦
+ca.poly.timescale.unit;Einheit;Unit
+ca.poly.timescale.flip;⇄ Richtung umkehren;⇄ Flip direction
+ca.poly.timescale.hint;Tipp: bei einer BP-Skala mit Älterem links → größeren Wert links eingeben, kleineren rechts.;Tip: for a BP scale with older on the left → enter the larger value on the left, smaller on the right.
+ca.poly.timescale.bcad;BC/AD-Format;BC/AD format
+ca.poly.timescale.bcad.tooltip;Negative Werte werden als BC angezeigt (z.B. -2000 = 2000 BC), positive als AD. Das Einheitsfeld wird ausgeblendet.;Negative values are shown as BC (e.g. -2000 = 2000 BC), positive as AD. The unit field is hidden.
+ca.poly.timescale.bcad.hint;BC-Werte als negative Zahlen eingeben, z.B. -2000 für 2000 BC / v. Chr.;Enter BC dates as negative numbers, e.g. -2000 for 2000 BC.
+ca.poly.timescale.edge.warning;Interpolierte Daten sind in der Mitte der Sequenz am unsichersten (Edge-Scaling-Effekt: nur Anfangs- und Endpunkt sind kalibriert, alle Zwischenwerte werden linear interpoliert). Nach Weninger & Krauß 2024: metrische Fehler bis ±100 Jahre möglich.;Interpolated dates are most uncertain in the middle of the sequence (edge-scaling effect: only start and end points are calibrated; all intermediate values are linearly interpolated). After Weninger & Krauß 2024: metric errors of up to ±100 years possible.
+ca.poly.ts.anchors.on;¹⁴C-Ankerpunkte verwenden;Use ¹⁴C anchor points
+ca.poly.ts.anchors.tooltip;Verwendet kalibrierte ¹⁴C-Medianen aus dem Chronologie-Tab als Stützstellen für eine stückweise lineare Zeitskala. Sites ohne ¹⁴C-Datum werden per Interpolation bzw. Extrapolation mit Randwert verortet.;Uses calibrated ¹⁴C medians from the chronology tab as anchor points for a piecewise linear time scale. Sites without ¹⁴C dates are positioned by interpolation or edge-value extrapolation.
+ca.poly.ts.anchors.none;Keine ¹⁴C-Daten verfügbar. Bitte zuerst im Chronologie-Tab Daten laden und kalibrieren.;No ¹⁴C data available. Please load and calibrate data in the chronology tab first.
+ca.poly.ts.anchors.info;Sites als Ankerpunkte verfügbar;sites available as anchor points
+ca.poly.ts.anchors.col.site;Fundstelle;Site
+ca.poly.ts.anchors.col.date;Median (cal BP);Median (cal BP)
+ca.poly.ts.anchors.col.n;n;n
+ca.poly.ts.anchors.extrap.warn;Sites außerhalb des Ankerbereichs werden mit dem nächstgelegenen Ankerwert extrapoliert (Randwert-Methode).;Sites outside the anchor range are extrapolated using the nearest anchor value (boundary-value method).
+ca.poly.ts.anchor.source;Datenquelle;Data source
+ca.poly.ts.anchor.unmodelled;Unmodelliert (IntCal20);Unmodelled (IntCal20)
+ca.poly.ts.anchor.modelled;Modelliert (OxCal-Sequenz);Modelled (OxCal sequence)
+ca.poly.ts.anchors.oxcal.none;Keine OxCal-Ergebnisse verfügbar. Bitte zuerst im OxCal-Tab eine Sequenz berechnen.;No OxCal results available. Please calculate a sequence in the OxCal tab first.
+ca.poly.scatter.diag.note;Punkte auf der Diagonale = kein Rangwechsel · je weiter weg, desto größer die Verschiebung;Points on diagonal = no rank change · further away = larger shift
+cluster.feature;Clustering-Grundlage;Clustering basis
+cluster.feature.ca;CA-Koordinaten (mehrdimensional);CA coordinates (multi-dimensional)
+cluster.feature.arclength;Bogenlänge (Polynomprojektion);Arc length (polynomial projection)
+cluster.feature.arclength.warning;⚠️ Polynomprojektion nicht berechnet – bitte zuerst im Tab 'Polynomprojektion' ausführen.;⚠️ Polynomial projection not calculated — please run it in the 'Polynomial projection' tab first.
+cluster.feature.arclength.hint;Clustert Fundorte und/oder Typen entlang der chronologischen Achse der Polynomprojektion (1D). Hilfspunkte werden ignoriert.;Clusters sites and/or types along the chronological axis of the polynomial projection (1D). Supplementary points are ignored.
+cluster.feature.arclength.note;Tipp: Setze Dim = 1, um nur nach CA-Dim1 zu clustern (ohne Polynomprojektion).;Tip: Set Dim = 1 to cluster by CA Dim1 only (without polynomial projection).
+cluster.help.arclength.title;Bogenlänge als Clustering-Grundlage;Arc length as clustering basis
+cluster.help.arclength.desc;Anstatt der mehrdimensionalen CA-Koordinaten wird die normierte Bogenlänge der Polynomprojektion als eindimensionale Grundlage verwendet. Die Bogenlänge approximiert die chronologische Position eines Fundorts entlang der Seriation.;Instead of multi-dimensional CA coordinates, the normalised arc length of the polynomial projection is used as a one-dimensional basis. The arc length approximates the chronological position of a site along the seriation.
+cluster.help.arclength.why;Archäologische Bedeutung;Archaeological significance
+cluster.help.arclength.why.desc;Cluster entlang der Bogenlänge entsprechen direkt chronologischen Phasen: Fundorte mit ähnlicher Bogenlänge haben ähnliche Keramikspektren und gehören wahrscheinlich zum selben Zeithorizont. Typen-Cluster ergeben Früh-, Mittel- und Spättypen entlang der Seriation.;Clusters along the arc length directly correspond to chronological phases: sites with similar arc length have similar pottery assemblages and likely belong to the same time horizon. Type clusters yield early, middle and late types along the seriation.
+cluster.help.arclength.howto;Voraussetzung;Prerequisite
+cluster.help.arclength.howto.desc;Die Polynomprojektion muss vor dem Clustering berechnet worden sein. Führe dazu zuerst den Tab 'Polynomprojektion' aus und klicke auf 'Berechnen'.;The polynomial projection must have been calculated before clustering. Run the 'Polynomial projection' tab first and click 'Calculate'.
+cluster.help.arclength.1d;Fundorte, Typen oder Beide;Sites, types, or both
+cluster.help.arclength.1d.desc;Sowohl Fundorte als auch Typen können nach Bogenlänge geclustert werden. Hilfspunkte werden ignoriert. Die Ergebnisse werden im CA-Biplot dargestellt.;Both sites and types can be clustered by arc length. Supplementary points are ignored. Results are displayed in the CA biplot.
+cluster.help.arclength.vs.dim1;Bogenlänge vs. CA-Dim1;Arc length vs. CA Dim1
+cluster.help.arclength.vs.dim1.desc;Beide messen chronologische Position, aber die Bogenlänge folgt der gebogenen Polynomkurve (korrekte Abstände entlang der Seriation), während Dim1 eine lineare Projektion ist. Bei stark gebogener Horseshoe-Kurve liefert die Bogenlänge präzisere Phasengrenzen.;Both measure chronological position, but arc length follows the curved polynomial (correct distances along the seriation), while Dim1 is a linear projection. With a strongly curved horseshoe, arc length provides more precise phase boundaries.

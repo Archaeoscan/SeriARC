@@ -173,38 +173,51 @@ create_ui <- function(tr = NULL, lang = NULL) {
       )
     ),
 
-    # TAB: Correspondence Analysis
-    tabPanel(tr("nav.ca"),
-      tabsetPanel(
-        id = "ca_subtabs",
+    # MENU: Analyse (CA + Polynomprojektion + Bootstrap + 3D-CA)
+    navbarMenu(tr("nav.analyse"),
 
-        # SUBTAB: Standard CA
-        tabPanel(tr("nav.ca.standard"),
-          fluidPage(
-            uiOutput("ca_main_content")
-          )
-        ),
+      # SUBTAB: Correspondence Analysis (Standard CA + DCA)
+      tabPanel(tr("nav.ca"),
+        tabsetPanel(
+          id = "ca_subtabs",
 
-        # SUBTAB: Detrended CA
-        tabPanel(tr("nav.ca.detrended"),
-          fluidPage(
-            uiOutput("detrended_ca_main_content")
+          # SUBTAB: Standard CA
+          tabPanel(tr("nav.ca.standard"),
+            fluidPage(
+              uiOutput("ca_main_content")
+            )
+          ),
+
+          # SUBTAB: Detrended CA
+          tabPanel(tr("nav.ca.detrended"),
+            fluidPage(
+              uiOutput("detrended_ca_main_content")
+            )
           )
         )
-      )
-    ),
+      ),
 
-    # TAB: Bootstrap
-    tabPanel(tr("nav.bootstrap"),
-      fluidPage(
-        uiOutput("bootstrap_main_content")
-      )
-    ),
+      # SUBTAB: Polynomprojektion (standalone, 4 sub-tabs)
+      tabPanel(tr("nav.poly"),
+        fluidPage(
+          uiOutput("poly_main_content")
+        )
+      ),
 
-    # TAB: 3D-CA
-    tabPanel(tr("nav.3d"),
-      fluidPage(
-        uiOutput("ca_3d_main_content")
+      "---",
+
+      # SUBTAB: Bootstrap
+      tabPanel(tr("nav.bootstrap"),
+        fluidPage(
+          uiOutput("bootstrap_main_content")
+        )
+      ),
+
+      # SUBTAB: 3D-CA
+      tabPanel(tr("nav.3d"),
+        fluidPage(
+          uiOutput("ca_3d_main_content")
+        )
       )
     ),
 
