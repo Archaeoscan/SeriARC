@@ -175,6 +175,36 @@ observeEvent(input$show_transform_help, {
 
       tags$hr(),
 
+      # 4. Presence/Absence
+      h4(paste0("4️⃣ ", tr("transform.help.binary.title"))),
+
+      p(tags$b(tr("transform.help.what")), " ", tr("transform.help.binary.what")),
+
+      p(tags$b(tr("transform.help.when"))),
+      tags$ul(
+        tags$li(tags$b(tr("transform.help.sites")), " ", tr("transform.help.binary.when1")),
+        tags$li(tags$b(tr("transform.help.types")), " ", tr("transform.help.binary.when2")),
+        tags$li(tr("transform.help.binary.when3"))
+      ),
+
+      p(tags$b(tr("transform.help.advantages"))),
+      tags$ul(
+        tags$li(tr("transform.help.binary.adv1")),
+        tags$li(tr("transform.help.binary.adv2"))
+      ),
+
+      p(tags$b(tr("transform.help.disadvantage"))),
+      tags$ul(
+        tags$li(tr("transform.help.binary.disadv1")),
+        tags$li(tr("transform.help.binary.disadv2"))
+      ),
+
+      div(class="alert alert-info", style="margin: 10px 0;",
+        tags$b(paste0("👉 ", tr("transform.help.rule"))), " ", tr("transform.help.binary.rule")
+      ),
+
+      tags$hr(),
+
       h4(paste0("⚠️ ", tr("transform.help.weight.title"))),
 
       p(HTML(tr("transform.help.weight.text1"))),
@@ -235,6 +265,10 @@ observeEvent(input$show_transform_help, {
           tags$tr(style="background-color: #f8d7da;",
             tags$td(tr("transform.help.summary.sit6")),
             tags$td(tags$b(tr("transform.help.summary.rec6")))
+          ),
+          tags$tr(
+            tags$td(tr("transform.help.summary.sit7")),
+            tags$td(tags$b(tr("transform.help.summary.rec7")))
           )
         )
       )

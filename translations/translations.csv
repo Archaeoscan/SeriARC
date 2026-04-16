@@ -96,8 +96,10 @@ filter.btn.label.none;Keine;None
 filter.btn.reset.weights;Weights;Weights
 ca.types.normalized;Types normalisiert;Types normalized
 ca.types.log;Types log-transformiert;Types log-transformed
+ca.types.binary;Types binär (Präsenz/Absenz);Types binary (presence/absence)
 ca.sites.normalized;Sites normalisiert;Sites normalized
 ca.sites.log;Sites log-transformiert;Sites log-transformed
+ca.sites.binary;Sites binär (Präsenz/Absenz);Sites binary (presence/absence)
 cluster.reset.names;Cluster-Namen zurückgesetzt;Cluster names reset
 seriation.no.matrix;Keine Matrix verfügbar – bitte zuerst Seriation ausführen;No matrix available – please run seriation first
 3d.title;3D-Visualisierung;3D Visualization
@@ -405,6 +407,7 @@ ca.transform.sites;Sites (Zeilen);Sites (Rows)
 ca.transform.none;Keine;None
 ca.transform.normalize;Normalisierung;Normalization
 ca.transform.log;Log;Log
+ca.transform.binary;Präsenz/Absenz;Presence/Absence
 ca.biplot.title;Biplot-Typ;Biplot Type
 ca.biplot.tooltip;Nach Greenacre (2007): Bestimmt die Skalierung der CA-Darstellung;According to Greenacre (2007): Determines the scaling of the CA display
 ca.biplot.symmetric;Symmetrisch (Standard);Symmetric (Standard)
@@ -2568,6 +2571,16 @@ transform.help.log.why2;Diese werden durch log1p() überproportional komprimiert
 transform.help.log.why3;Die Struktur kann dadurch verwischt werden;The structure can be blurred as a result
 transform.help.log.why4;Verhält sich ähnlich wie Normalisierung, aber weniger transparent;Behaviorally similar to normalization, but less transparent
 transform.help.log.rule;<b>👉 Faustregel:</b> Log nur verwenden, wenn wirklich extreme Ausreißer dominieren (Faktor 100+) – und wenn die Werte generell groß sind (Durchschnitt > 20).<br><b>👉 Für typische archäologische CA-Tabellen mit vielen kleinen Werten ist Log meist ungeeignet.</b><br><b>👉 Tipp:</b> Testen Sie zuerst <i>Normalisierung</i> – liefert meist bessere Ergebnisse!;<b>👉 Rule of thumb:</b> Use log only when really extreme outliers dominate (factor 100+) – and when the values are generally large (avg > 20).<br><b>👉 For typical archaeological CA tables with many small values, log is usually unsuitable.</b><br><b>👉 Tip:</b> Test <i>normalization</i> first – usually gives better results!
+transform.help.binary.title;Präsenz/Absenz-Transformation (jeder Wert > 0 wird zu 1);Presence/Absence Transformation (every value > 0 becomes 1)
+transform.help.binary.what;Alle Häufigkeiten werden auf 0 oder 1 reduziert: Ist ein Type in einer Site vorhanden (1) oder nicht (0)? Absolute Mengen spielen keine Rolle mehr.;All frequencies are reduced to 0 or 1: Is a Type present at a Site (1) or not (0)? Absolute quantities no longer matter.
+transform.help.binary.when1;Wenn die Fundmenge taphonomisch bedingt ist und nicht die tatsächliche Häufigkeit widerspiegelt;When find quantities are taphonomically biased and do not reflect actual frequency
+transform.help.binary.when2;Wenn nur das Vorkommen eines Types relevant ist, nicht wie häufig er auftritt;When only the presence of a Type matters, not how often it occurs
+transform.help.binary.when3;Wenn die Matrix sehr stark rechtsschief ist (viele Einerwerte, wenige große Counts);When the matrix is heavily right-skewed (many single values, few large counts)
+transform.help.binary.adv1;Maximal robust gegenüber Mengenverzerrungen (Taphonomie, Grabungsintensität);Maximally robust against quantity biases (taphonomy, excavation intensity)
+transform.help.binary.adv2;Einfach zu interpretieren und zu kommunizieren;Easy to interpret and communicate
+transform.help.binary.disadv1;Vollständiger Verlust der Häufigkeitsinformation;Complete loss of frequency information
+transform.help.binary.disadv2;Ein einzelner Scherben bekommt dasselbe Gewicht wie 500 – kann bei kleinen Assemblages Rauschen verstärken;A single sherd gets the same weight as 500 – can amplify noise in small assemblages
+transform.help.binary.rule;Verwenden wenn Grabungsmengen stark variieren und nur das Vorhandensein eines Types archäologisch aussagekräftig ist.;Use when excavation quantities vary strongly and only the presence of a Type is archaeologically meaningful.
 transform.help.weight.title;Wichtiger Hinweis zu Gewichtungen;Important Note on Weightings
 transform.help.weight.text1;Transformationen wie Normalisierung oder Log <b>überschreiben manuelle Gewichtungen</b>. Verwenden Sie daher immer nur eine Methode:;Transformations like normalization or log <b>override manual weightings</b>. Therefore, always use only one method:
 transform.help.weight.either;Entweder;Either
@@ -2596,6 +2609,8 @@ transform.help.summary.sit5;Viele kleine Werte (1–3);Many small values (1–3)
 transform.help.summary.rec5;Keine Transformation oder Normalisierung;No Transformation or Normalization
 transform.help.summary.sit6;Log führt zu vielen Nullen;Log leads to many zeros
 transform.help.summary.rec6;Nicht geeignet;Not suitable
+transform.help.summary.sit7;Grabungsmengen stark variierend / taphonomisch verzerrt;Excavation quantities strongly varying / taphonomically biased
+transform.help.summary.rec7;Präsenz/Absenz;Presence/Absence
 ca.outlier.sum.robust.header;ROBUSTE OUTLIER-ERKENNUNG\n\n🔍 METHODE: Vergleich über alle Dimensionen\n  • Dim1+Dim2\n  • Dim1+Dim3\n  • Dim2+Dim3\n  • Dim1+Dim2+Dim3\n\n🎯 Zeigt nur Outlier, die in MEHREREN Dimensionen problematisch sind!\n\n;ROBUST OUTLIER DETECTION\n\n🔍 METHOD: Comparison across all dimensions\n  • Dim1+Dim2\n  • Dim1+Dim3\n  • Dim2+Dim3\n  • Dim1+Dim2+Dim3\n\n🎯 Shows only outliers that are problematic in MULTIPLE dimensions!\n\n
 ca.outlier.sum.sites.header;FUNDORTE (nur ≥ 2 Dimensionen):;SITES (only ≥ 2 dimensions):
 ca.outlier.sum.types.header;TYPEN (nur ≥ 2 Dimensionen):;TYPES (only ≥ 2 dimensions):
