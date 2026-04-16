@@ -380,7 +380,126 @@ output$poly_main_content <- renderUI({
                   h5(tr("ca.poly.bump.title"), style = "margin: 0;"),
                   tooltip_info(tr("ca.poly.bump.tooltip"))
                 ),
-                plotlyOutput("poly_bump_chart", height = "560px")
+                plotlyOutput("poly_bump_chart", height = "560px"),
+
+                # ── Diagnose-Plots (zugeklappt) ──────────────────────────────
+                div(class = "panel panel-default", style = "margin-top: 16px;",
+                  div(class = "panel-heading", style = "cursor: pointer; padding: 8px 12px;",
+                      `data-toggle` = "collapse", `data-target` = "#poly_diag_panel",
+                    div(style = "display: flex; justify-content: space-between; align-items: center;",
+                      div(style = "display: flex; align-items: center; gap: 8px;",
+                        tags$span(style = "font-weight: bold;", tr("ca.poly.diag.title")),
+                        tooltip_info(tr("ca.poly.diag.hint"))
+                      ),
+                      tags$span(class = "glyphicon glyphicon-chevron-down collapse-chevron")
+                    )
+                  ),
+                  div(id = "poly_diag_panel", class = "panel-collapse collapse ca-collapse",
+                    div(class = "panel-body", style = "padding: 12px;",
+
+                      # ── Erklärungstext (zugeklappt) ────────────────────────
+                      div(class = "panel panel-success", style = "margin-bottom: 14px;",
+                        div(class = "panel-heading", style = "cursor: pointer; padding: 8px 12px;",
+                            `data-toggle` = "collapse", `data-target` = "#poly_diag_explanation",
+                          div(style = "display: flex; justify-content: space-between; align-items: center;",
+                            tags$span(style = "font-weight: bold;", "Wie diese Diagramme zu lesen sind"),
+                            tags$span(class = "glyphicon glyphicon-chevron-down collapse-chevron")
+                          )
+                        ),
+                        div(id = "poly_diag_explanation", class = "panel-collapse collapse ca-collapse",
+                          div(class = "panel-body", style = "font-size: 0.85em; line-height: 1.5;",
+
+                            # ── Warum der Scheitel instabil ist ────────────────
+                            tags$b("Warum ist die Mitte der Sequenz chronologisch instabiler?"), br(),
+                            tags$p(style = "margin-top: 4px;",
+                              "Im mittleren Teil einer Keramiksequenz laufen viele Typen gleichzeitig: ",
+                              "alte Formen sind noch vorhanden, neue bereits aufgetaucht. ",
+                              "Das führt dazu, dass sich die Typenprofile benachbarter Fundkomplexe kaum unterscheiden."),
+                            tags$p(
+                              "In der CA-Darstellung liegt dieser Bereich nahe dem Scheitel der Parabel. ",
+                              "Dort ist die Kurve fast waagerecht \u2013 die Steigung ist nahe null. ",
+                              "Das bedeutet: Kleine Unterschiede im Profil können die Position entlang der Kurve ",
+                              "stark verschieben. Daher entstehen dort die meisten Rangwechsel."),
+                            div(class = "alert alert-info",
+                                style = "padding: 5px 10px; margin: 4px 0 8px 0; font-size: 0.95em;",
+                              tags$b("Wichtig:\u00a0"),
+                              "Rangwechsel im Scheitelbereich bedeuten nicht, dass die Methode falsch ist. ",
+                              "Sie zeigen, dass das Material dort weniger chronologische Aufl\u00f6sung hat."
+                            ),
+
+                            tags$hr(style = "margin: 8px 0;"),
+
+                            # ── Abstand zur Parabel ────────────────────────────
+                            tags$b("Was zeigt der Abstand zur Parabel?"), br(),
+                            tags$p(style = "margin-top: 4px;",
+                              "Jede Site wird orthogonal auf die gefittete Parabel projiziert. ",
+                              "Der Abstand zwischen dem Originalpunkt und seinem Projektionspunkt misst, ",
+                              "wie gut die Site dem Hauptgradienten folgt."),
+                            tags$p(style = "margin-bottom: 2px;", "Sites mit gro\u00dfem Abstand sind oft:"),
+                            tags$ul(style = "margin: 0 0 8px 0;",
+                              tags$li(tags$b("Mischkontexte:"), " Material aus verschiedenen Phasen wurde zusammengef\u00fcgt"),
+                              tags$li(tags$b("Langläufer-dominiert:"), " Typen mit sehr langer Laufzeit liefern kaum chronologisches Signal"),
+                              tags$li(tags$b("Funktionale Ausrei\u00dfer:"), " Besondere Befundtypen (z.\u00a0B. Gruben vs. H\u00e4user) weichen systematisch ab")
+                            ),
+                            tags$p(
+                              "Typisches Muster: Im Scheitelbereich sind die Abstände gr\u00f6\u00dfer, ",
+                              "an den Flanken kleiner \u2013 weil die Flanken die chronologisch ",
+                              "sch\u00e4rfsten Bereiche der Sequenz sind."),
+
+                            tags$hr(style = "margin: 8px 0;"),
+
+                            # ── Konkordanz-Diagramm ────────────────────────────
+                            tags$b("Wie lese ich das Konkordanz-Diagramm?"), br(),
+                            tags$p(style = "margin-top: 4px;",
+                              "Das Diagramm stellt Dim1-Rang (x-Achse) gegen Bogenlänge-Rang (y-Achse). ",
+                              "Die gepunktete Diagonale entspricht perfekter Übereinstimmung."),
+                            tags$ul(style = "margin: 0 0 8px 0;",
+                              tags$li(tags$b("Punkt auf der Diagonale:"), " kein Rangwechsel – beide Methoden sind sich einig"),
+                              tags$li(tags$b("Punkt weit von der Diagonale:"), " großer Rangwechsel – Polynomprojektion ordnet diese Site anders als Dim1"),
+                              tags$li(tags$b("Farbe:"), " grau = kleiner Wechsel, rot = größter Wechsel im Datensatz")
+                            ),
+                            tags$p(
+                              "Labels werden nur für die größten Ausreißer angezeigt (alle Sites sind ",
+                              "per Hover abfragbar)."),
+                            tags$p(
+                              "Wenn sich die roten Punkte im mittleren Rangbereich konzentrieren, ist das ein ",
+                              tags$b("völlig normales Muster"), " \u2013 der ",
+                              "Scheitelbereich der Parabel ist chronologisch unscharf."),
+
+                            tags$hr(style = "margin: 8px 0;"),
+
+                            # ── Praktische Faustregel ──────────────────────────
+                            tags$b("Praktische Faustregel"), br(),
+                            tags$p(style = "margin-top: 4px;",
+                              "Sites, die gleichzeitig einen gro\u00dfen Abstand zur Parabel ",
+                              tags$em("und"), " eine gro\u00dfe Rangverschiebung aufweisen, ",
+                              "sollten besonders kritisch gepr\u00fcft werden. Bei ihnen ist unklar, ",
+                              "welche der m\u00f6glichen Reihenfolgen die richtige ist."),
+                            tags$p(
+                              "Sites mit kleinem Abstand und kleiner Verschiebung sind dagegen ",
+                              "chronologisch robust \u2013 beide Methoden ordnen sie \u00e4hnlich ein.")
+                          )
+                        )
+                      ),
+
+                      # Plot 1: Abstand zur Parabel
+                      div(style = "display: flex; align-items: center; gap: 8px; margin-bottom: 6px;",
+                        tags$b(tr("ca.poly.diag.dist.title")),
+                        tooltip_info(tr("ca.poly.diag.dist.tooltip"))
+                      ),
+                      plotlyOutput("poly_diag_distance", height = "260px"),
+
+                      tags$hr(style = "margin: 14px 0;"),
+
+                      # Plot 2: Rangverschiebung
+                      div(style = "display: flex; align-items: center; gap: 8px; margin-bottom: 6px;",
+                        tags$b(tr("ca.poly.diag.rankshift.title")),
+                        tooltip_info(tr("ca.poly.diag.rankshift.tooltip"))
+                      ),
+                      plotlyOutput("poly_diag_rankshift", height = "260px")
+                    )
+                  )
+                )
               ),
 
               # Sub-Tab 4: Rang-Tabelle

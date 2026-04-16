@@ -95,16 +95,18 @@ mod_polynomial_projection_server <- function(
     proj_xs <- vapply(seq_along(dim1), function(i) {
       project_point_to_curve(dim1[i], dim2[i], poly_coef, x_range, w1 = w1, w2 = w2)
     }, numeric(1))
+    proj_ys    <- eval_poly(poly_coef, proj_xs)
     arc_lengths <- vapply(proj_xs, function(px) {
       arc_length_between(poly_coef, x_min, px)
     }, numeric(1))
     data.frame(
-      Name      = names,
-      Dim1      = dim1,
-      Dim2      = dim2,
-      ProjX     = proj_xs,
-      ProjY     = eval_poly(poly_coef, proj_xs),
-      ArcLength = arc_lengths / total_len,
+      Name        = names,
+      Dim1        = dim1,
+      Dim2        = dim2,
+      ProjX       = proj_xs,
+      ProjY       = proj_ys,
+      ArcLength   = arc_lengths / total_len,
+      DistToCurve = sqrt((dim1 - proj_xs)^2 + (dim2 - proj_ys)^2),
       stringsAsFactors = FALSE
     )
   }
@@ -343,9 +345,10 @@ mod_polynomial_projection_server <- function(
       supp_types_df$TypeCat <- "supplementary"
     }
 
-    # ── Write to cache so battleship can use it ──────────────────
+    # ── Write to cache so battleship / clustering can use it ─────
     cache$polynomial_result <- list(
-      arc_length  = sites_df[, c("Site", "ArcLength")],
+      arc_length       = sites_df[, c("Site", "ArcLength")],
+      arc_length_types = if (!is.null(types_df)) types_df[, c("Name", "ArcLength")] else NULL,
       poly_coef   = poly_coef,
       poly_degree = degree,
       curve_x     = curve_xs,
@@ -1154,110 +1157,183 @@ mod_polynomial_projection_server <- function(
     lbl_size    <- as.numeric(input$poly_label_size  %||% 11)
     pt_size     <- as.numeric(input$poly_point_size  %||% 3) * 3
     trunc_lbl   <- function(x) substr(x, 1, lbl_chars)
-    pt_mode     <- if (show_labels) "markers+text" else "markers"
 
-    # Helper: bedingt Text-Attribute (s. poly_biplot)
-    txt_bump <- function(labels_text, pos) {
-      if (!show_labels) return(list())
-      list(text = labels_text, textposition = pos, textfont = list(size = lbl_size))
-    }
-
+    # Color by |RankDiff|: grey (small) → red (large)
     max_diff <- max(df$RankDiff, 1L)
+    pt_colors <- sapply(df$RankDiff, function(d) {
+      t <- d / max_diff
+      sprintf("rgb(%d,%d,%d)",
+        as.integer(160 + 95 * t),
+        as.integer(160 - 160 * t),
+        as.integer(160 - 160 * t))
+    })
 
-    make_drift_color <- function(rd) {
-      t <- rd / max_diff
-      r <- as.integer(160 + 95 * t)
-      g <- as.integer(160 - 160 * t)
-      b <- as.integer(160 - 160 * t)
-      sprintf("rgb(%d,%d,%d)", r, g, b)
-    }
+    # Labels only for top outliers (all if n <= 30, else top 12 by RankDiff)
+    n_label <- if (n <= 30) n else 12L
+    thresh  <- sort(df$RankDiff, decreasing = TRUE)[min(n_label, n)]
+    labels  <- ifelse(show_labels & df$RankDiff >= thresh & df$RankDiff > 0,
+                      trunc_lbl(df$Site), "")
 
-    p <- plotly::plot_ly()
+    has_labels <- any(nzchar(labels))
+    pad <- n * 0.04  # small margin around axes
 
-    # Verbindungslinien (eine pro Site)
-    for (i in seq_len(n)) {
-      p <- plotly::add_trace(p,
-        x    = c(1L, 2L),
-        y    = c(df$Dim1Rank[i], df$ALRank[i]),
-        type = "scatter", mode = "lines",
-        line = list(
-          color = make_drift_color(df$RankDiff[i]),
-          width = 1 + df$RankDiff[i] / max_diff * 2.5
+    p <- plotly::plot_ly() |>
+      # ── Diagonal reference (= perfect agreement) ──────────────
+      plotly::add_trace(
+        x         = c(1 - pad, n + pad),
+        y         = c(1 - pad, n + pad),
+        type      = "scatter", mode = "lines",
+        line      = list(color = "rgba(80,80,80,0.25)", width = 1.5, dash = "dot"),
+        showlegend = FALSE, hoverinfo = "skip"
+      ) |>
+      # ── Data points ────────────────────────────────────────────
+      plotly::add_trace(
+        x             = df$Dim1Rank,
+        y             = df$ALRank,
+        type          = "scatter",
+        mode          = if (has_labels) "markers+text" else "markers",
+        marker        = list(size  = pt_size,
+                             color = pt_colors,
+                             line  = list(color = "white", width = 0.5)),
+        text          = labels,
+        textposition  = "top center",
+        textfont      = list(size = lbl_size),
+        hovertemplate = paste0(
+          "<b>", df$Site, "</b><br>",
+          tr("ca.poly.bump.xlab.dim1"), ": ", df$Dim1Rank, "<br>",
+          tr("ca.poly.bump.xlab.al"),   ": ", df$ALRank,   "<br>",
+          "|\u0394|: <b>", df$RankDiff, "</b>",
+          "<extra></extra>"
         ),
-        showlegend    = FALSE,
-        hoverinfo     = "text",
-        text          = sprintf(
-          "<b>%s</b><br>%s: %d \u2192 %s: %d  (|\u0394|=%d)",
-          df$Site[i],
-          tr("ca.poly.bump.xlab.dim1"), df$Dim1Rank[i],
-          tr("ca.poly.bump.xlab.al"),   df$ALRank[i],
-          df$RankDiff[i]
-        )
+        showlegend = FALSE
       )
-    }
 
-    # Punkte + Labels links (Dim1-Rang)
-    p <- do.call(plotly::add_trace, c(list(p,
-      x    = rep(1L, n),
-      y    = df$Dim1Rank,
-      type = "scatter", mode = pt_mode,
-      marker = list(
-        size  = pt_size * 0.85,
-        color = "#3498db",
-        line  = list(color = "white", width = 1)
-      ),
-      name = tr("ca.poly.bump.xlab.dim1"),
-      hovertemplate = paste0(
-        "<b>", df$Site, "</b><br>",
-        tr("ca.poly.bump.xlab.dim1"), ": %{y}",
-        "<extra></extra>"
-      )), txt_bump(paste0(df$Dim1Rank, "\u2009", trunc_lbl(df$Site)), "middle left")))
-
-    # Punkte + Labels rechts (AL-Rang)
-    p <- do.call(plotly::add_trace, c(list(p,
-      x    = rep(2L, n),
-      y    = df$ALRank,
-      type = "scatter", mode = pt_mode,
-      marker = list(
-        size  = pt_size * 0.85,
-        color = "#e74c3c",
-        line  = list(color = "white", width = 1)
-      ),
-      name = tr("ca.poly.bump.xlab.al"),
-      hovertemplate = paste0(
-        "<b>", df$Site, "</b><br>",
-        tr("ca.poly.bump.xlab.al"), ": %{y}",
-        "<extra></extra>"
-      )), txt_bump(paste0(trunc_lbl(df$Site), "\u2009", df$ALRank), "middle right")))
-
-    p <- plotly::layout(p,
+    plotly::layout(p,
       xaxis = list(
-        tickvals    = c(1L, 2L),
-        ticktext    = c(tr("ca.poly.bump.xlab.dim1"), tr("ca.poly.bump.xlab.al")),
-        range       = c(0.3, 2.7),
-        showgrid    = FALSE,
-        zeroline    = FALSE,
-        fixedrange  = TRUE,
-        tickfont    = list(size = 13, color = "#333")
+        title     = tr("ca.poly.bump.xlab.dim1"),
+        showgrid  = TRUE,
+        gridcolor = "rgba(200,200,200,0.4)",
+        zeroline  = FALSE,
+        range     = c(0.5 - pad, n + 0.5 + pad)
       ),
       yaxis = list(
-        title       = tr("ca.poly.bump.ylab"),
-        autorange   = "reversed",   # Rang 1 oben = älteste
-        showgrid    = TRUE,
-        gridcolor   = "rgba(200,200,200,0.4)",
-        zeroline    = FALSE,
-        dtick       = if (n <= 30) 1L else NULL
+        title     = tr("ca.poly.bump.xlab.al"),
+        showgrid  = TRUE,
+        gridcolor = "rgba(200,200,200,0.4)",
+        zeroline  = FALSE,
+        range     = c(0.5 - pad, n + 0.5 + pad)
       ),
-      hovermode   = "closest",
-      margin      = list(t = 20, b = 40, l = 80, r = 80),
-      showlegend  = TRUE,
-      legend      = list(orientation = "h", y = -0.12)
+      annotations = list(list(
+        text      = tr("ca.poly.scatter.diag.note"),
+        x = 0.01, y = 1.0, xref = "paper", yref = "paper",
+        xanchor = "left", yanchor = "top",
+        showarrow = FALSE,
+        font = list(size = 10, color = "rgba(100,100,100,0.8)")
+      )),
+      hovermode = "closest",
+      margin    = list(t = 30, b = 60, l = 70, r = 20)
+    ) |> plotly::config(displayModeBar = FALSE, displaylogo = FALSE)
+  })
+
+  # ── Diagnose-Plot 1: Abstand zur Parabel pro Position ───────────────────────
+  output$poly_diag_distance <- plotly::renderPlotly({
+    req(poly_result())
+    df <- poly_result()$sites_df
+    req("DistToCurve" %in% names(df))
+
+    show_labels <- isTRUE(input$poly_show_labels %||% TRUE)
+    lbl_chars   <- as.integer(input$poly_label_chars %||% 12)
+    lbl_size    <- as.numeric(input$poly_label_size  %||% 11)
+    pt_size     <- as.numeric(input$poly_point_size  %||% 3) * 3
+    trunc_lbl   <- function(x) substr(x, 1, lbl_chars)
+
+    max_dist  <- max(df$DistToCurve, 1e-6)
+    pt_colors <- sapply(df$DistToCurve, function(d) {
+      t <- d / max_dist
+      sprintf("rgb(%d,%d,%d)",
+        as.integer(160 + 95 * t),
+        as.integer(160 - 160 * t),
+        as.integer(160 - 160 * t))
+    })
+
+    p <- plotly::plot_ly(
+      x             = df$Dim1Rank,
+      y             = df$DistToCurve,
+      type          = "scatter",
+      mode          = if (show_labels) "markers+text" else "markers",
+      marker        = list(size = pt_size, color = pt_colors,
+                           line = list(color = "white", width = 0.5)),
+      text          = if (show_labels) trunc_lbl(df$Site) else NULL,
+      textposition  = "top center",
+      textfont      = list(size = lbl_size),
+      hovertemplate = paste0(
+        "<b>", df$Site, "</b><br>",
+        tr("ca.poly.diag.dist.xlab"), ": ", df$Dim1Rank, "<br>",
+        tr("ca.poly.diag.dist.ylab"), ": %{y:.3f}",
+        "<extra></extra>"
+      ),
+      showlegend = FALSE
     )
 
-    plotly::config(p,
-      displayModeBar = FALSE,
-      displaylogo    = FALSE
+    plotly::layout(p,
+      xaxis     = list(title = tr("ca.poly.diag.dist.xlab"),
+                       showgrid = TRUE, gridcolor = "rgba(200,200,200,0.4)", zeroline = FALSE),
+      yaxis     = list(title = tr("ca.poly.diag.dist.ylab"),
+                       rangemode = "tozero",
+                       showgrid = TRUE, gridcolor = "rgba(200,200,200,0.4)", zeroline = FALSE),
+      hovermode = "closest",
+      margin    = list(t = 20, b = 50, l = 70, r = 20)
+    ) |> plotly::config(displayModeBar = FALSE, displaylogo = FALSE)
+  })
+
+  # ── Diagnose-Plot 2: Rangverschiebung pro Position ───────────────────────────
+  output$poly_diag_rankshift <- plotly::renderPlotly({
+    req(poly_result())
+    df <- poly_result()$sites_df
+
+    show_labels <- isTRUE(input$poly_show_labels %||% TRUE)
+    lbl_chars   <- as.integer(input$poly_label_chars %||% 12)
+    lbl_size    <- as.numeric(input$poly_label_size  %||% 11)
+    pt_size     <- as.numeric(input$poly_point_size  %||% 3) * 3
+    trunc_lbl   <- function(x) substr(x, 1, lbl_chars)
+
+    max_diff  <- max(df$RankDiff, 1L)
+    pt_colors <- sapply(df$RankDiff, function(d) {
+      t <- d / max_diff
+      sprintf("rgb(%d,%d,%d)",
+        as.integer(160 + 95 * t),
+        as.integer(160 - 160 * t),
+        as.integer(160 - 160 * t))
+    })
+
+    p <- plotly::plot_ly(
+      x             = df$Dim1Rank,
+      y             = df$RankDiff,
+      type          = "scatter",
+      mode          = if (show_labels) "markers+text" else "markers",
+      marker        = list(size = pt_size, color = pt_colors,
+                           line = list(color = "white", width = 0.5)),
+      text          = if (show_labels) trunc_lbl(df$Site) else NULL,
+      textposition  = "top center",
+      textfont      = list(size = lbl_size),
+      hovertemplate = paste0(
+        "<b>", df$Site, "</b><br>",
+        tr("ca.poly.diag.rankshift.xlab"), ": ", df$Dim1Rank, "<br>",
+        tr("ca.poly.diag.rankshift.ylab"), ": %{y}",
+        "<extra></extra>"
+      ),
+      showlegend = FALSE
     )
+
+    plotly::layout(p,
+      xaxis     = list(title = tr("ca.poly.diag.rankshift.xlab"),
+                       showgrid = TRUE, gridcolor = "rgba(200,200,200,0.4)", zeroline = FALSE),
+      yaxis     = list(title = tr("ca.poly.diag.rankshift.ylab"),
+                       rangemode = "tozero", dtick = 1,
+                       showgrid = TRUE, gridcolor = "rgba(200,200,200,0.4)", zeroline = FALSE),
+      hovermode = "closest",
+      margin    = list(t = 20, b = 50, l = 70, r = 20)
+    ) |> plotly::config(displayModeBar = FALSE, displaylogo = FALSE)
   })
 
 }

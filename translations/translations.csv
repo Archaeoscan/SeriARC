@@ -2726,6 +2726,8 @@ bship.order.tooltip;Standardmäßig werden Sites in der Reihenfolge der Seriatio
 bship.order.seriation;Seriation;Seriation
 bship.order.arclength;CA Bogenlänge (Polynomprojektion);CA Arc Length (Polynomial Projection)
 bship.order.arclength.hint;Führen Sie zuerst die Polynomprojektion im CA-Tab durch, um diese Option zu verwenden.;Run Polynomial Projection in the CA tab first to use this option.
+bship.order.dim1;CA Dim1 (Faktor 1);CA Dim1 (Factor 1)
+bship.order.dim1.hint;Sortiert Sites nach ihren CA-Koordinaten auf der ersten Achse. Führen Sie zuerst die Korrespondenzanalyse durch.;Sorts sites by their CA coordinates on the first axis. Run Correspondence Analysis first.
 ca.poly.controls.hint;Labels, Schriftgröße und Punktgröße werden aus den Anzeigeeinstellungen im CA-Tab übernommen.;Label text, font size and point size are taken from the display settings in the CA tab.
 ca.poly.fit.on;Fitting-Ziel;Fitting target
 ca.poly.fit.on.tooltip;Legt fest, welche Punkte für das Polynom-Fitting verwendet werden. Sites (Standardmethode nach Weninger & Krauß 2021): Das Polynom wird an die aktiven Site-Koordinaten gefittet – Types werden nur passiv projiziert. Types: Das Polynom wird an die aktiven Type-Koordinaten gefittet – Sites werden passiv projiziert. Sites + Types: Beide Gruppen fließen gemeinsam ins Fitting ein.;Determines which points are used for polynomial fitting. Sites (default per Weninger & Krauß 2021): the polynomial is fitted to active site coordinates — types are projected passively. Types: the polynomial is fitted to active type coordinates — sites are projected passively. Sites + Types: both groups contribute jointly to the fit.
@@ -2754,6 +2756,16 @@ ca.poly.bump.tooltip;Zeigt wie sich die Rang-Reihenfolge ändert wenn von Dim1 a
 ca.poly.bump.xlab.dim1;Dim1-Rang;Dim1 Rank
 ca.poly.bump.xlab.al;Bogenlänge-Rang;Arc Length Rank
 ca.poly.bump.ylab;Rang (1 = älteste);Rank (1 = oldest)
+ca.poly.diag.title;Diagnose: Scheitel-Instabilität;Diagnostics: Apex Instability
+ca.poly.diag.hint;Große Abstände und Rangsprünge im mittleren Bereich sind typisch – sie bedeuten nicht, dass die Methode falsch ist, sondern dass die Daten dort weniger chronologische Information enthalten.;Large distances and rank shifts in the middle zone are typical – they do not mean the method is wrong, but that the data contain less chronological information there.
+ca.poly.diag.dist.title;Abstand zur Parabel;Distance to Parabola
+ca.poly.diag.dist.tooltip;Zeigt wie weit jede Site von der gefitteten Parabel abweicht. Sites mit großem Abstand sind potenzielle Mischkontexte, Langläufer oder funktionale Sonderfälle.;Shows how far each site deviates from the fitted parabola. Sites with large distance are potential mixed contexts, long-runners, or functional outliers.
+ca.poly.diag.dist.xlab;Dim1-Rang (Position);Dim1 rank (position)
+ca.poly.diag.dist.ylab;Abstand zur Parabel;Distance to parabola
+ca.poly.diag.rankshift.title;Rangverschiebung pro Position;Rank Shift per Position
+ca.poly.diag.rankshift.tooltip;Zeigt wo entlang des Gradienten die größten Rangsprünge auftreten. Typisches Muster: Spitze im Scheitelbereich (Mitte), kleine Werte an den Flanken.;Shows where along the gradient the largest rank shifts occur. Typical pattern: peak in the apex region (middle), small values at the flanks.
+ca.poly.diag.rankshift.xlab;Dim1-Rang (Position);Dim1 rank (position)
+ca.poly.diag.rankshift.ylab;|Rang-Differenz|;|Rank Difference|
 ca.poly.timescale.show;Zeitskala anzeigen;Show time scale
 ca.poly.timescale.show.tooltip;Überlagert den Zeitstrahl mit einer absoluten Zeitskala. Frühestes/Spätestes Datum bezieht sich auf die Enden der normierten [0,1]-Achse.;Overlays the timeline with an absolute time scale. Earliest/latest date refers to the ends of the normalised [0,1] axis.
 ca.poly.timescale.left;↤ Datum links (Pos. 0);↤ Date left (pos. 0)
@@ -2777,3 +2789,20 @@ ca.poly.ts.anchor.source;Datenquelle;Data source
 ca.poly.ts.anchor.unmodelled;Unmodelliert (IntCal20);Unmodelled (IntCal20)
 ca.poly.ts.anchor.modelled;Modelliert (OxCal-Sequenz);Modelled (OxCal sequence)
 ca.poly.ts.anchors.oxcal.none;Keine OxCal-Ergebnisse verfügbar. Bitte zuerst im OxCal-Tab eine Sequenz berechnen.;No OxCal results available. Please calculate a sequence in the OxCal tab first.
+ca.poly.scatter.diag.note;Punkte auf der Diagonale = kein Rangwechsel · je weiter weg, desto größer die Verschiebung;Points on diagonal = no rank change · further away = larger shift
+cluster.feature;Clustering-Grundlage;Clustering basis
+cluster.feature.ca;CA-Koordinaten (mehrdimensional);CA coordinates (multi-dimensional)
+cluster.feature.arclength;Bogenlänge (Polynomprojektion);Arc length (polynomial projection)
+cluster.feature.arclength.warning;⚠️ Polynomprojektion nicht berechnet – bitte zuerst im Tab 'Polynomprojektion' ausführen.;⚠️ Polynomial projection not calculated — please run it in the 'Polynomial projection' tab first.
+cluster.feature.arclength.hint;Clustert Fundorte und/oder Typen entlang der chronologischen Achse der Polynomprojektion (1D). Hilfspunkte werden ignoriert.;Clusters sites and/or types along the chronological axis of the polynomial projection (1D). Supplementary points are ignored.
+cluster.feature.arclength.note;Tipp: Setze Dim = 1, um nur nach CA-Dim1 zu clustern (ohne Polynomprojektion).;Tip: Set Dim = 1 to cluster by CA Dim1 only (without polynomial projection).
+cluster.help.arclength.title;Bogenlänge als Clustering-Grundlage;Arc length as clustering basis
+cluster.help.arclength.desc;Anstatt der mehrdimensionalen CA-Koordinaten wird die normierte Bogenlänge der Polynomprojektion als eindimensionale Grundlage verwendet. Die Bogenlänge approximiert die chronologische Position eines Fundorts entlang der Seriation.;Instead of multi-dimensional CA coordinates, the normalised arc length of the polynomial projection is used as a one-dimensional basis. The arc length approximates the chronological position of a site along the seriation.
+cluster.help.arclength.why;Archäologische Bedeutung;Archaeological significance
+cluster.help.arclength.why.desc;Cluster entlang der Bogenlänge entsprechen direkt chronologischen Phasen: Fundorte mit ähnlicher Bogenlänge haben ähnliche Keramikspektren und gehören wahrscheinlich zum selben Zeithorizont. Typen-Cluster ergeben Früh-, Mittel- und Spättypen entlang der Seriation.;Clusters along the arc length directly correspond to chronological phases: sites with similar arc length have similar pottery assemblages and likely belong to the same time horizon. Type clusters yield early, middle and late types along the seriation.
+cluster.help.arclength.howto;Voraussetzung;Prerequisite
+cluster.help.arclength.howto.desc;Die Polynomprojektion muss vor dem Clustering berechnet worden sein. Führe dazu zuerst den Tab 'Polynomprojektion' aus und klicke auf 'Berechnen'.;The polynomial projection must have been calculated before clustering. Run the 'Polynomial projection' tab first and click 'Calculate'.
+cluster.help.arclength.1d;Fundorte, Typen oder Beide;Sites, types, or both
+cluster.help.arclength.1d.desc;Sowohl Fundorte als auch Typen können nach Bogenlänge geclustert werden. Hilfspunkte werden ignoriert. Die Ergebnisse werden im CA-Biplot dargestellt.;Both sites and types can be clustered by arc length. Supplementary points are ignored. Results are displayed in the CA biplot.
+cluster.help.arclength.vs.dim1;Bogenlänge vs. CA-Dim1;Arc length vs. CA Dim1
+cluster.help.arclength.vs.dim1.desc;Beide messen chronologische Position, aber die Bogenlänge folgt der gebogenen Polynomkurve (korrekte Abstände entlang der Seriation), während Dim1 eine lineare Projektion ist. Bei stark gebogener Horseshoe-Kurve liefert die Bogenlänge präzisere Phasengrenzen.;Both measure chronological position, but arc length follows the curved polynomial (correct distances along the seriation), while Dim1 is a linear projection. With a strongly curved horseshoe, arc length provides more precise phase boundaries.

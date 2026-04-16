@@ -65,15 +65,43 @@ output$cluster_main_content <- renderUI({
                     tags$strong("ℹ️ ", tr("cluster.ca.metric.caveat.title")), " ",
                     tr("cluster.ca.metric.caveat.desc")
                   ),
-                  selectInput("cluster_on", tr("cluster.what"),
+
+                  # === CLUSTERING BASIS (CA vs. ARC LENGTH) ===
+                  selectInput("cluster_feature", tr("cluster.feature"),
                     choices = setNames(
-                      c("both", "rows", "cols"),
-                      c(tr("cluster.both"), tr("cluster.rows"), tr("cluster.cols"))
+                      c("ca", "arclength"),
+                      c(tr("cluster.feature.ca"), tr("cluster.feature.arclength"))
                     )),
+
+                  # Arc-length mode: what to cluster + info
                   conditionalPanel(
-                    condition = "input.cluster_on == 'both'",
-                    div(class = "alert alert-warning", style="padding:8px; margin-top:-10px; margin-bottom:10px;",
-                      tags$small(tr("cluster.both.warning"))
+                    condition = "input.cluster_feature == 'arclength'",
+                    selectInput("cluster_on_arclength", tr("cluster.what"),
+                      choices = setNames(
+                        c("rows", "cols", "both"),
+                        c(tr("cluster.rows"), tr("cluster.cols"), tr("cluster.both"))
+                      )),
+                    div(class = "alert alert-success", style = "padding: 8px; margin-bottom: 8px; font-size: 0.88em;",
+                      tags$strong("📐 "), tr("cluster.feature.arclength.hint")
+                    ),
+                    div(class = "alert alert-warning", style = "padding: 6px 8px; margin-bottom: 8px; font-size: 0.82em;",
+                      tr("cluster.feature.arclength.note")
+                    )
+                  ),
+
+                  # CA mode: cluster_on selector + both warning
+                  conditionalPanel(
+                    condition = "input.cluster_feature == 'ca'",
+                    selectInput("cluster_on", tr("cluster.what"),
+                      choices = setNames(
+                        c("both", "rows", "cols"),
+                        c(tr("cluster.both"), tr("cluster.rows"), tr("cluster.cols"))
+                      )),
+                    conditionalPanel(
+                      condition = "input.cluster_on == 'both'",
+                      div(class = "alert alert-warning", style="padding:8px; margin-top:-10px; margin-bottom:10px;",
+                        tags$small(tr("cluster.both.warning"))
+                      )
                     )
                   ),
 
@@ -82,16 +110,19 @@ output$cluster_main_content <- renderUI({
 
                   sliderInput("num_clusters", tr("cluster.num"), 2, 10, 3, step = 1),
 
-                  # === DIMENSIONS FOR CLUSTERING (WITH INFO BUTTON) ===
-                  div(style="display:flex; align-items:center; gap:5px; margin-bottom:5px;",
-                    tags$label(tr("cluster.dimensions"), style="margin:0; flex-grow:1;"),
-                    actionButton("info_clustering_dims", icon("info-circle"), class="btn btn-info btn-sm",
-                                style="padding:2px 6px; font-size:11px;")
+                  # === DIMENSIONS FOR CLUSTERING (WITH INFO BUTTON) – only for CA mode ===
+                  conditionalPanel(
+                    condition = "input.cluster_feature == 'ca'",
+                    div(style="display:flex; align-items:center; gap:5px; margin-bottom:5px;",
+                      tags$label(tr("cluster.dimensions"), style="margin:0; flex-grow:1;"),
+                      actionButton("info_clustering_dims", icon("info-circle"), class="btn btn-info btn-sm",
+                                  style="padding:2px 6px; font-size:11px;")
+                    ),
+                    sliderInput("kmeans_n_dims", NULL, 1, 5, 2, step = 1,
+                                post = " Dim"),
+                    tags$small(class = "text-muted", style = "display: block; margin-top: -10px; margin-bottom: 10px;",
+                               tr("cluster.dim.tip"))
                   ),
-                  sliderInput("kmeans_n_dims", NULL, 1, 5, 2, step = 1,
-                              post = " Dim"),
-                  tags$small(class = "text-muted", style = "display: block; margin-top: -10px; margin-bottom: 10px;",
-                             tr("cluster.dim.tip")),
 
                   conditionalPanel(
                     condition = "input.clustering_method == 'hierarchical'",

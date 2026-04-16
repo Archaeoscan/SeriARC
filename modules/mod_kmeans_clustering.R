@@ -329,35 +329,71 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
       res <- ca_result()
       x_idx <- as.numeric(gsub("Dim", "", input$x_dim))
       y_idx <- as.numeric(gsub("Dim", "", input$y_dim))
-      
-      row_coords <- as.data.frame(res$row$coord)
-      col_coords <- as.data.frame(res$col$coord)
-      
-      active_data <- rbind(
-        data.frame(row_coords, label = rownames(row_coords), type = 'Site',
-                   element_type = 'Active', stringsAsFactors = FALSE),
-        data.frame(col_coords, label = rownames(col_coords), type = 'Type',
-                   element_type = 'Active', stringsAsFactors = FALSE)
-      )
-      
-      # Isolate ALL inputs for consistent calculations
-      cluster_on_val <- isolate(input$cluster_on %||% "both")
-      n_dims_val <- isolate(input$kmeans_n_dims %||% 2)
-      
-      cluster_data <- switch(cluster_on_val,
-                             "rows" = subset(active_data, type == 'Site'),
-                             "cols" = subset(active_data, type == 'Type'),
-                             "both" = active_data)
-      
-      n_dims <- min(n_dims_val, ncol(cluster_data) - 3)
-      
-      if (n_dims == 2) {
-        coords <- as.matrix(cluster_data[, c(x_idx, y_idx), drop = FALSE])
+
+      # Check if arc length mode is active
+      cluster_feature_auto <- isolate(input$cluster_feature %||% "ca")
+
+      if (cluster_feature_auto == "arclength") {
+        # Build 1D coords from polynomial arc length
+        if (is.null(cache$polynomial_result) || is.null(cache$polynomial_result$arc_length)) {
+          removeNotification("auto_cluster_calc")
+          showNotification(tr("cluster.feature.arclength.warning"), type = "error", duration = 8)
+          return()
+        }
+        cluster_on_al_auto <- isolate(input$cluster_on_arclength %||% "rows")
+        arc_df_s_auto <- cache$polynomial_result$arc_length
+        arc_df_t_auto <- cache$polynomial_result$arc_length_types
+        row_coords_auto <- as.data.frame(res$row$coord)
+        col_coords_auto <- as.data.frame(res$col$coord)
+
+        names_auto  <- character(0)
+        vals_auto   <- numeric(0)
+        if (cluster_on_al_auto %in% c("rows", "both")) {
+          ms <- intersect(arc_df_s_auto$Site, rownames(row_coords_auto))
+          names_auto <- c(names_auto, ms)
+          vals_auto  <- c(vals_auto, arc_df_s_auto$ArcLength[match(ms, arc_df_s_auto$Site)])
+        }
+        if (cluster_on_al_auto %in% c("cols", "both") && !is.null(arc_df_t_auto)) {
+          mt <- intersect(arc_df_t_auto$Name, rownames(col_coords_auto))
+          names_auto <- c(names_auto, mt)
+          vals_auto  <- c(vals_auto, arc_df_t_auto$ArcLength[match(mt, arc_df_t_auto$Name)])
+        }
+        if (length(names_auto) < 2) {
+          removeNotification("auto_cluster_calc")
+          showNotification("Not enough arc-length points for auto-suggestion.", type = "error", duration = 6)
+          return()
+        }
+        coords <- matrix(vals_auto, ncol = 1, dimnames = list(names_auto, "ArcLength"))
       } else {
-        dim_indices <- 1:n_dims
-        coords <- as.matrix(cluster_data[, dim_indices, drop = FALSE])
+        row_coords <- as.data.frame(res$row$coord)
+        col_coords <- as.data.frame(res$col$coord)
+
+        active_data <- rbind(
+          data.frame(row_coords, label = rownames(row_coords), type = 'Site',
+                     element_type = 'Active', stringsAsFactors = FALSE),
+          data.frame(col_coords, label = rownames(col_coords), type = 'Type',
+                     element_type = 'Active', stringsAsFactors = FALSE)
+        )
+
+        # Isolate ALL inputs for consistent calculations
+        cluster_on_val <- isolate(input$cluster_on %||% "both")
+        n_dims_val <- isolate(input$kmeans_n_dims %||% 2)
+
+        cluster_data <- switch(cluster_on_val,
+                               "rows" = subset(active_data, type == 'Site'),
+                               "cols" = subset(active_data, type == 'Type'),
+                               "both" = active_data)
+
+        n_dims <- min(n_dims_val, ncol(cluster_data) - 3)
+
+        if (n_dims == 2) {
+          coords <- as.matrix(cluster_data[, c(x_idx, y_idx), drop = FALSE])
+        } else {
+          dim_indices <- 1:n_dims
+          coords <- as.matrix(cluster_data[, dim_indices, drop = FALSE])
+        }
       }
-      
+
       # === FIX: max_k increased (25 instead of 10) for more flexibility ===
       max_k <- min(25, floor(nrow(coords) / 2))
       k_range <- 2:max_k
@@ -1015,6 +1051,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
     gmm_model_type_val <- isolate(input$gmm_model_type %||% "auto")
     x_dim_val <- isolate(input$x_dim)
     y_dim_val <- isolate(input$y_dim)
+    cluster_feature_val <- isolate(input$cluster_feature %||% "ca")
     method_label <- switch(method,
                           "kmeans" = "K-Means",
                           "hierarchical" = "Hierarchical",
@@ -1029,7 +1066,256 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
         res <- ca_result()
         x_idx <- as.numeric(gsub("Dim", "", x_dim_val))
         y_idx <- as.numeric(gsub("Dim", "", y_dim_val))
-        
+
+        # ================================================================
+        # === ARC LENGTH CLUSTERING PATH ===
+        # ================================================================
+        if (cluster_feature_val == "arclength") {
+          incProgress(0.3, detail = "Extracting arc lengths from polynomial projection...")
+
+          if (is.null(cache$polynomial_result) || is.null(cache$polynomial_result$arc_length)) {
+            showNotification(tr("cluster.feature.arclength.warning"), type = "error", duration = 10)
+            stop("Polynomial projection not available. Please calculate it in the Polynomial Projection tab first.")
+          }
+
+          cluster_on_al <- isolate(input$cluster_on_arclength %||% "rows")
+
+          arc_df_sites  <- cache$polynomial_result$arc_length        # data.frame: Site, ArcLength
+          arc_df_types  <- cache$polynomial_result$arc_length_types  # data.frame: Name, ArcLength (or NULL)
+
+          row_coords_al <- as.data.frame(res$row$coord)
+          col_coords_al <- as.data.frame(res$col$coord)
+
+          # Build combined arc_length table depending on cluster_on_al
+          names_al    <- character(0)
+          values_al   <- numeric(0)
+          types_al    <- character(0)   # "Site" or "Type" label for each point
+          ca_coords_al <- NULL          # CA coords for display
+
+          if (cluster_on_al %in% c("rows", "both")) {
+            matched_s <- intersect(arc_df_sites$Site, rownames(row_coords_al))
+            if (length(matched_s) > 0) {
+              v_s <- arc_df_sites$ArcLength[match(matched_s, arc_df_sites$Site)]
+              names_al  <- c(names_al, matched_s)
+              values_al <- c(values_al, v_s)
+              types_al  <- c(types_al, rep("Site", length(matched_s)))
+              ca_coords_al <- rbind(ca_coords_al, row_coords_al[matched_s, , drop = FALSE])
+            }
+          }
+
+          if (cluster_on_al %in% c("cols", "both")) {
+            if (is.null(arc_df_types)) {
+              showNotification(
+                "Typen-Bogenlänge nicht verfügbar – Polynomprojektion neu berechnen.",
+                type = "warning", duration = 8)
+              if (cluster_on_al == "cols") stop("No type arc lengths available.")
+            } else {
+              matched_t <- intersect(arc_df_types$Name, rownames(col_coords_al))
+              if (length(matched_t) > 0) {
+                v_t <- arc_df_types$ArcLength[match(matched_t, arc_df_types$Name)]
+                names_al  <- c(names_al, matched_t)
+                values_al <- c(values_al, v_t)
+                types_al  <- c(types_al, rep("Type", length(matched_t)))
+                ca_coords_al <- rbind(ca_coords_al, col_coords_al[matched_t, , drop = FALSE])
+              }
+            }
+          }
+
+          validate(need(length(names_al) >= num_clusters,
+                        sprintf("Not enough points with arc length (%d) for %d clusters!",
+                                length(names_al), num_clusters)))
+
+          arc_values <- values_al
+
+          # 1D coordinate matrix for clustering
+          coords_al <- matrix(arc_values, ncol = 1, dimnames = list(names_al, "ArcLength"))
+
+          # cluster_data: CA coords + ArcLength for display + downstream use
+          cluster_data_al <- data.frame(
+            ca_coords_al,
+            label        = names_al,
+            type         = types_al,
+            element_type = "Active",
+            ArcLength    = arc_values,
+            stringsAsFactors = FALSE
+          )
+
+          incProgress(0.4, detail = sprintf("Performing %s on arc lengths (1D)...", method_label))
+
+          # === CLUSTERING METHODS (1D) ===
+          clustering_result_al <- list()
+          km_al <- NULL
+
+          if (method == "kmeans") {
+            set.seed(123)
+            km_al <- kmeans(coords_al, centers = num_clusters, nstart = 50, iter.max = 200)
+            clustering_result_al$cluster <- km_al$cluster
+            clustering_result_al$centers <- km_al$centers
+
+          } else if (method == "hierarchical") {
+            hc_al <- hclust(dist(coords_al), method = hc_method_val)
+            hc_clusters_al <- cutree(hc_al, k = num_clusters)
+            centers_al <- matrix(tapply(coords_al[, 1], hc_clusters_al, mean),
+                                 ncol = 1, dimnames = list(1:num_clusters, "ArcLength"))
+            clustering_result_al$cluster  <- hc_clusters_al
+            clustering_result_al$centers  <- centers_al
+            clustering_result_al$hc_tree  <- hc_al
+
+          } else if (method == "pam") {
+            pam_al <- cluster::pam(coords_al, k = num_clusters, metric = "euclidean")
+            clustering_result_al$cluster <- pam_al$clustering
+            clustering_result_al$centers <- pam_al$medoids
+            clustering_result_al$pam_obj <- pam_al
+
+          } else if (method == "fuzzy") {
+            fuzzy_maxit_al <- if (nrow(coords_al) > 100) 200 else 100
+            fuzzy_al <- cluster::fanny(coords_al, k = num_clusters, memb.exp = fuzzy_m_val,
+                                       maxit = fuzzy_maxit_al, tol = 0.001)
+            hard_al  <- apply(fuzzy_al$membership, 1, which.max)
+            ctrs_al  <- matrix(
+              sapply(1:num_clusters, function(i) sum(coords_al[, 1] * fuzzy_al$membership[, i]) / sum(fuzzy_al$membership[, i])),
+              ncol = 1, dimnames = list(1:num_clusters, "ArcLength")
+            )
+            clustering_result_al$cluster    <- hard_al
+            clustering_result_al$centers    <- ctrs_al
+            clustering_result_al$membership <- fuzzy_al$membership
+
+          } else if (method == "gmm") {
+            if (!requireNamespace("mclust", quietly = TRUE))
+              stop("GMM requires the 'mclust' package.")
+            library(mclust)
+            if (gmm_model_type_val == "auto") {
+              gmm_al <- Mclust(coords_al, G = num_clusters, verbose = FALSE)
+            } else {
+              gmm_al <- Mclust(coords_al, G = num_clusters, modelNames = gmm_model_type_val, verbose = FALSE)
+            }
+            if (is.null(gmm_al)) stop("GMM model could not be computed.")
+            clustering_result_al$cluster   <- gmm_al$classification
+            mean_vec <- if (is.null(dim(gmm_al$parameters$mean))) gmm_al$parameters$mean else
+                          as.vector(gmm_al$parameters$mean)
+            clustering_result_al$centers   <- matrix(mean_vec, ncol = 1, dimnames = list(1:num_clusters, "ArcLength"))
+            clustering_result_al$gmm_model <- gmm_al
+            clustering_result_al$gmm_prob  <- gmm_al$z
+          }
+
+          # === SORT CLUSTERS BY MEAN ARC LENGTH (chronological order) ===
+          mean_arc_per_cluster <- tapply(coords_al[, 1], clustering_result_al$cluster, mean)
+          sorted_means_al <- sort(mean_arc_per_cluster)
+          old_ids_al <- as.integer(names(sorted_means_al))
+          new_ids_al <- seq_len(num_clusters)
+          old_to_new_al <- setNames(new_ids_al, old_ids_al)
+
+          clustering_result_al$cluster <- old_to_new_al[as.character(clustering_result_al$cluster)]
+          clustering_result_al$centers <- clustering_result_al$centers[old_ids_al, , drop = FALSE]
+          rownames(clustering_result_al$centers) <- new_ids_al
+
+          if (method == "fuzzy" && !is.null(clustering_result_al$membership)) {
+            clustering_result_al$membership <- clustering_result_al$membership[, old_ids_al, drop = FALSE]
+            colnames(clustering_result_al$membership) <- new_ids_al
+          }
+          if (method == "gmm" && !is.null(clustering_result_al$gmm_prob)) {
+            clustering_result_al$gmm_prob <- clustering_result_al$gmm_prob[, old_ids_al, drop = FALSE]
+            colnames(clustering_result_al$gmm_prob) <- new_ids_al
+          }
+
+          km_al <- list(cluster = clustering_result_al$cluster,
+                        centers = clustering_result_al$centers)
+
+          cluster_data_al$cluster <- factor(km_al$cluster)
+          cluster_data_al$lab <- if (!is.null(input$show_labels_km) && input$show_labels_km) {
+            substr(cluster_data_al$label, 1, input$label_chars_km %||% 12)
+          } else ""
+
+          incProgress(0.2, detail = "Calculating quality metrics (arc length)...")
+
+          # === QUALITY METRICS (1D) ===
+          sil_al <- tryCatch({
+            if (nrow(coords_al) > num_clusters && num_clusters > 1) {
+              sil_obj <- cluster::silhouette(as.integer(cluster_data_al$cluster), dist(coords_al[, 1]))
+              mean(sil_obj[, 3])
+            } else NA
+          }, error = function(e) NA)
+
+          ch_al <- tryCatch({
+            if (nrow(coords_al) > num_clusters && num_clusters > 1) {
+              cls <- as.integer(cluster_data_al$cluster)
+              gm  <- mean(coords_al[, 1])
+              bss <- sum(sapply(unique(cls), function(k) {
+                cm <- mean(coords_al[cls == k, 1])
+                sum(cls == k) * (cm - gm)^2
+              }))
+              wss <- sum(sapply(unique(cls), function(k) {
+                cm <- mean(coords_al[cls == k, 1])
+                sum((coords_al[cls == k, 1] - cm)^2)
+              }))
+              (bss / (num_clusters - 1)) / (wss / (nrow(coords_al) - num_clusters))
+            } else NA
+          }, error = function(e) NA)
+
+          db_al <- tryCatch({
+            if (nrow(coords_al) > num_clusters && num_clusters > 1) {
+              cls <- as.integer(cluster_data_al$cluster)
+              ctrs_v <- sapply(unique(cls), function(k) mean(coords_al[cls == k, 1]))
+              intra  <- sapply(unique(cls), function(k) mean(abs(coords_al[cls == k, 1] - mean(coords_al[cls == k, 1]))))
+              db_vals <- sapply(seq_along(unique(cls)), function(i) {
+                max(sapply(seq_along(unique(cls)), function(j) {
+                  if (i == j) return(0)
+                  (intra[i] + intra[j]) / abs(ctrs_v[i] - ctrs_v[j])
+                }))
+              })
+              mean(db_vals)
+            } else NA
+          }, error = function(e) NA)
+
+          tot_wss_al <- sum(sapply(unique(as.integer(cluster_data_al$cluster)), function(k) {
+            pts <- coords_al[as.integer(cluster_data_al$cluster) == k, 1]
+            sum((pts - mean(pts))^2)
+          }))
+          gm_al   <- mean(coords_al[, 1])
+          bss_al  <- sum(sapply(unique(as.integer(cluster_data_al$cluster)), function(k) {
+            pts <- coords_al[as.integer(cluster_data_al$cluster) == k, 1]
+            length(pts) * (mean(pts) - gm_al)^2
+          }))
+
+          result_al <- list(
+            data                = cluster_data_al,
+            x_col               = x_idx,
+            y_col               = y_idx,
+            kmeans_obj          = km_al,
+            silhouette          = sil_al,
+            calinski_harabasz   = ch_al,
+            davies_bouldin      = db_al,
+            cophenetic_corr     = NA,
+            dunn_coeff          = if (method == "fuzzy" && !is.null(clustering_result_al$membership))
+                                    mean(apply(clustering_result_al$membership, 1, function(r) sum(r^2))) else NA,
+            gmm_bic             = if (method == "gmm" && !is.null(clustering_result_al$gmm_model))
+                                    clustering_result_al$gmm_model$bic else NA,
+            gmm_loglik          = if (method == "gmm" && !is.null(clustering_result_al$gmm_model))
+                                    clustering_result_al$gmm_model$loglik else NA,
+            centers             = km_al$centers,
+            tot_withinss        = tot_wss_al,
+            betweenss           = bss_al,
+            coords              = coords_al,
+            active_data         = cluster_data_al,
+            supplementary_data  = data.frame(),
+            n_dims              = 1L,
+            method              = method,
+            clustering_result   = clustering_result_al,
+            characterization    = NULL,
+            feature             = "arclength"  # flag for display
+          )
+
+          cache$kmeans_result <- result_al
+          active_count_al <- nrow(cluster_data_al)
+          showNotification(
+            sprintf(tr("kmeans.notify.success"), method_label, active_count_al, 0L),
+            type = "message", duration = 4)
+          return(result_al)
+        }
+        # ================================================================
+        # === END OF ARC LENGTH PATH – normal CA clustering continues ===
+        # ================================================================
+
         # Active points for clustering
         row_coords <- as.data.frame(res$row$coord)
         col_coords <- as.data.frame(res$col$coord)

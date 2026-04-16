@@ -55,9 +55,26 @@ mod_battleship_server <- function(filtered_data, cache, cluster_names, cluster_c
     if (is.null(rownames(m))) rownames(m) <- paste0("Site_", seq_len(nrow(m)))
     if (is.null(colnames(m))) colnames(m) <- paste0("Type_", seq_len(ncol(m)))
 
-    # Arc length ordering via polynomial projection (if selected and available)
+    # Site ordering (seriation / CA Dim1 / arc length)
     order_by <- if (!is.null(input$bship_order_by)) input$bship_order_by else "seriation"
-    if (order_by == "arc_length" &&
+
+    if (order_by == "dim1" &&
+        !is.null(cache$ca_result) &&
+        !is.null(cache$ca_result$row) &&
+        !is.null(cache$ca_result$row$coord)) {
+
+      dim1_coords <- cache$ca_result$row$coord[, 1]
+      sites_in_m  <- rownames(m)
+      matched     <- dim1_coords[names(dim1_coords) %in% sites_in_m]
+
+      if (length(matched) >= 2) {
+        ordered_sites <- names(sort(matched))
+        ordered_sites <- ordered_sites[ordered_sites %in% sites_in_m]
+        remaining     <- setdiff(sites_in_m, ordered_sites)
+        m <- m[c(ordered_sites, remaining), , drop = FALSE]
+      }
+
+    } else if (order_by == "arc_length" &&
         !is.null(cache$polynomial_result) &&
         !is.null(cache$polynomial_result$arc_length)) {
 
