@@ -75,16 +75,26 @@ output$battleship_main_content <- renderUI({
               div(id = "battleship_panel_curve", class = "panel-collapse collapse in battleship-collapse",
                 div(class = "panel-body", style = "padding: 12px;",
 
-                  checkboxInput("bship_curve_smooth", tr("battleship.curve.smooth"), TRUE),
-                  selectInput("bship_curve_method", tr("battleship.curve.method"),
-                              choices = c("loess", "spline", "gaussian"), selected = "loess"),
-                  sliderInput("bship_curve_param", tr("battleship.curve.smoothing"),
-                              min = 0.05, max = 1.0, value = 0.3, step = 0.05),
+                  radioButtons("bship_display_mode", tr("bship.display.mode"),
+                               choices = setNames(c("ships", "blocks"),
+                                                  c(tr("bship.display.ships"), tr("bship.display.blocks"))),
+                               selected = "ships", inline = TRUE),
+                  hr(style = "margin: 8px 0;"),
+
+                  conditionalPanel(
+                    condition = "input.bship_display_mode == 'ships'",
+                    checkboxInput("bship_curve_smooth", tr("battleship.curve.smooth"), TRUE),
+                    selectInput("bship_curve_method", tr("battleship.curve.method"),
+                                choices = c("loess", "spline", "gaussian"), selected = "loess"),
+                    sliderInput("bship_curve_param", tr("battleship.curve.smoothing"),
+                                min = 0.05, max = 1.0, value = 0.3, step = 0.05),
+                  ),
                   checkboxInput("bship_norm",
                                HTML(paste0(tr("battleship.normalize"),
                                     ' <span style="color:#3498db; cursor:help;" title="',
                                     tr("battleship.normalize.tooltip"), '">ⓘ</span>')),
                                TRUE),
+
 
                   # Aggregation section
                   div(class = "seriarc-panel-success", style = "margin-top: 10px;",

@@ -2252,63 +2252,9 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
   # ===== CA PLOT DOWNLOAD-HANDLER =====
   
   # PNG Export
-  output$download_ca_plot_png <- create_png_download_handler(
-    plot_output_id = "ca_plotly",
-    base_filename = "CA_Biplot",
-    session = session,
-    tr = tr
-  )
-  
-  # SVG Export
-  output$download_ca_plot_svg <- create_svg_download_handler(
-    plot_output_id = "ca_plotly",
-    base_filename = "CA_Biplot",
-    session = session,
-    tr = tr
-  )
-  
-  # PDF Export (with real data)
-  output$download_ca_plot_pdf <- create_pdf_download_handler(
-    plot_data = ca_plot_data(),
-    base_filename = "CA_Biplot",
-    tr = tr,
-    plot_generator_func = function(data) {
-      # Basis-Parameter
-      point_colors <- ifelse(data$type == "Site", "#3498db", "#e74c3c")
-      point_shapes <- ifelse(data$type == "Site", 16, 17)
-      point_sizes <- ifelse(data$element_type == "Active", 1.5, 1.0)
-      
-      # Plot erstellen
-      plot(data$x, data$y,
-           col = point_colors,
-           pch = point_shapes,
-           cex = point_sizes,
-           xlab = input$x_dim %||% "Dim1",
-           ylab = input$y_dim %||% "Dim2",
-           main = "SeriARC Correspondence Analysis",
-           las = 1)
-      
-      # Grid
-      grid(col = "lightgray", lty = "dotted")
-      
-      # Achsen bei 0
-      abline(h = 0, v = 0, col = "gray50", lty = "dashed")
-      
-      # Add labels (if enabled)
-      if (!is.null(input$show_labels) && input$show_labels) {
-        text(data$x, data$y, labels = data$lab, 
-             pos = 4, cex = 0.7, col = "#2c3e50")
-      }
-      
-      # Legende
-      legend("topright",
-             legend = c(tr("plot.ca.legend.sites.active"), tr("plot.ca.legend.types.active"), tr("plot.ca.legend.supplementary")),
-             col = c("#3498db", "#e74c3c", "gray50"),
-             pch = c(16, 17, 1),
-             cex = 0.8,
-             bg = "white")
-    }
-  )
+  output$download_ca_plot_png <- create_plotly_png_handler(last_ca_plotly, "CA_Biplot", tr = tr)
+  output$download_ca_plot_svg <- create_plotly_png_handler(last_ca_plotly, "CA_Biplot_SVG", tr = tr)
+  output$download_ca_plot_pdf <- create_plotly_pdf_handler(last_ca_plotly, "CA_Biplot", tr = tr)
   
   # HTML Export (Plotly)
   output$download_ca_plot_html <- downloadHandler(

@@ -2743,6 +2743,9 @@ bship.order.arclength;CA Bogenlänge (Polynomprojektion);CA Arc Length (Polynomi
 bship.order.arclength.hint;Führen Sie zuerst die Polynomprojektion im CA-Tab durch, um diese Option zu verwenden.;Run Polynomial Projection in the CA tab first to use this option.
 bship.order.dim1;CA Dim1 (Faktor 1);CA Dim1 (Factor 1)
 bship.order.dim1.hint;Sortiert Sites nach ihren CA-Koordinaten auf der ersten Achse. Führen Sie zuerst die Korrespondenzanalyse durch.;Sorts sites by their CA coordinates on the first axis. Run Correspondence Analysis first.
+bship.display.mode;Darstellungsmodus;Display mode
+bship.display.ships;Kurven (Schiffe);Curves (Ships)
+bship.display.blocks;Klötzchen (Petrie);Blocks (Petrie)
 ca.poly.controls.hint;Labels, Schriftgröße und Punktgröße werden aus den Anzeigeeinstellungen im CA-Tab übernommen.;Label text, font size and point size are taken from the display settings in the CA tab.
 ca.poly.fit.on;Fitting-Ziel;Fitting target
 ca.poly.fit.on.tooltip;Legt fest, welche Punkte für das Polynom-Fitting verwendet werden. Sites (Standardmethode nach Weninger & Krauß 2021): Das Polynom wird an die aktiven Site-Koordinaten gefittet – Types werden nur passiv projiziert. Types: Das Polynom wird an die aktiven Type-Koordinaten gefittet – Sites werden passiv projiziert. Sites + Types: Beide Gruppen fließen gemeinsam ins Fitting ein.;Determines which points are used for polynomial fitting. Sites (default per Weninger & Krauß 2021): the polynomial is fitted to active site coordinates — types are projected passively. Types: the polynomial is fitted to active type coordinates — sites are projected passively. Sites + Types: both groups contribute jointly to the fit.

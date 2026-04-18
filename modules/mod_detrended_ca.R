@@ -8,10 +8,12 @@ mod_detrended_ca_ui <- function(id, tr = function(x) x) {
 }
 
 mod_detrended_ca_server <- function(filtered_data, meta_data, cache, get_site_group, get_element_details = NULL, input, output, session, tr = function(x) x) {
-  
+
   source("helpers/plot_components.R", local = TRUE)
   source("helpers/download_components.R", local = TRUE)
-  
+
+  last_dca_plotly <- reactiveVal(NULL)
+
   # ===== HELPER FUNCTIONS =====
 
   # PAST-like detrending implementation
@@ -581,116 +583,15 @@ mod_detrended_ca_server <- function(filtered_data, meta_data, cache, get_site_gr
       }
     }
     
-    standard_plotly_config(p, "2d")
+    last_dca_plotly(standard_plotly_config(p, "2d"))
   })
-  
+
   # ===== DOWNLOAD-HANDLER =====
-  
+
   # DCA Plot exports (with real data)
-  output$download_dca_plot_png <- create_png_download_handler(
-    "dca_plotly", "DCA_Plot", session,
-    tr = tr,
-    plot_data = dca_plot_data,
-    plot_generator_func = function(data) {
-      req(dca_res(), input$dca_x_dim, input$dca_y_dim)
-      
-      if (!is.null(data) && nrow(data) > 0) {
-        # Use actual DCA data for PNG
-        par(mar = c(5, 4, 4, 2))
-        plot(data$x, data$y,
-             col = ifelse(data$type == "Site", "#2980b9", "#c0392b"),
-             pch = ifelse(data$type == "Site", 16, 17),
-             cex = ifelse(data$element_type == "Active", 1.2, 0.8),
-             xlab = paste(input$dca_x_dim, "(detrended)"),
-             ylab = paste(input$dca_y_dim, "(detrended)"),
-             main = sprintf("SeriARC Detrended CA (%s)", dca_res()$dca_method %||% "linear"))
-        
-        # Achsen durch Ursprung
-        abline(h = 0, v = 0, col = "gray", lty = 2)
-        
-        # Legend
-        legend("topright",
-               legend = c("Sites (active)", "Types (active)", "Supplementary"),
-               col = c("#2980b9", "#c0392b", "gray"),
-               pch = c(16, 17, 1),
-               cex = 0.8)
-
-        # Info text
-        method_info <- dca_res()$dca_method %||% "linear"
-        mtext(sprintf("PNG Export | %s detrending | %d points | %s", method_info, nrow(data), format(Sys.time(), "%Y-%m-%d %H:%M")), 
-              side = 1, line = 4, cex = 0.7, col = "gray")
-      }
-    }
-  )
-  
-  output$download_dca_plot_svg <- create_svg_download_handler(
-    "dca_plotly", "DCA_Plot", session,
-    tr = tr,
-    plot_data = dca_plot_data,
-    plot_generator_func = function(data) {
-      req(dca_res(), input$dca_x_dim, input$dca_y_dim)
-      
-      if (!is.null(data) && nrow(data) > 0) {
-        par(mar = c(5, 4, 4, 2))
-        plot(data$x, data$y,
-             col = ifelse(data$type == "Site", "#2980b9", "#c0392b"),
-             pch = ifelse(data$type == "Site", 16, 17),
-             cex = ifelse(data$element_type == "Active", 1.2, 0.8),
-             xlab = paste(input$dca_x_dim, "(detrended)"),
-             ylab = paste(input$dca_y_dim, "(detrended)"),
-             main = "SeriARC Detrended CA (SVG)")
-        
-        # Axes through origin
-        abline(h = 0, v = 0, col = "gray", lty = 2)
-
-        # Legend
-        legend("topright",
-               legend = c("Sites (active)", "Types (active)", "Supplementary"),
-               col = c("#2980b9", "#c0392b", "gray"),
-               pch = c(16, 17, 1),
-               cex = 0.8)
-
-        # Additional info
-        method_info <- dca_res()$dca_method %||% "linear"
-        mtext(sprintf("DCA SVG Export (%s detrending): n = %d", method_info, nrow(data)), 
-              side = 1, line = 4, cex = 0.8, col = "gray")
-      }
-    }
-  )
-  
-  output$download_dca_plot_pdf <- create_pdf_download_handler(
-    dca_plot_data, "DCA_Plot", tr = tr, function(data) {
-      req(dca_res(), input$dca_x_dim, input$dca_y_dim)
-      
-      if (!is.null(data) && nrow(data) > 0) {
-        plot(data$x, data$y,
-             col = ifelse(data$type == "Site", "#2980b9", "#c0392b"),
-             pch = ifelse(data$type == "Site", 16, 17),
-             cex = ifelse(data$element_type == "Active", 1.2, 0.8),
-             xlab = paste(input$dca_x_dim, "(detrended)"),
-             ylab = paste(input$dca_y_dim, "(detrended)"),
-             main = "SeriARC Detrended Correspondence Analysis")
-        
-        # Axes through origin
-        abline(h = 0, v = 0, col = "gray", lty = 2)
-
-        # Legend
-        legend("topright",
-               legend = c("Sites (active)", "Types (active)", "Supplementary"),
-               col = c("#2980b9", "#c0392b", "gray"),
-               pch = c(16, 17, 1),
-               cex = 0.8)
-
-        # Additional info
-        method_info <- dca_res()$dca_method %||% "linear"
-        mtext(sprintf("DCA (%s): n = %d points", method_info, nrow(data)),
-              side = 1, line = 4, cex = 0.8, col = "gray")
-      } else {
-        plot(1, 1, type = "n", xlab = "", ylab = "", main = "SeriARC DCA - No Data")
-        text(1, 1, tr("dca.run.first"), cex = 1.5, col = "#e74c3c")
-      }
-    }
-  )
+  output$download_dca_plot_png  <- create_plotly_png_handler(last_dca_plotly, "DCA_Plot", tr = tr)
+  output$download_dca_plot_svg  <- create_plotly_png_handler(last_dca_plotly, "DCA_Plot_SVG", tr = tr)
+  output$download_dca_plot_pdf  <- create_plotly_pdf_handler(last_dca_plotly, "DCA_Plot", tr = tr)
   
   # DCA data export
   output$download_dca_data <- create_excel_download_handler(
@@ -716,94 +617,8 @@ mod_detrended_ca_server <- function(filtered_data, meta_data, cache, get_site_gr
     tr = tr
   )
   
-  # HTML export for DCA
-  output$download_dca_plot_html <- downloadHandler(
-    filename = function() sprintf("SeriARC_DCA_Plot_%s.html", Sys.Date()),
-    content = function(file) {
-      showNotification("🌐 Creating HTML Export...", type = "message", duration = 3)
-      
-      tryCatch({
-        req(dca_plot_data())
-        plot_data <- dca_plot_data()
-        
-        if (nrow(plot_data) == 0) {
-          stop("No DCA data available for HTML export")
-        }
-        
-        colors <- seri_arc_colors()
-        method_info <- if (!is.null(dca_res()$dca_method)) {
-          switch(dca_res()$dca_method,
-            "linear" = "Linear detrending", 
-            "nonlinear" = sprintf("Non-linear detrending (%d segments)", dca_res()$dca_segments %||% 26),
-            "Detrended"
-          )
-        } else "Detrended"
-        
-        p <- plot_ly() %>%
-          layout(
-            title = list(text = sprintf("SeriARC Detrended CA - %s (Interactive HTML Export)", method_info), 
-                        font = list(size = 18, family = "Arial")),
-            xaxis = list(title = paste(input$dca_x_dim %||% "DCA1", "(detrended)"), zeroline = TRUE, gridcolor = "#ecf0f1"),
-            yaxis = list(title = paste(input$dca_y_dim %||% "DCA2", "(detrended)"), zeroline = TRUE, gridcolor = "#ecf0f1"),
-            hovermode = 'closest', plot_bgcolor = "white", paper_bgcolor = "white"
-          )
-        
-        # Add sites
-        site_data <- plot_data[plot_data$type == 'Site' & plot_data$element_type == 'Active', ]
-        if (nrow(site_data) > 0) {
-          p <- p %>% add_markers(
-            x = site_data$x, y = site_data$y,
-            marker = list(symbol = "circle", size = 12, color = colors$site_active, 
-                         line = list(width = 1, color = "white")),
-            text = site_data$label, name = "Sites (active)",
-            hovertemplate = "<b>%{text}</b><br>DCA1: %{x:.3f}<br>DCA2: %{y:.3f}<br><i>Detrended</i><extra></extra>"
-          )
-        }
-        
-        # Add types  
-        type_data <- plot_data[plot_data$type == 'Type' & plot_data$element_type == 'Active', ]
-        if (nrow(type_data) > 0) {
-          p <- p %>% add_markers(
-            x = type_data$x, y = type_data$y,
-            marker = list(symbol = "triangle-up", size = 12, color = colors$type_active,
-                         line = list(width = 1, color = "white")),
-            text = type_data$label, name = "Types (active)",
-            hovertemplate = "<b>%{text}</b><br>DCA1: %{x:.3f}<br>DCA2: %{y:.3f}<br><i>Detrended</i><extra></extra>"
-          )
-        }
-        
-        # Add supplementary points
-        suppl_sites <- plot_data[plot_data$type == 'Site' & plot_data$element_type == 'Supplementary', ]
-        if (nrow(suppl_sites) > 0) {
-          p <- p %>% add_markers(
-            x = suppl_sites$x, y = suppl_sites$y,
-            marker = list(symbol = "circle-open", size = 10, color = colors$site_supplementary,
-                         line = list(width = 2, color = colors$site_supplementary)),
-            text = suppl_sites$label, name = "Sites (supplementary)",
-            hovertemplate = "<b>%{text}</b><br>DCA1: %{x:.3f}<br>DCA2: %{y:.3f}<br><i>Supplementary</i><extra></extra>"
-          )
-        }
-        
-        suppl_types <- plot_data[plot_data$type == 'Type' & plot_data$element_type == 'Supplementary', ]
-        if (nrow(suppl_types) > 0) {
-          p <- p %>% add_markers(
-            x = suppl_types$x, y = suppl_types$y,
-            marker = list(symbol = "triangle-up-open", size = 10, color = colors$type_supplementary,
-                         line = list(width = 2, color = colors$type_supplementary)),
-            text = suppl_types$label, name = "Types (supplementary)",
-            hovertemplate = "<b>%{text}</b><br>DCA1: %{x:.3f}<br>DCA2: %{y:.3f}<br><i>Supplementary</i><extra></extra>"
-          )
-        }
-        
-        # Write HTML file
-        htmlwidgets::saveWidget(p, file, selfcontained = TRUE)
-        
-        showNotification("✅ DCA HTML Export completed!", type = "message", duration = 2)
-      }, error = function(e) {
-        showNotification(paste("⚠ HTML Export Error:", e$message), type = "error", duration = 5)
-      })
-    }
-  )
+  # HTML export for DCA — 1:1 copy of the interactive figure shown on screen
+  output$download_dca_plot_html <- create_plotly_html_handler(last_dca_plotly, "SeriARC_DCA_Plot", tr = tr)
   
   # Return for other modules
   return(list(

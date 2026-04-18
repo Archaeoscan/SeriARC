@@ -763,44 +763,8 @@ mod_mapping_server <- function(meta_data, data_raw, mapping_meta, site_clusters,
       htmlwidgets::saveWidget(m, file = file, selfcontained = TRUE)
     })
   
-  output$download_map_png <- create_png_download_handler(
-    "map", "SeriARC_Map", session,
-    plot_data = reactive({ mapping_data() }),
-    plot_generator_func = function(data) {
-      if (!is.null(data) && !is.null(data$meta) && nrow(data$meta) > 0) {
-        # Use real mapping data for PNG
-        meta_map <- data$meta
-        meta_map$lon <- suppressWarnings(as.numeric(meta_map$lon))
-        meta_map$lat <- suppressWarnings(as.numeric(meta_map$lat))
-        has_coords <- is.finite(meta_map$lon) & is.finite(meta_map$lat)
-        
-        if (any(has_coords)) {
-          mm <- meta_map[has_coords, , drop = FALSE]
-          
-          par(mar = c(4, 4, 4, 2))
-          
-          # Simple point map for PNG export
-          plot(mm$lon, mm$lat, 
-               pch = 16, cex = (input$map_point_size %||% 8) * 0.2,
-               col = "#e74c3c", 
-               xlab = "Longitude", ylab = "Latitude",
-               main = "SeriARC Mapping")
-          
-          # Add labels if enabled
-          if (!is.null(input$map_label_mode) && input$map_label_mode == "permanent") {
-            text(mm$lon, mm$lat, mm$site, 
-                 pos = 3, cex = 0.7, col = "#2c3e50")
-          }
-          
-          # Grid for orientation
-          grid(col = "lightgray", lty = "dotted")
-          
-          # Info-Text
-          mtext(sprintf("PNG Export | %d Sites | %s", nrow(mm), format(Sys.time(), "%Y-%m-%d %H:%M")), 
-                side = 1, line = 3, cex = 0.7, col = "gray")
-        }
-      }
-    }
+  output$download_map_png <- create_leaflet_png_handler(
+    reactive({ build_export_map() }), "SeriARC_Map", tr = tr
   )
   
   return(list(mapping_data = mapping_data, build_export_map = build_export_map))

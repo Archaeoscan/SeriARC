@@ -143,6 +143,8 @@ mod_3d_ca_server <- function(ca_result, cache, get_site_group, cluster_names = N
     ))
   })
   
+  last_3dca_plotly <- reactiveVal(NULL)
+
   # 3D visualization
   output$ca_3d_plotly <- renderPlotly({
     req(ca_result(), input$x_dim_3d, input$y_dim_3d, input$z_dim_3d, input$ca_3d_plot_elements)
@@ -375,8 +377,10 @@ mod_3d_ca_server <- function(ca_result, cache, get_site_group, cluster_names = N
           dimensions = c(input$x_dim_3d, input$y_dim_3d, input$z_dim_3d)
         )
         
-        return(standard_plotly_config(p, "3d"))
-        
+        result_plot <- standard_plotly_config(p, "3d")
+        last_3dca_plotly(result_plot)
+        return(result_plot)
+
       }, error = function(e) {
         showNotification(paste("3D-CA Error:", e$message), type = "error")
         return(NULL)
@@ -437,189 +441,13 @@ mod_3d_ca_server <- function(ca_result, cache, get_site_group, cluster_names = N
     eigen_table
   }, striped = TRUE, hover = TRUE)
   
-  # === DOWNLOAD HANDLERS WITH HELPER COMPONENTS ===
+  # === DOWNLOAD HANDLERS ===
 
-  # PNG Export (with real 3D data as 2D projections)
-  output$download_plot_png <- create_png_download_handler(
-    "ca_3d_plotly", "SeriARC_3D_CA_Plot", session,
-    tr = tr,
-    plot_data = reactive({ cache$ca_3d_result$data }),
-    plot_generator_func = function(plot_data) {
-      if (!is.null(plot_data) && nrow(plot_data) > 0) {
-        colors <- seri_arc_colors()
-        
-        # 3D as 2D projections for PNG
-        par(mfrow = c(2, 2), mar = c(4, 4, 3, 2))
+  output$download_plot_png <- create_plotly_png_handler(last_3dca_plotly, "SeriARC_3D_CA_Plot", tr = tr)
+  output$download_plot_svg <- create_plotly_png_handler(last_3dca_plotly, "SeriARC_3D_CA_Plot_SVG", tr = tr)
+  output$download_plot_pdf <- create_plotly_pdf_handler(last_3dca_plotly, "SeriARC_3D_CA_Plot", tr = tr)
+  output$download_plot_html <- create_plotly_html_handler(last_3dca_plotly, "SeriARC_3D_CA_Plot", tr = tr)
 
-        dim_labels <- cache$ca_3d_result$dimensions
-
-        # Distinguish supplementary by color and shape
-        point_colors <- ifelse(
-          plot_data$type == "Site",
-          ifelse(plot_data$element_type == "Active", colors$site_active, colors$site_supplementary),
-          ifelse(plot_data$element_type == "Active", colors$type_active, colors$type_supplementary)
-        )
-        point_shapes <- ifelse(
-          plot_data$type == "Site",
-          ifelse(plot_data$element_type == "Active", 16, 1),  # filled vs open circle
-          ifelse(plot_data$element_type == "Active", 17, 2)   # filled vs open triangle
-        )
-        point_cex <- ifelse(plot_data$element_type == "Active", 1.3, 1.0)
-        
-        # XY projection (main plane)
-        plot(plot_data$x, plot_data$y,
-             col = point_colors, pch = point_shapes, cex = point_cex,
-             xlab = dim_labels[1], ylab = dim_labels[2],
-             main = "SeriARC 3D-CA: XY Projection")
-        grid(col = "lightgray", lty = "dotted")
-
-        # XZ projection
-        plot(plot_data$x, plot_data$z,
-             col = point_colors, pch = point_shapes, cex = point_cex,
-             xlab = dim_labels[1], ylab = dim_labels[3],
-             main = "SeriARC 3D-CA: XZ Projection")
-        grid(col = "lightgray", lty = "dotted")
-
-        # YZ projection
-        plot(plot_data$y, plot_data$z,
-             col = point_colors, pch = point_shapes, cex = point_cex,
-             xlab = dim_labels[2], ylab = dim_labels[3],
-             main = "SeriARC 3D-CA: YZ Projection")
-        grid(col = "lightgray", lty = "dotted")
-
-        # Information panel
-        plot.new()
-        legend("center",
-               legend = c("Sites (active)", "Types (active)", "Supplementary", "3D to PNG projections"),
-               col = c(colors$site_active, colors$type_active, "gray", "black"),
-               pch = c(16, 17, 1, NA), lty = c(NA, NA, NA, 1),
-               cex = 1.0, title = "SeriARC 3D-CA", bty = "n")
-
-        # Variance info
-        text(0.5, 0.3, sprintf("Variance: %.1f%% (3D)", cache$ca_3d_result$total_variance),
-             cex = 1.1, font = 2, col = "#2c3e50")
-        text(0.5, 0.2, sprintf("PNG Export | %d points | %s", nrow(plot_data), format(Sys.time(), "%Y-%m-%d %H:%M")),
-             cex = 0.9, col = "gray")
-      }
-    }
-  )
-  
-  # SVG Export with real 3D data (as 2D projections)
-  output$download_plot_svg <- create_svg_download_handler(
-    "ca_3d_plotly", "SeriARC_3D_CA_Plot", session,
-    tr = tr,
-    plot_data = reactive({ cache$ca_3d_result$data }),
-    plot_generator_func = function(plot_data) {
-      if (!is.null(plot_data) && nrow(plot_data) > 0) {
-        colors <- seri_arc_colors()
-
-        dim_labels <- cache$ca_3d_result$dimensions
-
-        # Distinguish supplementary
-        point_colors <- ifelse(
-          plot_data$type == "Site",
-          ifelse(plot_data$element_type == "Active", colors$site_active, colors$site_supplementary),
-          ifelse(plot_data$element_type == "Active", colors$type_active, colors$type_supplementary)
-        )
-        point_shapes <- ifelse(
-          plot_data$type == "Site",
-          ifelse(plot_data$element_type == "Active", 16, 1),  # filled vs open circle
-          ifelse(plot_data$element_type == "Active", 17, 2)   # filled vs open triangle
-        )
-        point_cex <- ifelse(plot_data$element_type == "Active", 1.3, 1.0)
-        
-        # 3D as 2D projections for SVG
-        par(mfrow = c(2, 2), mar = c(4, 4, 3, 2))
-
-        # XY projection (main plane)
-        plot(plot_data$x, plot_data$y,
-             col = point_colors, pch = point_shapes, cex = point_cex,
-             xlab = dim_labels[1], ylab = dim_labels[2],
-             main = "SeriARC 3D-CA: XY Projection")
-        grid(col = "lightgray", lty = "dotted")
-
-        # XZ projection
-        plot(plot_data$x, plot_data$z,
-             col = point_colors, pch = point_shapes, cex = point_cex,
-             xlab = dim_labels[1], ylab = dim_labels[3],
-             main = "SeriARC 3D-CA: XZ Projection")
-        grid(col = "lightgray", lty = "dotted")
-
-        # YZ projection
-        plot(plot_data$y, plot_data$z,
-             col = point_colors, pch = point_shapes, cex = point_cex,
-             xlab = dim_labels[2], ylab = dim_labels[3],
-             main = "SeriARC 3D-CA: YZ Projection")
-        grid(col = "lightgray", lty = "dotted")
-
-        # Information panel
-        plot.new()
-        legend("center",
-               legend = c("Sites (active)", "Types (active)", "3D to SVG projections"),
-               col = c(colors$site_active, colors$type_active, "black"),
-               pch = c(16, 17, NA), lty = c(NA, NA, 1),
-               cex = 1.2, title = "SeriARC 3D-CA", bty = "n")
-        text(0.5, 0.2, sprintf("Created: %s", format(Sys.time(), "%Y-%m-%d %H:%M")),
-             cex = 0.9, col = "gray")
-      }
-    }
-  )
-  
-  # PDF Export (for 3D - as 2D projection)
-  output$download_plot_pdf <- create_pdf_download_handler(
-    reactive({ cache$ca_3d_result$data }), "SeriARC_3D_CA_Plot",
-    tr = tr,
-    plot_generator_func = function(plot_data) {
-      if (!is.null(plot_data) && nrow(plot_data) > 0) {
-        colors <- seri_arc_colors()
-
-        dim_labels <- cache$ca_3d_result$dimensions
-
-        # Distinguish supplementary
-        point_colors <- ifelse(
-          plot_data$type == "Site",
-          ifelse(plot_data$element_type == "Active", colors$site_active, colors$site_supplementary),
-          ifelse(plot_data$element_type == "Active", colors$type_active, colors$type_supplementary)
-        )
-        point_shapes <- ifelse(
-          plot_data$type == "Site",
-          ifelse(plot_data$element_type == "Active", 16, 1),
-          ifelse(plot_data$element_type == "Active", 17, 2)
-        )
-        point_cex <- ifelse(plot_data$element_type == "Active", 1.3, 1.0)
-        
-        par(mfrow = c(2, 2))
-        
-        # XY projection
-        plot(plot_data$x, plot_data$y,
-             col = point_colors, pch = point_shapes, cex = point_cex,
-             xlab = dim_labels[1], ylab = dim_labels[2],
-             main = "SeriARC 3D-CA: XY Projection")
-        grid(col = "lightgray", lty = "dotted")
-
-        # XZ projection
-        plot(plot_data$x, plot_data$z,
-             col = point_colors, pch = point_shapes, cex = point_cex,
-             xlab = dim_labels[1], ylab = dim_labels[3],
-             main = "SeriARC 3D-CA: XZ Projection")
-        grid(col = "lightgray", lty = "dotted")
-
-        # YZ projection
-        plot(plot_data$y, plot_data$z,
-             col = point_colors, pch = point_shapes, cex = point_cex,
-             xlab = dim_labels[2], ylab = dim_labels[3],
-             main = "SeriARC 3D-CA: YZ Projection")
-        grid(col = "lightgray", lty = "dotted")
-
-        # Legend
-        plot.new()
-        legend("center", legend = c("Sites", "Types"), 
-               col = c(colors$site_active, colors$type_active), 
-               pch = c(16, 17), cex = 1.5, title = "SeriARC 3D-CA")
-      }
-    }
-  )
-  
   # Excel Export
   output$download_data_excel <- create_excel_download_handler(
     function() {

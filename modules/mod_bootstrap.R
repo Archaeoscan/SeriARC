@@ -363,6 +363,8 @@ mod_bootstrap_server <- function(filtered_data, meta_data, cache, get_site_group
     out
   })
   
+  last_bootstrap_plotly <- reactiveVal(NULL)
+
   output$bootstrap_plotly <- plotly::renderPlotly({
     req(bootstrap_plot_data(), bootstrap_res())
     pd <- bootstrap_plot_data(); bs <- bootstrap_res(); res <- bs$cabootcrs_result
@@ -521,9 +523,11 @@ mod_bootstrap_server <- function(filtered_data, meta_data, cache, get_site_group
       }
     }
     
-    standard_plotly_config(p, "2d")
+    result_plot <- standard_plotly_config(p, "2d")
+    last_bootstrap_plotly(result_plot)
+    result_plot
   })
-  
+
   # Extended statistics table with multi-dim
   output$bootstrap_stats_table <- DT::renderDataTable({
     req(bootstrap_res())
@@ -861,76 +865,12 @@ mod_bootstrap_server <- function(filtered_data, meta_data, cache, get_site_group
     )
   })
   
-  # Download handler (extended with multi-dim + contribution)
-  output$download_plot_png <- create_png_download_handler(
-    "bootstrap_plotly", "SeriARC_Bootstrap_Plot", session,
-    tr = tr
-  )
-  
-  output$download_plot_svg <- create_svg_download_handler(
-    "bootstrap_plotly", "SeriARC_Bootstrap_Plot", session,
-    plot_data = bootstrap_plot_data,
-    plot_generator_func = function(plot_data) {
-      if (!is.null(plot_data$sites) || !is.null(plot_data$types)) {
-        all_data <- rbind(
-          if (!is.null(plot_data$sites)) plot_data$sites else data.frame(),
-          if (!is.null(plot_data$types)) plot_data$types else data.frame()
-        )
-        if (nrow(all_data) > 0) {
-          colors <- seri_arc_colors()
-          par(mar = c(5, 4, 4, 2))
-          point_colors <- ifelse(all_data$type == "Site", colors$site_active, colors$type_active)
-          point_shapes <- ifelse(all_data$type == "Site", 16, 17)
+  # Download handlers
+  output$download_plot_png <- create_plotly_png_handler(last_bootstrap_plotly, "SeriARC_Bootstrap_Plot", tr = tr)
+  output$download_plot_svg <- create_plotly_png_handler(last_bootstrap_plotly, "SeriARC_Bootstrap_Plot_SVG", tr = tr)
+  output$download_plot_pdf <- create_plotly_pdf_handler(last_bootstrap_plotly, "SeriARC_Bootstrap_Plot", tr = tr)
+  output$download_plot_html <- create_plotly_html_handler(last_bootstrap_plotly, "SeriARC_Bootstrap_Plot", tr = tr)
 
-          stability_metric <- all_data$ellipse_area
-          point_sizes <- pmax(0.5, 2 - stability_metric * 5)
-
-          plot(all_data$x, all_data$y,
-               col = point_colors, pch = point_shapes, cex = point_sizes,
-               xlab = sprintf("%s (Bootstrap)", input$bootstrap_x_dim %||% "Dim1"),
-               ylab = sprintf("%s (Bootstrap)", input$bootstrap_y_dim %||% "Dim2"),
-               main = tr("plot.bootstrap.svg.title"))
-          abline(h = 0, v = 0, col = "gray", lty = 2)
-          grid(col = "lightgray", lty = "dotted")
-          legend("topright",
-                 legend = c("Sites", "Types", tr("plot.bootstrap.legend.instab")),
-                 col = c(colors$site_active, colors$type_active, "gray"),
-                 pch = c(16, 17, NA), lty = c(0, 0, 1), cex = 0.8)
-          bs <- bootstrap_res()
-          mtext(sprintf("SVG: %d Iter., %g%% Region, %s, n = %d",
-                       bs$n_iterations, bs$confidence_percent, bs$resampling_method, nrow(all_data)),
-                side = 1, line = 4, cex = 0.8, col = "gray")
-        }
-      }
-    },
-    tr = tr
-  )
-  
-  output$download_plot_pdf <- create_pdf_download_handler(
-    bootstrap_plot_data, "SeriARC_Bootstrap_Plot",
-    plot_generator_func = function(plot_data) {
-      if (!is.null(plot_data$sites) || !is.null(plot_data$types)) {
-        all_data <- rbind(
-          if (!is.null(plot_data$sites)) plot_data$sites else data.frame(),
-          if (!is.null(plot_data$types)) plot_data$types else data.frame()
-        )
-        if (nrow(all_data) > 0) {
-          colors <- seri_arc_colors()
-          point_colors <- ifelse(all_data$type == "Site", colors$site_active, colors$type_active)
-          point_shapes <- ifelse(all_data$type == "Site", 16, 17)
-          plot(all_data$x, all_data$y,
-               col = point_colors, pch = point_shapes, cex = 1.2,
-               xlab = "Bootstrap Dimension X", ylab = "Bootstrap Dimension Y",
-               main = tr("plot.bootstrap.pdf.title"))
-          grid(col = "lightgray", lty = "dotted")
-          legend("topright", legend = c("Sites", "Types"),
-                 col = c(colors$site_active, colors$type_active), pch = c(16, 17))
-        }
-      }
-    },
-    tr = tr
-  )
-  
   output$download_data_excel <- create_excel_download_handler(
     function() {
       req(bootstrap_res())

@@ -205,8 +205,8 @@ mod_battleship_server <- function(filtered_data, cache, cluster_names, cluster_c
     updateSelectizeInput(session, "bship_types", selected = character(0))
   })
   
-  # Main battleship plot
-  output$battleship_plot <- plotly::renderPlotly({
+  # Main battleship plot (shared reactive so HTML export can reuse it 1:1)
+  battleship_plot_obj <- reactive({
     has_seriation <- !is.null(cache$seriation_result$permuted_matrix)
     
     if (!has_seriation) {
@@ -345,7 +345,33 @@ mod_battleship_server <- function(filtered_data, cache, cluster_names, cluster_c
                          input$bship_aggregate_types &&
                          !is.null(type_cluster_ids)
 
+    display_mode <- input$bship_display_mode %||% "ships"
     p <- plotly::plot_ly(type = "scatter", mode = "lines")
+
+    # ---- helper: build block polygons for one type column (NA-separated rectangles) ----
+    # gap = 0.5 → blocks touch seamlessly; < 0.5 → visible gap between rows
+    make_blocks <- function(w_vec, axis_pos, center, orientation = "vertical", gap = 0.5) {
+      xs <- c()
+      ys <- c()
+      for (j in seq_along(w_vec)) {
+        w <- w_vec[j]
+        if (w > 0) {
+          if (orientation == "vertical") {
+            xs <- c(xs, center - w, center + w, center + w, center - w, center - w, NA)
+            ys <- c(ys, axis_pos[j] - gap, axis_pos[j] - gap,
+                        axis_pos[j] + gap, axis_pos[j] + gap, axis_pos[j] - gap, NA)
+          } else {
+            xs <- c(xs, axis_pos[j] - gap, axis_pos[j] - gap,
+                        axis_pos[j] + gap, axis_pos[j] + gap, axis_pos[j] - gap, NA)
+            ys <- c(ys, center - w, center + w, center + w, center - w, center - w, NA)
+          }
+        }
+      }
+      list(x = xs, y = ys)
+    }
+
+    # Default fill color for blocks mode (single uniform blue, Petrie-style)
+    blocks_default_color <- "#2980b9"
 
     if (flip) {
       # Flip mode: x = Sites, y = Types
@@ -355,25 +381,35 @@ mod_battleship_server <- function(filtered_data, cache, cluster_names, cluster_c
       for (i in seq_len(ncol(hw))) {
         w <- as.numeric(hw[, i])
 
-        if (!is.null(input$bship_curve_smooth) && input$bship_curve_smooth) {
-          sm <- smooth_series(x_seq, w,
-                             method = input$bship_curve_method %||% "loess",
-                             param = input$bship_curve_param %||% 0.3)
-          poly <- make_polygon(sm$x, sm$y, center = y_pos[i], "horizontal")
+        if (display_mode == "blocks") {
+          poly <- make_blocks(w, x_seq, center = y_pos[i], orientation = "horizontal")
+          type_color <- if (use_cluster_colors && i <= length(type_cluster_ids)) {
+            get_cluster_color(type_cluster_ids[i])
+          } else blocks_default_color
           hover_text <- sprintf(tr("battleship.hover.format"), colnames(m)[i], "", 0)
+          p <- plotly::add_polygons(p, x = poly$x, y = poly$y, name = colnames(m)[i],
+                                   hoverinfo = "text", text = hover_text,
+                                   opacity = input$bship_alpha %||% 0.8,
+                                   fillcolor = type_color,
+                                   line = list(color = "white", width = 0.5))
         } else {
-          poly <- make_polygon(x_seq, w, center = y_pos[i], "horizontal")
+          if (!is.null(input$bship_curve_smooth) && input$bship_curve_smooth) {
+            sm <- smooth_series(x_seq, w,
+                               method = input$bship_curve_method %||% "loess",
+                               param = input$bship_curve_param %||% 0.3)
+            poly <- make_polygon(sm$x, sm$y, center = y_pos[i], "horizontal")
+          } else {
+            poly <- make_polygon(x_seq, w, center = y_pos[i], "horizontal")
+          }
+          type_color <- if (use_cluster_colors && i <= length(type_cluster_ids)) {
+            get_cluster_color(type_cluster_ids[i])
+          } else NULL
           hover_text <- sprintf(tr("battleship.hover.format"), colnames(m)[i], "", 0)
+          p <- plotly::add_polygons(p, x = poly$x, y = poly$y, name = colnames(m)[i],
+                                   hoverinfo = "text", text = hover_text,
+                                   opacity = input$bship_alpha %||% 0.6,
+                                   fillcolor = type_color)
         }
-
-        type_color <- if (use_cluster_colors && i <= length(type_cluster_ids)) {
-          get_cluster_color(type_cluster_ids[i])
-        } else NULL
-
-        p <- plotly::add_polygons(p, x = poly$x, y = poly$y, name = colnames(m)[i],
-                                 hoverinfo = "text", text = hover_text,
-                                 opacity = input$bship_alpha %||% 0.6,
-                                 fillcolor = type_color)
       }
 
       p <- plotly::layout(p,
@@ -393,25 +429,35 @@ mod_battleship_server <- function(filtered_data, cache, cluster_names, cluster_c
       for (i in seq_len(ncol(hw))) {
         w <- as.numeric(hw[, i])
 
-        if (!is.null(input$bship_curve_smooth) && input$bship_curve_smooth) {
-          sm <- smooth_series(y_pos, w,
-                             method = input$bship_curve_method %||% "loess",
-                             param = input$bship_curve_param %||% 0.3)
-          poly <- make_polygon(sm$x, sm$y, center = i, "vertical")
+        if (display_mode == "blocks") {
+          poly <- make_blocks(w, y_pos, center = i, orientation = "vertical")
+          type_color <- if (use_cluster_colors && i <= length(type_cluster_ids)) {
+            get_cluster_color(type_cluster_ids[i])
+          } else blocks_default_color
           hover_text <- sprintf(tr("battleship.hover.format"), colnames(m)[i], "", 0)
+          p <- plotly::add_polygons(p, x = poly$x, y = poly$y, name = colnames(m)[i],
+                                   hoverinfo = "text", text = hover_text,
+                                   opacity = input$bship_alpha %||% 0.8,
+                                   fillcolor = type_color,
+                                   line = list(color = "white", width = 0.5))
         } else {
-          poly <- make_polygon(y_pos, w, center = i, "vertical")
+          if (!is.null(input$bship_curve_smooth) && input$bship_curve_smooth) {
+            sm <- smooth_series(y_pos, w,
+                               method = input$bship_curve_method %||% "loess",
+                               param = input$bship_curve_param %||% 0.3)
+            poly <- make_polygon(sm$x, sm$y, center = i, "vertical")
+          } else {
+            poly <- make_polygon(y_pos, w, center = i, "vertical")
+          }
+          type_color <- if (use_cluster_colors && i <= length(type_cluster_ids)) {
+            get_cluster_color(type_cluster_ids[i])
+          } else NULL
           hover_text <- sprintf(tr("battleship.hover.format"), colnames(m)[i], "", 0)
+          p <- plotly::add_polygons(p, x = poly$x, y = poly$y, name = colnames(m)[i],
+                                   hoverinfo = "text", text = hover_text,
+                                   opacity = input$bship_alpha %||% 0.6,
+                                   fillcolor = type_color)
         }
-
-        type_color <- if (use_cluster_colors && i <= length(type_cluster_ids)) {
-          get_cluster_color(type_cluster_ids[i])
-        } else NULL
-
-        p <- plotly::add_polygons(p, x = poly$x, y = poly$y, name = colnames(m)[i],
-                                 hoverinfo = "text", text = hover_text,
-                                 opacity = input$bship_alpha %||% 0.6,
-                                 fillcolor = type_color)
       }
 
       p <- plotly::layout(p,
@@ -425,15 +471,21 @@ mod_battleship_server <- function(filtered_data, cache, cluster_names, cluster_c
                                     autorange = "reversed", fixedrange = TRUE))
     }
 
+    mode_label <- if (display_mode == "blocks") tr("bship.display.blocks") else tr("bship.display.ships")
     p %>% plotly::layout(
-      title = sprintf("%s • %s", tr("plot.battleship.title.curves"),
+      title = sprintf("%s [%s] • %s", tr("plot.battleship.title.curves"),
+                     mode_label,
                      if(flip) "Sites × Types" else "Types × Sites"),
       showlegend = FALSE,
       margin = list(l = 80, r = 20, t = 60, b = 120)
     ) %>%
     standard_plotly_config(., "2d")
   })
-  
+
+  output$battleship_plot <- plotly::renderPlotly({
+    battleship_plot_obj()
+  })
+
   # ===== BATTLESHIP EXPORT HANDLER =====
 
   # Prepare battleship data for export
@@ -485,259 +537,122 @@ mod_battleship_server <- function(filtered_data, cache, cluster_names, cluster_c
   })
   
   # PNG export for battleship (with actual data)
-  output$download_battleship_png <- create_png_download_handler(
-    "battleship_plot", "SeriARC_Battleship_Curves", session,
-    plot_data = battleship_export_data,
-    tr = tr,
-    plot_generator_func = function(data) {
-      if (!is.null(data) && !is.null(data$matrix) && nrow(data$matrix) > 0 && ncol(data$matrix) > 0) {
-        m <- data$matrix
+  # PNG export: webshot2 renders the actual plotly figure (1:1 with screen)
+  output$download_battleship_png <- downloadHandler(
+    filename = function() sprintf("SeriARC_Battleship_Curves_%s.png", Sys.Date()),
+    content = function(file) {
+      tryCatch({
+        p <- battleship_plot_obj()
+        tmp_html <- tempfile(fileext = ".html")
+        htmlwidgets::saveWidget(plotly::as_widget(p), tmp_html, selfcontained = TRUE)
+
+        if (requireNamespace("webshot2", quietly = TRUE)) {
+          webshot2::webshot(tmp_html, file, vwidth = 1400, vheight = 900, delay = 1.5)
+        } else if (requireNamespace("webshot", quietly = TRUE)) {
+          webshot::webshot(tmp_html, file, vwidth = 1400, vheight = 900, delay = 1.5)
+        } else {
+          showNotification(
+            "webshot2 nicht installiert. Für PNG-Export: install.packages('webshot2'). Nutze stattdessen das Kamera-Symbol im Plot.",
+            type = "warning", duration = 8
+          )
+        }
+        file.remove(tmp_html)
+        showNotification(tr("export.png.complete") %||% "PNG export completed!", type = "message", duration = 2)
+      }, error = function(e) {
+        showNotification(paste("PNG export error:", e$message), type = "error", duration = 5)
+      })
+    }
+  )
+
+  # SVG export: base R rendering into SVG device
+  output$download_battleship_svg <- downloadHandler(
+    filename = function() sprintf("SeriARC_Battleship_Curves_%s.svg", Sys.Date()),
+    content = function(file) {
+      tryCatch({
+        data <- battleship_export_data()
+        req(!is.null(data), !is.null(data$matrix))
+        m  <- data$matrix
         hw <- pmin(pmax(m, 0), 1) * (input$bship_halfwidth %||% 0.8)
-        
-        par(mar = c(6, 5, 4, 2))
-        
+        n_types <- ncol(hw); n_sites <- nrow(hw)
+        svg(file,
+            width  = max(12, min(60, n_types * 0.35)),
+            height = max(8,  min(40, n_sites * 0.25)))
+        par(mar = c(7, 6, 4, 2))
+        colors <- rainbow(n_types, alpha = 0.75)
+
         if (data$flip_axes) {
-          # Sites horizontal, types vertical
-          plot(0, 0, type = "n", xlim = c(0.5, nrow(hw) + 0.5), ylim = c(0.5, ncol(hw) + 0.5),
+          plot(0, 0, type = "n",
+               xlim = c(0.5, n_sites + 0.5), ylim = c(0.5, n_types + 0.5),
                xlab = tr("term.sites.chronological"), ylab = tr("term.artifact.types"),
                main = tr("plot.battleship.title.curves"), axes = FALSE)
-
-          # Axes
-          axis(1, at = 1:nrow(hw), labels = substr(rownames(hw), 1, 8), las = 2, cex.axis = 0.8)
-          axis(2, at = 1:ncol(hw), labels = substr(colnames(hw), 1, 6), las = 2, cex.axis = 0.8)
-
-          # Draw battleship curves
-          colors <- rainbow(ncol(hw), alpha = 0.7)
-          for (i in 1:ncol(hw)) {
+          axis(1, at = seq_len(n_sites), labels = substr(rownames(hw), 1, 10), las = 2, cex.axis = 0.7)
+          axis(2, at = seq_len(n_types), labels = substr(colnames(hw), 1, 10), las = 2, cex.axis = 0.7)
+          for (i in seq_len(n_types)) {
             w <- as.numeric(hw[, i])
-            x_seq <- 1:nrow(hw)
-            y_pos <- rep(i, length(x_seq))
-            polygon(c(x_seq, rev(x_seq)), c(y_pos + w, rev(y_pos - w)), 
-                   col = colors[i], border = rainbow(ncol(hw))[i], lwd = 1.5)
+            xs <- seq_len(n_sites)
+            polygon(c(xs, rev(xs)), c(i + w, rev(i - w)), col = colors[i], border = colors[i])
           }
         } else {
-          # Types horizontal, sites vertical (standard)
-          plot(0, 0, type = "n", xlim = c(0.5, ncol(hw) + 0.5), ylim = c(0.5, nrow(hw) + 0.5),
+          plot(0, 0, type = "n",
+               xlim = c(0.5, n_types + 0.5), ylim = c(0.5, n_sites + 0.5),
                xlab = tr("term.artifact.types"), ylab = tr("term.sites.chronological"),
                main = tr("plot.battleship.title.curves"), axes = FALSE)
-
-          # Axes
-          axis(1, at = 1:ncol(hw), labels = substr(colnames(hw), 1, 8), las = 2, cex.axis = 0.8)
-          axis(2, at = 1:nrow(hw), labels = substr(rownames(hw), 1, 8), las = 1, cex.axis = 0.8)
-
-          # Draw battleship curves
-          colors <- rainbow(ncol(hw), alpha = 0.7)
-          for (i in 1:ncol(hw)) {
+          axis(1, at = seq_len(n_types), labels = substr(colnames(hw), 1, 10), las = 2, cex.axis = 0.7)
+          axis(2, at = seq_len(n_sites), labels = substr(rownames(hw), 1, 10), las = 1, cex.axis = 0.7)
+          for (i in seq_len(n_types)) {
             w <- as.numeric(hw[, i])
-            y_seq <- 1:nrow(hw)
-            x_pos <- rep(i, length(y_seq))
-
-            # Only draw sites with value > 0 (no "empty" bellies)
-            has_value <- w > 0
-            if (any(has_value)) {
-              # Find contiguous regions with values
-              first_val <- min(which(has_value))
-              last_val <- max(which(has_value))
-
-              # Only draw relevant region
-              y_range <- first_val:last_val
-              w_range <- w[y_range]
-              x_range <- rep(i, length(y_range))
-              
-              polygon(c(x_range - w_range, rev(x_range + w_range)), 
-                     c(y_range, rev(y_range)), 
-                     col = colors[i], border = rainbow(ncol(hw))[i], lwd = 1.5)
-            }
+            ys <- seq_len(n_sites)
+            polygon(c(i - w, rev(i + w)), c(ys, rev(ys)), col = colors[i], border = colors[i])
           }
         }
-        
-        # Info text
-        norm_text <- if (data$normalized) "(normalized)" else ""
-        cluster_text <- if (data$cluster_aggregated) "(cluster-aggregated)" else ""
-        mtext(sprintf("PNG Export | %d Types %s %s | %s", ncol(m), norm_text, cluster_text, format(Sys.time(), "%Y-%m-%d %H:%M")), 
-              side = 1, line = 5, cex = 0.7, col = "gray")
-      }
+        dev.off()
+        showNotification(tr("export.svg.complete") %||% "SVG export completed!", type = "message", duration = 2)
+      }, error = function(e) {
+        if (exists("dev.list") && length(dev.list()) > 1) dev.off()
+        showNotification(paste("SVG export error:", e$message), type = "error", duration = 5)
+      })
     }
   )
   
-  # SVG export for battleship
-  output$download_battleship_svg <- create_svg_download_handler(
-    "battleship_plot", "SeriARC_Battleship_Curves", session,
-    plot_data = battleship_export_data,
-    tr = tr,
-    plot_generator_func = function(data) {
-      if (!is.null(data) && !is.null(data$matrix) && nrow(data$matrix) > 0 && ncol(data$matrix) > 0) {
-        m <- data$matrix
-        hw <- pmin(pmax(m, 0), 1) * (input$bship_halfwidth %||% 0.8)
-        
-        par(mar = c(6, 5, 4, 2))
-        
-        if (data$flip_axes) {
-          # Sites horizontal, types vertical
-          plot(0, 0, type = "n", xlim = c(0.5, nrow(hw) + 0.5), ylim = c(0.5, ncol(hw) + 0.5),
-               xlab = tr("term.sites.chronological"), ylab = tr("term.artifact.types"),
-               main = paste(tr("plot.battleship.title.curves"), "- SVG Export"), axes = FALSE)
+  # PDF export: webshot2 renders the actual plotly figure (1:1 with screen)
+  output$download_battleship_pdf <- downloadHandler(
+    filename = function() sprintf("SeriARC_Battleship_Curves_%s.pdf", Sys.Date()),
+    content = function(file) {
+      tryCatch({
+        p <- battleship_plot_obj()
+        tmp_html <- tempfile(fileext = ".html")
+        htmlwidgets::saveWidget(plotly::as_widget(p), tmp_html, selfcontained = TRUE)
 
-          # Axes
-          axis(1, at = 1:nrow(hw), labels = substr(rownames(hw), 1, 10), las = 2, cex.axis = 0.8)
-          axis(2, at = 1:ncol(hw), labels = substr(colnames(hw), 1, 8), las = 2, cex.axis = 0.8)
-
-          # Draw battleship curves
-          for (i in 1:ncol(hw)) {
-            w <- as.numeric(hw[, i])
-            x_seq <- 1:nrow(hw)
-            y_pos <- rep(i, length(x_seq))
-
-            # Upper and lower curves
-            upper_y <- y_pos + w
-            lower_y <- y_pos - w
-
-            # Draw polygons
-            polygon(c(x_seq, rev(x_seq)), c(upper_y, rev(lower_y)), 
-                   col = paste0(rainbow(ncol(hw))[i], "80"), border = rainbow(ncol(hw))[i])
-          }
+        if (requireNamespace("webshot2", quietly = TRUE)) {
+          webshot2::webshot(tmp_html, file, vwidth = 1400, vheight = 900, delay = 1.5)
+        } else if (requireNamespace("webshot", quietly = TRUE)) {
+          webshot::webshot(tmp_html, file, vwidth = 1400, vheight = 900, delay = 1.5)
         } else {
-          # Types horizontal, sites vertical (standard)
-          plot(0, 0, type = "n", xlim = c(0.5, ncol(hw) + 0.5), ylim = c(0.5, nrow(hw) + 0.5),
-               xlab = tr("term.artifact.types"), ylab = tr("term.sites.chronological"),
-               main = paste(tr("plot.battleship.title.curves"), "- SVG Export"), axes = FALSE)
-
-          # Axes
-          axis(1, at = 1:ncol(hw), labels = substr(colnames(hw), 1, 8), las = 2, cex.axis = 0.8)
-          axis(2, at = 1:nrow(hw), labels = substr(rownames(hw), 1, 10), las = 1, cex.axis = 0.8)
-
-          # Draw battleship curves
-          for (i in 1:ncol(hw)) {
-            w <- as.numeric(hw[, i])
-            y_seq <- 1:nrow(hw)
-            x_pos <- rep(i, length(y_seq))
-
-            # Only draw sites with value > 0
-            has_value <- w > 0
-            if (any(has_value)) {
-              first_val <- min(which(has_value))
-              last_val <- max(which(has_value))
-
-              y_range <- first_val:last_val
-              w_range <- w[y_range]
-              x_range <- rep(i, length(y_range))
-
-              # Left and right curves
-              left_x <- x_range - w_range
-              right_x <- x_range + w_range
-
-              # Draw polygons
-              polygon(c(left_x, rev(right_x)), c(y_range, rev(y_range)), 
-                     col = paste0(rainbow(ncol(hw))[i], "80"), border = rainbow(ncol(hw))[i])
-            }
-          }
+          # Fallback: package not available — save HTML instead and notify
+          file.copy(tmp_html, sub("\\.pdf$", "_interactive.html", file))
+          showNotification(
+            "webshot2 nicht installiert. PDF-Export benötigt: install.packages('webshot2'). HTML wurde stattdessen gespeichert.",
+            type = "warning", duration = 8
+          )
         }
-        
-        # Info text
-        norm_text <- if (data$normalized) "(normalized)" else ""
-        cluster_text <- if (data$cluster_aggregated) "(aggregated)" else ""
-        mtext(sprintf("SVG: %d Types %s %s", ncol(m), norm_text, cluster_text),
-              side = 1, line = 5, cex = 0.8, col = "gray")
-      }
-    }
-  )
-  
-  # PDF export for battleship
-  output$download_battleship_pdf <- create_pdf_download_handler(
-    battleship_export_data, "SeriARC_Battleship_Curves",
-    tr = tr,
-    plot_generator_func = function(data) {
-      if (!is.null(data) && !is.null(data$matrix) && nrow(data$matrix) > 0 && ncol(data$matrix) > 0) {
-        m <- data$matrix
-        hw <- pmin(pmax(m, 0), 1) * (input$bship_halfwidth %||% 0.8)
-        
-        if (data$flip_axes) {
-          plot(0, 0, type = "n", xlim = c(0.5, nrow(hw) + 0.5), ylim = c(0.5, ncol(hw) + 0.5),
-               xlab = tr("term.sites.chronological"), ylab = tr("term.artifact.types"),
-               main = tr("plot.battleship.title.curves"))
-
-          for (i in 1:ncol(hw)) {
-            w <- as.numeric(hw[, i])
-            x_seq <- 1:nrow(hw)
-            y_pos <- rep(i, length(x_seq))
-            polygon(c(x_seq, rev(x_seq)), c(y_pos + w, rev(y_pos - w)),
-                   col = paste0(rainbow(ncol(hw))[i], "60"), border = rainbow(ncol(hw))[i])
-          }
-        } else {
-          plot(0, 0, type = "n", xlim = c(0.5, ncol(hw) + 0.5), ylim = c(0.5, nrow(hw) + 0.5),
-               xlab = tr("term.artifact.types"), ylab = tr("term.sites.chronological"),
-               main = tr("plot.battleship.title.curves"))
-          
-          for (i in 1:ncol(hw)) {
-            w <- as.numeric(hw[, i])
-            y_seq <- 1:nrow(hw)
-            x_pos <- rep(i, length(y_seq))
-            
-            # Only draw sites with value > 0
-            has_value <- w > 0
-            if (any(has_value)) {
-              first_val <- min(which(has_value))
-              last_val <- max(which(has_value))
-              
-              y_range <- first_val:last_val
-              w_range <- w[y_range]
-              x_range <- rep(i, length(y_range))
-              
-              polygon(c(x_range - w_range, rev(x_range + w_range)), c(y_range, rev(y_range)), 
-                     col = paste0(rainbow(ncol(hw))[i], "60"), border = rainbow(ncol(hw))[i])
-            }
-          }
-        }
-        
-        norm_text <- if (data$normalized) "(normalized)" else ""
-        cluster_text <- if (data$cluster_aggregated) "(aggregated)" else ""
-        mtext(sprintf("%d Types %s %s", ncol(m), norm_text, cluster_text),
-              side = 1, line = 4, cex = 0.8, col = "gray")
-      } else {
-        plot(1, 1, type = "n", xlab = "", ylab = "", main = tr("plot.battleship.nodata"))
-      }
+        file.remove(tmp_html)
+        showNotification(tr("export.pdf.complete") %||% "PDF export completed!", type = "message", duration = 2)
+      }, error = function(e) {
+        showNotification(paste("PDF export error:", e$message), type = "error", duration = 5)
+      })
     }
   )
 
-  # HTML export for battleship (Plotly HTML)
+  # HTML export: 1:1 copy of the interactive plotly figure shown on screen
   output$download_battleship_html <- downloadHandler(
     filename = function() sprintf("SeriARC_Battleship_Curves_%s.html", Sys.Date()),
     content = function(file) {
-      showNotification("🌐 Battleship HTML Export...", type = "message", duration = 3)
-
       tryCatch({
-        export_data <- battleship_export_data()
-
-        if (is.null(export_data) || is.null(export_data$matrix)) {
-          stop("No Battleship data for HTML export")
-        }
-
-        # Simplified HTML export with Plotly
-        m <- export_data$matrix
-
-        # Prepare data for Plotly
-        melted_data <- reshape2::melt(as.matrix(m))
-        colnames(melted_data) <- c("Site", "Type", "Value")
-
-        p <- plot_ly(
-          melted_data,
-          x = ~Type, y = ~Site, z = ~Value,
-          type = "heatmap", colorscale = "Viridis",
-          hovertemplate = "<b>%{y}</b><br>Type: %{x}<br>Value: %{z:.3f}<extra></extra>"
-        ) %>%
-          layout(
-            title = list(text = tr("plot.battleship.html.title"),
-                        font = list(size = 18, family = "Arial")),
-            xaxis = list(title = tr("term.artifact.types"), tickangle = -45),
-            yaxis = list(title = tr("term.sites.chronological"), autorange = "reversed"),
-            plot_bgcolor = "white", paper_bgcolor = "white"
-          )
-        
-        htmlwidgets::saveWidget(p, file, selfcontained = TRUE)
-
-        showNotification("Battleship HTML export completed!", type = "message", duration = 2)
+        p <- battleship_plot_obj()
+        htmlwidgets::saveWidget(plotly::as_widget(p), file, selfcontained = TRUE)
+        showNotification(tr("export.html.complete") %||% "HTML export completed!", type = "message", duration = 2)
       }, error = function(e) {
-        showNotification(paste("Battleship HTML export error:", e$message), type = "error", duration = 5)
+        showNotification(paste("HTML export error:", e$message), type = "error", duration = 5)
       })
     }
   )

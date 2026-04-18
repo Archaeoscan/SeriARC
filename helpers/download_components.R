@@ -56,6 +56,109 @@ create_statistics_sheet <- function(matrix_data, analysis_type = "Matrix") {
 
 # === PLOT EXPORT HANDLERS ===
 
+# ---------------------------------------------------------------------------
+# 1:1 widget/plotly export via webshot2 — shared internal helper
+# ---------------------------------------------------------------------------
+.export_widget_via_webshot <- function(widget, file) {
+  tmp <- tempfile(fileext = ".html")
+  on.exit(if (file.exists(tmp)) file.remove(tmp), add = TRUE)
+  htmlwidgets::saveWidget(widget, tmp, selfcontained = TRUE)
+  if (requireNamespace("webshot2", quietly = TRUE)) {
+    webshot2::webshot(tmp, file, vwidth = 1400, vheight = 900, delay = 1.5)
+  } else if (requireNamespace("webshot", quietly = TRUE)) {
+    webshot::webshot(tmp, file, vwidth = 1400, vheight = 900, delay = 1.5)
+  } else {
+    stop("webshot2 nicht installiert. Bitte ausführen: install.packages('webshot2')")
+  }
+}
+
+# PNG via webshot2 — for any reactive that returns a plotly/leaflet widget
+create_plotly_png_handler <- function(plotly_reactive, base_filename, tr = NULL) {
+  .tr <- function(key, default) if (!is.null(tr)) tr(key) else default
+  downloadHandler(
+    filename = function() sprintf("%s_%s.png", base_filename, Sys.Date()),
+    content = function(file) {
+      tryCatch({
+        .export_widget_via_webshot(plotly::as_widget(plotly_reactive()), file)
+        showNotification(.tr("export.png.complete", "PNG exportiert!"), type = "message", duration = 2)
+      }, error = function(e) {
+        showNotification(paste("PNG export error:", e$message), type = "error", duration = 5)
+      })
+    }
+  )
+}
+
+# PDF via webshot2
+create_plotly_pdf_handler <- function(plotly_reactive, base_filename, tr = NULL) {
+  .tr <- function(key, default) if (!is.null(tr)) tr(key) else default
+  downloadHandler(
+    filename = function() sprintf("%s_%s.pdf", base_filename, Sys.Date()),
+    content = function(file) {
+      tryCatch({
+        .export_widget_via_webshot(plotly::as_widget(plotly_reactive()), file)
+        showNotification(.tr("export.pdf.complete", "PDF exportiert!"), type = "message", duration = 2)
+      }, error = function(e) {
+        showNotification(paste("PDF export error:", e$message), type = "error", duration = 5)
+      })
+    }
+  )
+}
+
+# HTML — 1:1 copy of the interactive figure
+create_plotly_html_handler <- function(plotly_reactive, base_filename, tr = NULL) {
+  .tr <- function(key, default) if (!is.null(tr)) tr(key) else default
+  downloadHandler(
+    filename = function() sprintf("%s_%s.html", base_filename, Sys.Date()),
+    content = function(file) {
+      tryCatch({
+        htmlwidgets::saveWidget(plotly::as_widget(plotly_reactive()), file, selfcontained = TRUE)
+        showNotification(.tr("export.html.complete", "HTML exportiert!"), type = "message", duration = 2)
+      }, error = function(e) {
+        showNotification(paste("HTML export error:", e$message), type = "error", duration = 5)
+      })
+    }
+  )
+}
+
+# PNG via webshot2 for leaflet widgets (same logic, no plotly::as_widget wrapper)
+create_leaflet_png_handler <- function(leaflet_reactive, base_filename, tr = NULL) {
+  .tr <- function(key, default) if (!is.null(tr)) tr(key) else default
+  downloadHandler(
+    filename = function() sprintf("%s_%s.png", base_filename, Sys.Date()),
+    content = function(file) {
+      tryCatch({
+        .export_widget_via_webshot(leaflet_reactive(), file)
+        showNotification(.tr("export.png.complete", "PNG exportiert!"), type = "message", duration = 2)
+      }, error = function(e) {
+        showNotification(paste("PNG export error:", e$message), type = "error", duration = 5)
+      })
+    }
+  )
+}
+
+# SVG via base-R rendering (for modules with a proper plot_func)
+# Bypasses the permuted_matrix check of the generic handler
+create_direct_svg_handler <- function(data_reactive, base_filename, plot_func,
+                                      width = 12, height = 8, tr = NULL) {
+  .tr <- function(key, default) if (!is.null(tr)) tr(key) else default
+  downloadHandler(
+    filename = function() sprintf("%s_%s.svg", base_filename, Sys.Date()),
+    content = function(file) {
+      tryCatch({
+        data <- data_reactive()
+        svg(file, width = width, height = height)
+        tryCatch(plot_func(data), finally = dev.off())
+        showNotification(.tr("export.svg.complete", "SVG exportiert!"), type = "message", duration = 2)
+      }, error = function(e) {
+        if (length(dev.list()) > 1) dev.off()
+        showNotification(paste("SVG export error:", e$message), type = "error", duration = 5)
+      })
+    }
+  )
+}
+
+# ---------------------------------------------------------------------------
+
 # PNG export handler template (with real data when available)
 # @param tr Optional translator function for i18n
 create_png_download_handler <- function(plot_output_id, base_filename, session, plot_data = NULL, plot_generator_func = NULL, width_func = NULL, height_func = NULL, tr = NULL) {
