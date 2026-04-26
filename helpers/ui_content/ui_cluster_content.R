@@ -191,6 +191,26 @@ output$cluster_main_content <- renderUI({
               )
             ),
 
+            # ===================== PANEL: GRUPPENVALIDIERUNG DISPLAY (nur wenn groupval-Tab aktiv) =====================
+            conditionalPanel(
+              condition = "input.cluster_viz_tabs === 'groupval'",
+              div(class = "panel panel-warning", style = "margin-bottom: 10px;",
+                div(class = "panel-heading", style = "cursor: pointer; padding: 8px 12px;",
+                    `data-toggle` = "collapse", `data-target` = "#cluster_panel_groupval",
+                  div(style = "display: flex; justify-content: space-between; align-items: center;",
+                    tags$span(style = "font-weight: bold;", tr("groupval.display.title")),
+                    tags$span(class = "glyphicon glyphicon-chevron-up collapse-chevron")
+                  )
+                ),
+                div(id = "cluster_panel_groupval", class = "panel-collapse collapse in cluster-collapse",
+                  div(class = "panel-body", style = "padding: 12px;",
+                    checkboxInput("groupval_show_labels", tr("groupval.show.labels"), TRUE),
+                    sliderInput("groupval_point_size", tr("groupval.point.size"), 4, 20, 10, step = 1)
+                  )
+                )
+              )
+            ),
+
             # ===================== PANEL 3: CLUSTER NAMES (closed by default) =====================
             conditionalPanel(
               condition = "output.kmeans_available",
@@ -280,6 +300,33 @@ output$cluster_main_content <- renderUI({
                   condition = "!output.characterization_available",
                   div(class = "alert alert-warning",
                     tags$p(tr("cluster.char.unavailable"))
+                  )
+                )
+              ),
+
+              tabPanel(
+                tr("cluster.tab.groupval"),
+                value = "groupval",
+                br(),
+                div(class = "alert alert-info", style = "font-size: 0.9em; margin-bottom: 15px;",
+                  tags$b(tr("groupval.info.title")), " ",
+                  tr("groupval.info.desc")
+                ),
+                tabsetPanel(
+                  tabPanel(tr("groupval.tab.overview"), br(),
+                    uiOutput("groupval_overview_ui")
+                  ),
+                  tabPanel(tr("groupval.tab.biplot"), br(),
+                    div(class = "alert alert-info", style = "font-size: 0.82em; padding: 6px 8px; margin-bottom: 8px;",
+                      tr("groupval.biplot.desc")
+                    ),
+                    plotlyOutput("groupval_biplot", height = "550px")
+                  ),
+                  tabPanel(tr("groupval.tab.table"), br(),
+                    div(class = "alert alert-info", style = "font-size: 0.82em; padding: 6px 8px; margin-bottom: 8px;",
+                      tr("groupval.table.desc")
+                    ),
+                    DT::dataTableOutput("groupval_table")
                   )
                 )
               )

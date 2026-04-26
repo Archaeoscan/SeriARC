@@ -154,6 +154,14 @@ server <- function(input, output, session) {
     tr = tr
   )
   
+  mod_group_validation_server(
+    filtered_data = aggregated_data,
+    ca_result = ca_module$ca_result,
+    get_site_group = get_site_group,
+    input = input, output = output, session = session,
+    tr = tr
+  )
+
   kmeans_module <- mod_kmeans_clustering_server(
     ca_result = ca_module$ca_result,
     cache = cache,

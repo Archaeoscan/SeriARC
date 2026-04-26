@@ -18,8 +18,21 @@ output$ca_main_content <- renderUI({
         });
       ")),
 
+      tags$script(HTML("
+        $(document).on('shown.bs.tab', '#ca_viz_tabs a[data-toggle=\"tab\"]', function(e) {
+          var val = $(e.target).attr('data-value') || $(e.target).data('value');
+          if (val === 'biplot') {
+            $('#ca_sidebar_col').show();
+            $('#ca_main_col').removeClass('col-sm-12 col-md-12').addClass('col-sm-8 col-md-8');
+          } else {
+            $('#ca_sidebar_col').hide();
+            $('#ca_main_col').removeClass('col-sm-8 col-md-8').addClass('col-sm-12 col-md-12');
+          }
+        });
+      ")),
+
       fluidRow(
-        column(4,
+        column(4, id = "ca_sidebar_col",
           div(class = "seriarc-panel",
             h4(tr("ca.settings.title"), class = "mt-0"),
 
@@ -156,29 +169,49 @@ output$ca_main_content <- renderUI({
 
                   tags$hr(style = "margin: 10px 0;"),
 
-                  # Labels
-                  checkboxInput("show_labels", tr("ca.show.labels"), TRUE),
-                  conditionalPanel(
-                    condition = "input.show_labels",
-                    div(style = "padding-left: 10px; border-left: 2px solid #5bc0de;",
-                      selectInput("label_selection", tr("ca.label.selection"),
-                        choices = setNames(c("all", "selected"), c(tr("ca.label.all"), tr("ca.label.selected"))),
-                        selected = "all"
-                      ),
-                      selectInput("label_type", tr("ca.label.for"),
-                        choices = setNames(
-                          c("both", "sites", "types"),
-                          c(tr("ca.label.both"), tr("ca.label.sites"), tr("ca.label.types"))
-                        ),
-                        selected = "both"
-                      ),
-                      sliderInput("label_chars", tr("ca.label.chars"), 3, 60, 12, step = 1),
-                      sliderInput("label_size", tr("ca.label.size"), 8, 20, 12, step = 1),
-                      checkboxInput("label_colored", tr("ca.label.colored"), FALSE)
-                    )
-                  ),
+                  sliderInput("point_size", tr("ca.point.size"), 1, 8, 3, step = 0.5),
 
-                  sliderInput("point_size", tr("ca.point.size"), 1, 8, 3, step = 0.5)
+                  tags$hr(style = "margin: 10px 0;"),
+                  h6(tr("ca.markersize.title"), style = "margin-bottom: 6px;"),
+                  checkboxInput("ca_size_sites_by_count", tr("ca.markersize.sites"), FALSE),
+                  checkboxInput("ca_size_types_by_count", tr("ca.markersize.types"), FALSE),
+
+                  tags$hr(style = "margin: 10px 0;"),
+
+                  # Labels (collapsible, closed by default)
+                  div(class = "panel panel-default", style = "margin-bottom: 0;",
+                    div(class = "panel-heading", style = "cursor: pointer; padding: 6px 10px;",
+                        `data-toggle` = "collapse", `data-target` = "#ca_labels_collapse",
+                      div(style = "display: flex; justify-content: space-between; align-items: center;",
+                        tags$span(style = "font-size: 0.9em; font-weight: bold;", tr("ca.show.labels")),
+                        tags$span(class = "glyphicon glyphicon-chevron-down collapse-chevron", style = "font-size: 0.8em;")
+                      )
+                    ),
+                    div(id = "ca_labels_collapse", class = "panel-collapse collapse",
+                      div(class = "panel-body", style = "padding: 10px;",
+                        checkboxInput("show_labels", tr("ca.show.labels.toggle"), TRUE),
+                        conditionalPanel(
+                          condition = "input.show_labels",
+                          div(style = "padding-left: 10px; border-left: 2px solid #5bc0de;",
+                            selectInput("label_selection", tr("ca.label.selection"),
+                              choices = setNames(c("all", "selected"), c(tr("ca.label.all"), tr("ca.label.selected"))),
+                              selected = "all"
+                            ),
+                            selectInput("label_type", tr("ca.label.for"),
+                              choices = setNames(
+                                c("both", "sites", "types"),
+                                c(tr("ca.label.both"), tr("ca.label.sites"), tr("ca.label.types"))
+                              ),
+                              selected = "both"
+                            ),
+                            sliderInput("label_chars", tr("ca.label.chars"), 3, 60, 12, step = 1),
+                            sliderInput("label_size", tr("ca.label.size"), 8, 20, 12, step = 1),
+                            checkboxInput("label_colored", tr("ca.label.colored"), FALSE)
+                          )
+                        )
+                      )
+                    )
+                  )
                 )
               )
             ),
@@ -206,14 +239,14 @@ output$ca_main_content <- renderUI({
           )
         ),
         
-        column(8,
+        column(8, id = "ca_main_col",
           div(class = "seriarc-panel",
             # === TABS FOR VISUALIZATIONS ===
             tabsetPanel(
               id = "ca_viz_tabs",
-              
+
               # Tab: Biplot
-              tabPanel(tr("ca.tab.biplot"),
+              tabPanel(tr("ca.tab.biplot"), value = "biplot",
                 br(),
                 plotlyOutput("ca_plotly", height = "600px"),
                 br(),
@@ -278,10 +311,13 @@ output$ca_main_content <- renderUI({
                 hr(),
                 # Auswahlleiste
                 fluidRow(
-                  column(12,
+                  column(6,
                     radioButtons("cos2_element", tr("ca.contrib.element"),
                                 choices = setNames(c("row", "col"), c(tr("ca.contrib.sites"), tr("ca.contrib.types"))),
                                 selected = "row", inline = TRUE)
+                  ),
+                  column(6,
+                    uiOutput("cos2_search_ui")
                   )
                 ),
                 # One large plot
@@ -640,6 +676,73 @@ output$ca_main_content <- renderUI({
                   verbatimTextOutput("ca_between_group")
                 )
               ),
+
+              # Tab: Diagnose (Typ + Site Mode)
+              tabPanel(tr("ca.tab.diag"), value = "diag",
+                br(),
+                fluidRow(
+                  column(4,
+                    div(class = "seriarc-panel",
+
+                      # Mode toggle
+                      div(class = "panel panel-default", style = "margin-bottom: 10px;",
+                        div(class = "panel-body", style = "padding: 10px;",
+                          tags$b(tr("ca.diag.mode"), style = "display: block; margin-bottom: 6px; font-size: 0.95em;"),
+                          radioButtons("diag_mode", NULL,
+                            choices = setNames(
+                              c("type", "site"),
+                              c(tr("ca.diag.mode.type"), tr("ca.diag.mode.site"))
+                            ),
+                            selected = "type", inline = TRUE
+                          ),
+                          uiOutput("diag_desc_ui")
+                        )
+                      ),
+
+                      # Selector (conditional on mode)
+                      conditionalPanel("input.diag_mode == 'type'",
+                        uiOutput("typdiag_type_selector")
+                      ),
+                      conditionalPanel("input.diag_mode == 'site'",
+                        uiOutput("diag_site_selector"),
+                        uiOutput("diag_site2_selector")
+                      ),
+
+                      # Stability / info panel
+                      uiOutput("typdiag_stability_ui"),
+
+                      hr(style = "margin: 8px 0;"),
+
+                      # Display options (plain language)
+                      h6(tr("ca.diag.options"), style = "margin-bottom: 6px;"),
+                      tags$small(tr("ca.diag.sizeby.label"), style = "color: #666;"),
+                      radioButtons("typdiag_size_by", NULL,
+                        choices = setNames(
+                          c("weight", "count", "contrib1"),
+                          c(tr("ca.diag.sizeby.relative"), tr("ca.diag.sizeby.absolute"), tr("ca.diag.sizeby.dim1"))
+                        ),
+                        selected = "weight"
+                      ),
+                      checkboxInput("typdiag_show_all", tr("ca.diag.show.all"), value = TRUE),
+                      checkboxInput("typdiag_show_lines", tr("ca.diag.show.lines"), value = TRUE),
+                      checkboxInput("typdiag_show_labels", tr("ca.diag.show.labels"), value = TRUE),
+                      hr(style = "margin: 8px 0;"),
+                      sliderInput("typdiag_topn", tr("ca.diag.topn"),
+                        min = 0, max = 50, value = 0, step = 1),
+                      numericInput("typdiag_minn", tr("ca.diag.minn"),
+                        value = 1, min = 1, step = 1, width = "120px")
+                    )
+                  ),
+                  column(8,
+                    div(class = "seriarc-panel",
+                      plotlyOutput("typdiag_plot", height = "480px"),
+                      br(),
+                      uiOutput("diag_table_title_ui"),
+                      DT::dataTableOutput("typdiag_table")
+                    )
+                  )
+                )
+              )
 
             )
           )

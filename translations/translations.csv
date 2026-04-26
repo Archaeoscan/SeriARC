@@ -437,7 +437,8 @@ ca.color.by.group;Nach Gruppen färben;Color by groups
 ca.show.centroids;Gruppenschwerpunkte anzeigen;Show group centroids
 ca.show.ellipses;Konfidenzellipsen anzeigen (95%);Show confidence ellipses (95%)
 ca.ellipses.tooltip;Zeigt statistische Konfidenzellipsen um jede Gruppe. Die Ellipse markiert den Bereich, in dem mit 95% Wahrscheinlichkeit weitere Punkte der Gruppe liegen würden.;Shows statistical confidence ellipses around each group. The ellipse marks the area where 95% of group points would likely fall.
-ca.show.labels;Labels zeigen;Show labels
+ca.show.labels;Beschriftungen;Labels
+ca.show.labels.toggle;Beschriftungen anzeigen;Show labels
 ca.label.selection;Label-Auswahl:;Label selection:
 ca.label.all;Alle;All
 ca.label.selected;Nur markierte;Selected only
@@ -450,12 +451,91 @@ ca.label.size;Schriftgröße:;Font size:
 ca.label.colored;Labels in Symbol-Farbe;Labels in symbol color
 ca.show.c14;14C-Daten anzeigen;Show 14C data
 ca.point.size;Punktgröße:;Point size:
+ca.markersize.title;Größe nach Fundzahl skalieren;Scale size by count
+ca.markersize.sites;Fundorte;Sites
+ca.markersize.types;Typen;Types
 ca.quick.stats;Schnelle Bewertung;Quick evaluation
 ca.tab.biplot;Biplot;Biplot
 ca.tab.contrib;Contributions;Contributions
 ca.tab.quality;Qualität (Cos²);Quality (Cos²)
 ca.tab.outlier;Outlier-Detection;Outlier Detection
 ca.tab.eigenvalues;Eigenwerte;Eigenvalues
+ca.tab.typdiag;Typ-Diagnose;Type Diagnosis
+ca.typdiag.title;Typ-Diagnose: Positionsbestimmung im CA-Raum;Type Diagnosis: Position in CA Space
+ca.typdiag.desc;Zeigt, welche Sites die Position des gewählten Typs im CA-Raum bestimmen. Punktgröße ∝ Gewicht.;Shows which sites determine the position of the selected type in CA space. Point size ∝ weight.
+ca.typdiag.select;Typ auswählen;Select type
+ca.typdiag.options;Darstellungsoptionen;Display options
+ca.typdiag.sizeby;Punktgröße nach;Point size by
+ca.typdiag.sizeby.weight;Gewicht (w_ij);Weight (w_ij)
+ca.typdiag.sizeby.count;Häufigkeit (n_ij);Count (n_ij)
+ca.typdiag.sizeby.contrib;Beitrag Dim1;Contribution Dim1
+ca.typdiag.show.all;Alle Sites anzeigen (ausgegraut);Show all sites (greyed out)
+ca.typdiag.show.lines;Verbindungslinien zum Schwerpunkt;Connection lines to centroid
+ca.typdiag.topn;Top-N Sites nach Gewicht (0 = alle);Top-N sites by weight (0 = all)
+ca.typdiag.minn;Mindesthäufigkeit;Min. frequency
+ca.typdiag.table.title;Beitrag der Sites zur Typ-Position;Site contributions to type position
+ca.typdiag.centroid;Schwerpunkt (CA);Centroid (CA)
+ca.typdiag.centroid.calc;Schwerpunkt (berechnet);Centroid (computed)
+ca.typdiag.no.ca;CA noch nicht berechnet. Bitte zuerst CA starten.;CA not yet calculated. Please run CA first.
+ca.typdiag.no.type;Bitte einen Typ auswählen.;Please select a type.
+ca.typdiag.col.site;Site;Site
+ca.typdiag.col.nij;Häufigkeit n_ij;Frequency n_ij
+ca.typdiag.col.wij;Gewicht w_ij;Weight w_ij
+ca.typdiag.col.c1;Beitrag Dim1;Contrib. Dim1
+ca.typdiag.col.c2;Beitrag Dim2;Contrib. Dim2
+ca.typdiag.col.influence;Einfluss;Influence
+ca.tab.diag;Diagnose;Diagnosis
+ca.diag.mode;Analysemodus;Analysis mode
+ca.diag.mode.type;Typ;Type
+ca.diag.mode.site;Fundort;Site
+ca.diag.desc.type;Erklärt, welche Fundorte die Position dieses Typs im CA-Diagramm bestimmen — und wie stark jeder Fundort dazu beiträgt.;Explains which sites determine this type's position in the CA diagram — and how strongly each site contributes.
+ca.diag.desc.site;Erklärt, welche Typen die Position dieses Fundorts im CA-Diagramm bestimmen — und warum zwei Fundorte unterschiedlich positioniert sind.;Explains which types determine this site's position in the CA diagram — and why two sites are positioned differently.
+ca.diag.select.site;Fundort auswählen;Select site
+ca.diag.stability.title;Positionsstabilität;Position stability
+ca.diag.stability.good;Stabil;Stable
+ca.diag.stability.moderate;Mäßig stabil;Moderately stable
+ca.diag.stability.low;Wenig stabil;Unstable
+ca.diag.stability.text.good;Die Position wird von %d Einträgen dominiert.;The position is dominated by %d entries.
+ca.diag.stability.text.moderate;Die Position hängt deutlich von einigen wenigen Einträgen ab.;The position depends noticeably on a small number of entries.
+ca.diag.stability.text.low;Die Position wird fast ausschließlich durch einen einzigen Eintrag bestimmt — Vorsicht bei der Interpretation.;The position is almost entirely determined by a single entry — interpret with caution.
+ca.diag.quality.title;Repräsentationsqualität (Achsen 1+2);Representation quality (Axes 1+2)
+ca.diag.quality.desc;Zeigt, wie viel der tatsächlichen CA-Geometrie dieses Eintrags im 2D-Biplot sichtbar ist. %d%% bedeutet: %d%% der Information stecken in den angezeigten Achsen, der Rest liegt auf höheren Dimensionen und ist im Biplot unsichtbar.;Shows how much of this entry's actual CA geometry is visible in the 2D biplot. %d%% means %d%% of the information is captured by the displayed axes — the rest lies on higher dimensions and is invisible in the biplot.
+ca.diag.frequency.type;Kommt %d Mal in %d Fundorten vor;Occurs %d times in %d sites
+ca.diag.frequency.site;Enthält %d Funde über %d Typen;Contains %d finds across %d types
+ca.diag.sizeby.label;Punktgröße zeigt;Point size shows
+ca.diag.sizeby.relative;Relativen Anteil;Relative share
+ca.diag.sizeby.absolute;Absolute Häufigkeit;Absolute count
+ca.diag.sizeby.dim1;Einfluss auf Dim 1;Influence on Dim 1
+ca.diag.show.all;Alle Einträge anzeigen (ausgegraut);Show all entries (greyed out)
+ca.diag.show.lines;Verbindungslinien zur Position;Connection lines to position
+ca.diag.show.labels;Beschriftungen anzeigen;Show labels
+ca.diag.topn;Nur die einflussreichsten (0 = alle);Most influential only (0 = all)
+ca.diag.minn;Mindestanzahl;Min. count
+ca.diag.table.title.type;Einfluss der Fundorte auf die Typ-Position;Influence of sites on type position
+ca.diag.table.title.site;Einfluss der Typen auf die Fundort-Position;Influence of types on site position
+ca.diag.col.name;Name;Name
+ca.diag.col.count;Anzahl Funde;Count
+ca.diag.col.share.type;Anteil am Typ;Share of type
+ca.diag.col.share.site;Anteil am Fundort;Share of site
+ca.diag.col.infl1;Einfluss Dim 1;Influence Dim 1
+ca.diag.col.infl2;Einfluss Dim 2;Influence Dim 2
+ca.diag.col.total;Gesamteinfluss;Total influence
+ca.diag.centroid.type;Position des Typs;Type position
+ca.diag.centroid.site;Position des Fundorts;Site position
+ca.diag.bar.title;Einflussdiagramm;Influence chart
+ca.diag.bar.desc;Jeder Punkt steht für einen Eintrag. Die x-Achse zeigt seinen Beitrag zur Dim-1-Position, die y-Achse seinen Beitrag zur Dim-2-Position. Die Summe aller Beiträge ergibt die CA-Position (oranges Kreuz). Punkte weit vom Ursprung haben besonders starken Einfluss.;Each point represents one entry. The x-axis shows its contribution to the Dim 1 position, the y-axis to Dim 2. The sum of all contributions equals the CA position (orange cross). Points far from the origin have the strongest influence.
+ca.diag.scatter.title;Beitrag Dim 1 vs. Dim 2 — Summe = CA-Position;Contribution Dim 1 vs. Dim 2 — sum = CA position
+ca.diag.no.selection;Bitte einen Eintrag auswählen.;Please select an entry.
+ca.diag.warning.few;Achtung: Die Position hängt fast vollständig von einem einzigen Eintrag ab — Ergebnis mit Vorsicht interpretieren.;Warning: Position almost entirely depends on a single entry — interpret with caution.
+ca.diag.select.site2;Vergleichs-Fundort (optional);Comparison site (optional)
+ca.diag.compare.info;Zeigt welche Typen die Positionen der beiden Fundorte unterschiedlich beeinflussen. Positiver Balken: dieser Typ zieht Fundort A weiter nach rechts auf Dim 1 als Fundort B.;Shows which types pull the two sites' positions differently. Positive bar: this type pulls site A further right on Dim 1 than site B.
+ca.diag.compare.same.site;Bitte zwei verschiedene Fundorte wählen.;Please select two different sites.
+ca.diag.options;Darstellungsoptionen;Display options
+ca.typdiag.stability;Stabilität (Eff. Sites);Stability (Eff. Sites)
+ca.typdiag.eff.sites.unit;eff. Sites;eff. sites
+ca.typdiag.warning.few;Warnung: Position von sehr wenigen Sites dominiert – möglicherweise instabil.;Warning: position dominated by very few sites – may be unstable.
+ca.typdiag.contrib.bar.title;Beitragsdiagramm (w_ij × f_ik);Contribution chart (w_ij × f_ik)
+ca.typdiag.contrib.bar.desc;Zeigt die Beiträge jeder Site zur Position des gewählten Typs auf Dim1 (blau/rot) und Dim2 (grün/orange). Positive und negative Werte zeigen das Tauziehen zwischen Sites in beide Richtungen.;Shows each site's contribution to the selected type's position on Dim1 (blue/red) and Dim2 (green/orange). Positive and negative values reveal the tug-of-war between sites in both directions.
 ca.contrib.title;Beitrag der Elemente zu den CA-Dimensionen;Contribution of elements to CA dimensions
 ca.contrib.desc;Zeigt welche Sites/Types am stärksten zur jeweiligen Dimension beitragen. Hohe Werte = treibende Faktoren der Seriation.;Shows which sites/types contribute most to each dimension. High values = driving factors of seriation.
 ca.contrib.element;Element:;Element:
@@ -463,6 +543,8 @@ ca.contrib.sites;Sites;Sites
 ca.contrib.types;Types;Types
 ca.contrib.export;Excel Export;Excel Export
 ca.cos2.title;Repräsentationsqualität der Elemente;Representation quality of elements
+ca.cos2.search;Suche;Search
+ca.cos2.search.placeholder;Typ / Fundort suchen...;Search type / site...
 ca.cos2.what;ℹ️ Was ist Cos²?;ℹ️ What is Cos²?
 ca.cos2.desc;Cos² misst wie gut ein Element durch die gewählten Dimensionen (hier: Dim1+Dim2) dargestellt wird:;Cos² measures how well an element is represented by the selected dimensions (here: Dim1+Dim2):
 ca.cos2.high;Hoher Wert (>0.7):;High value (>0.7):
@@ -560,6 +642,42 @@ cluster.tab.scatter;Scatter-Plot;Scatter Plot
 cluster.tab.dendrogram;Dendrogramm;Dendrogram
 cluster.tab.table;Tabelle;Table
 cluster.tab.characterization;Charakterisierung;Characterization
+cluster.tab.groupval;Gruppenvalidierung;Group Validation
+groupval.info.title;Was ist Gruppenvalidierung?;What is group validation?
+groupval.info.desc;Dieser Tab prüft, ob die importierte Gruppen-Spalte in den Typenverteilungen erkennbar ist — statistisch und visuell.;This tab checks whether the imported group column is reflected in the type distributions — statistically and visually.
+groupval.tab.overview;Übersicht;Overview
+groupval.tab.biplot;Biplot;Biplot
+groupval.tab.table;Sites im Detail;Sites in detail
+groupval.no.groups;Keine Gruppen-Spalte gefunden;No group column found
+groupval.no.groups.desc;Bitte im Import-Tab eine Spalte als Gruppen-Spalte markieren. Es werden mindestens 2 Gruppen und 4 Fundorte benötigt.;Please mark a column as group column in the Import tab. At least 2 groups and 4 sites are required.
+groupval.summary;%d Fundorte in %d Gruppen analysiert;%d sites in %d groups analysed
+groupval.permanova.title;PERMANOVA — Erklären die Gruppen die Typenverteilung?;PERMANOVA — Do the groups explain the type distribution?
+groupval.r2;Erklärte Varianz;Explained variance
+groupval.r2.desc;Die Gruppen erklären %.1f%% der Gesamtvariation in den Typenverteilungen.;The groups explain %.1f%% of the total variation in type distributions.
+groupval.significant;Statistisch signifikant;Statistically significant
+groupval.not.significant;Nicht signifikant;Not significant
+groupval.permanova.failed;PERMANOVA konnte nicht berechnet werden.;PERMANOVA could not be computed.
+groupval.sil.title;Silhouette — Wie gut sitzen die Fundorte in ihrer Gruppe?;Silhouette — How well do sites fit their group?
+groupval.sil.avg;Durchschnittlicher Silhouette-Score;Average silhouette score
+groupval.sil.good;Gut getrennt;Well separated
+groupval.sil.moderate;Mäßig getrennt;Moderately separated
+groupval.sil.poor;Schlecht getrennt;Poorly separated
+groupval.sil.poor.sites;%d Fundort(e) passen besser in eine andere Gruppe (Score < 0).;%d site(s) fit better in a different group (score < 0).
+groupval.sil.all.fit;Alle Fundorte passen gut in ihre Gruppe.;All sites fit well in their group.
+groupval.group.sizes;Gruppengrößen;Group sizes
+groupval.biplot.title;CA-Biplot nach Gruppen;CA biplot by groups
+groupval.biplot.desc;Punkte sind nach Gruppen eingefärbt. Transparenz zeigt den Silhouette-Score — blasse Punkte passen schlecht in ihre Gruppe.;Points are coloured by group. Opacity shows the silhouette score — faded points fit poorly in their group.
+groupval.table.desc;Alle Fundorte sortiert nach Silhouette-Score (schlechteste zuerst). Negative Werte bedeuten: dieser Fundort passt besser in die Nachbargruppe.;All sites sorted by silhouette score (worst first). Negative values mean the site fits better in the neighbouring group.
+groupval.group;Gruppe;Group
+groupval.sil.score;Silhouette-Score;Silhouette score
+groupval.closer.to;passt besser zu;fits better in
+groupval.col.site;Fundort;Site
+groupval.col.group;Gruppe;Group
+groupval.col.score;Score;Score
+groupval.col.neighbor;Nächste Gruppe;Nearest group
+groupval.display.title;Darstellung;Display
+groupval.show.labels;Beschriftungen anzeigen;Show labels
+groupval.point.size;Punktgröße;Point size
 cluster.table.filter;Anzeigen:;Show:
 cluster.table.all;Alle;All
 cluster.table.sites;Nur Sites;Sites only

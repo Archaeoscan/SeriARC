@@ -46,6 +46,7 @@ library(writexl)
 library(reshape2)
 library(viridis)
 library(cluster)
+library(vegan)
 library(khroma)
 library(purrr)
 # Internationalization (i18n) Setup - Custom Implementation
@@ -462,6 +463,7 @@ all_modules <- c(
   "mod_bootstrap.R",
   "mod_3d_ca.R",
   "mod_kmeans_clustering.R",
+  "mod_group_validation.R",
   "mod_seriation.R",
   "mod_battleship.R",
   "mod_mapping.R",

@@ -368,10 +368,12 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
           res$row$contrib[, y_idx]
         } else rep(0, nrow(coords_subset))
         
+        row_counts <- if (!is.null(res$call$X)) rowSums(res$call$X, na.rm = TRUE) else NULL
         sites_data <- data.frame(
           x = coords_subset[, 1], y = coords_subset[, 2],
           label = rownames(coords_subset), type = 'Site', element_type = 'Active',
           contrib_x = contrib_x_vals, contrib_y = contrib_y_vals,
+          count = if (!is.null(row_counts)) as.numeric(row_counts[match(rownames(coords_subset), names(row_counts))]) else NA_real_,
           stringsAsFactors = FALSE
         )
         plot_data <- rbind(plot_data, sites_data)
@@ -383,7 +385,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
         suppl_row_data <- data.frame(
           x = coords_subset[, 1], y = coords_subset[, 2],
           label = rownames(coords_subset), type = 'Site', element_type = 'Supplementary',
-          contrib_x = 0, contrib_y = 0,
+          contrib_x = 0, contrib_y = 0, count = NA_real_,
           stringsAsFactors = FALSE
         )
         plot_data <- rbind(plot_data, suppl_row_data)
@@ -405,10 +407,12 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
           res$col$contrib[, y_idx]
         } else rep(0, nrow(coords_subset))
         
+        col_counts <- if (!is.null(res$call$X)) colSums(res$call$X, na.rm = TRUE) else NULL
         types_data <- data.frame(
           x = coords_subset[, 1], y = coords_subset[, 2],
           label = rownames(coords_subset), type = 'Type', element_type = 'Active',
           contrib_x = contrib_x_vals, contrib_y = contrib_y_vals,
+          count = if (!is.null(col_counts)) as.numeric(col_counts[match(rownames(coords_subset), names(col_counts))]) else NA_real_,
           stringsAsFactors = FALSE
         )
         plot_data <- rbind(plot_data, types_data)
@@ -420,7 +424,7 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
         suppl_col_data <- data.frame(
           x = coords_subset[, 1], y = coords_subset[, 2],
           label = rownames(coords_subset), type = 'Type', element_type = 'Supplementary',
-          contrib_x = 0, contrib_y = 0,
+          contrib_x = 0, contrib_y = 0, count = NA_real_,
           stringsAsFactors = FALSE
         )
         plot_data <- rbind(plot_data, suppl_col_data)
@@ -1128,6 +1132,10 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
     has_site_suppl <- nrow(suppl_data[suppl_data$type == 'Site', ]) > 0
     has_type_suppl <- nrow(suppl_data[suppl_data$type == 'Type', ]) > 0
     
+    base_size <- (input$point_size %||% 3) * 4
+    size_sites_by_count <- isTRUE(input$ca_size_sites_by_count)
+    size_types_by_count <- isTRUE(input$ca_size_types_by_count)
+
     # Add active points
     if (nrow(active_data) > 0) {
       # Sites (circles)
@@ -1139,14 +1147,20 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
             if (!is.na(cc_idx) && cc_idx <= length(colors)) colors[cc_idx] else "#2980b9"
           })
         } else rep(colors["Site Active"], nrow(site_subset))
-        
+
+        site_sizes <- if (size_sites_by_count && "count" %in% names(site_subset) && any(!is.na(site_subset$count))) {
+          cnts <- replace(site_subset$count, is.na(site_subset$count), 0)
+          mx <- max(cnts, 1)
+          base_size * 0.3 + (cnts / mx) * base_size * 3.7
+        } else rep(base_size, nrow(site_subset))
+
         # Labels directly integrated (like DCA)
         site_labels <- if (show_site_labels && input$show_labels) site_subset$lab else ""
         site_label_color <- if (label_colored) site_color else "#2c3e50"
-        
+
         p <- p %>% add_markers(
           x = site_subset$x, y = site_subset$y,
-          marker = ca_site_marker(site_color, (input$point_size %||% 3) * 4, element_type = "Active"),
+          marker = ca_site_marker(site_color, site_sizes, element_type = "Active"),
           text = site_labels, textposition = "middle right",
           textfont = list(size = label_size, color = site_label_color),
           hovertext = site_subset$hover_text, hoverinfo = 'text',
@@ -1217,13 +1231,19 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
           })
         } else rep(colors["Type Active"], nrow(type_subset))
         
+        type_sizes <- if (size_types_by_count && "count" %in% names(type_subset) && any(!is.na(type_subset$count))) {
+          cnts <- replace(type_subset$count, is.na(type_subset$count), 0)
+          mx <- max(cnts, 1)
+          base_size * 0.3 + (cnts / mx) * base_size * 3.7
+        } else rep(base_size, nrow(type_subset))
+
         # Labels directly integrated (like DCA)
         type_labels <- if (show_type_labels && input$show_labels) type_subset$lab else ""
         type_label_color <- if (label_colored) type_color else "#2c3e50"
-        
+
         p <- p %>% add_markers(
           x = type_subset$x, y = type_subset$y,
-          marker = ca_type_marker(type_color, (input$point_size %||% 3) * 4, element_type = "Active"),
+          marker = ca_type_marker(type_color, type_sizes, element_type = "Active"),
           text = type_labels, textposition = "middle right",
           textfont = list(size = label_size, color = type_label_color),
           hovertext = type_subset$hover_text, hoverinfo = 'text',
@@ -1899,6 +1919,17 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
     })
   })
   
+  # COS² - Search UI
+  output$cos2_search_ui <- renderUI({
+    req(ca_res(), input$cos2_element)
+    choices <- if (input$cos2_element == "row") rownames(ca_res()$row$cos2) else rownames(ca_res()$col$cos2)
+    all_choices <- c(choices)
+    selectizeInput("cos2_highlight", tr("ca.cos2.search"),
+      choices = all_choices, selected = character(0),
+      options = list(placeholder = tr("ca.cos2.search.placeholder"))
+    )
+  })
+
   # COS² - Combined plot based on selection
   output$ca_cos2_selected <- renderPlotly({
     req(ca_res(), input$cos2_element)
@@ -1916,9 +1947,15 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
       cos2_q25 <- quantile(data$value, 0.25, na.rm = TRUE)
       cos2_q75 <- quantile(data$value, 0.75, na.rm = TRUE)
 
+      # Highlighting
+      hl <- input$cos2_highlight %||% ""
+      bar_colors <- rep(plot_color, nrow(data))
+      hl_idx <- if (nchar(hl) > 0) which(data$name == hl) else integer(0)
+      if (length(hl_idx) > 0) bar_colors[hl_idx] <- "#e67e22"
+
       # Plot erstellen
       p <- plot_ly(data, x = ~seq_along(name), y = ~value, type = 'bar',
-                   marker = list(color = plot_color, line = list(color = '#2c3e50', width = 1)),
+                   marker = list(color = bar_colors, line = list(color = '#2c3e50', width = 1)),
                    hovertemplate = paste0('<b>%{text}</b><br>',
                                           'Cos\u00b2: %{y:.3f}<extra></extra>'),
                    text = ~name)
@@ -1950,6 +1987,11 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
                         showarrow = FALSE, font = list(color = '#e67e22', size = 11),
                         xanchor = 'right', yanchor = 'bottom')
 
+      # Zoom to highlighted bar (show 20 neighbours)
+      x_range <- if (length(hl_idx) > 0) {
+        list(hl_idx - 20.5, hl_idx + 20.5)
+      } else list(0.5, nrow(data) + 0.5)
+
       # Layout with explanation
       p <- p %>% layout(
         title = list(
@@ -1957,13 +1999,21 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
                         "<sub style='font-size:10px; color:#7f8c8d;'>", tr("plot.ca.cos2.subtitle"), "</sub>"),
           font = list(size = 16, family = "Arial, sans-serif")
         ),
-        xaxis = list(title = "", showticklabels = FALSE, showgrid = FALSE),
+        xaxis = list(title = "", showticklabels = FALSE, showgrid = FALSE,
+                     range = x_range),
         yaxis = list(title = tr("plot.ca.cos2.yaxis"), gridcolor = '#ecf0f1', range = c(0, 1),
                      titlefont = list(size = 14)),
         hovermode = 'closest',
         plot_bgcolor = 'white',
         paper_bgcolor = 'white',
-        margin = list(t = 80, b = 40, l = 60, r = 40)
+        margin = list(t = 80, b = 40, l = 60, r = 40),
+        annotations = if (length(hl_idx) > 0) list(list(
+          x = hl_idx, y = data$value[hl_idx] + 0.05,
+          text = data$name[hl_idx], showarrow = TRUE,
+          arrowhead = 2, arrowcolor = "#e67e22",
+          font = list(color = "#e67e22", size = 12),
+          xanchor = "center", yanchor = "bottom"
+        )) else list()
       ) %>%
         config(displayModeBar = FALSE)
 
@@ -3330,7 +3380,820 @@ mod_correspondence_analysis_server <- function(filtered_data, meta_data, cache, 
   })
   
   # ===== ENDE OUTLIER-DETECTION =====
-  
+
+  # ===== DIAGNOSE (TYP + SITE) =====
+
+  # Dynamic type selector
+  output$typdiag_type_selector <- renderUI({
+    req(ca_res())
+    res <- ca_res()
+    type_names <- c()
+    if (!is.null(res$col$coord)) type_names <- c(type_names, rownames(res$col$coord))
+    if (!is.null(res$col.sup) && !is.null(res$col.sup$coord))
+      type_names <- c(type_names, rownames(res$col.sup$coord))
+    selectInput("typdiag_selected_type", tr("ca.typdiag.select"),
+      choices = c("-- Typ wählen --" = "", sort(type_names)),
+      selected = "", selectize = TRUE, width = "100%"
+    )
+  })
+
+  # Dynamic site selector
+  output$diag_site_selector <- renderUI({
+    req(ca_res())
+    res <- ca_res()
+    site_names <- c()
+    if (!is.null(res$row$coord)) site_names <- c(site_names, rownames(res$row$coord))
+    if (!is.null(res$row.sup) && !is.null(res$row.sup$coord))
+      site_names <- c(site_names, rownames(res$row.sup$coord))
+    selectInput("diag_selected_site", tr("ca.diag.select.site"),
+      choices = c("-- Fundort wählen --" = "", sort(site_names)),
+      selected = "", selectize = TRUE, width = "100%"
+    )
+  })
+
+  # Second site selector (comparison mode)
+  output$diag_site2_selector <- renderUI({
+    req(ca_res())
+    res <- ca_res()
+    site_names <- c()
+    if (!is.null(res$row$coord)) site_names <- c(site_names, rownames(res$row$coord))
+    if (!is.null(res$row.sup) && !is.null(res$row.sup$coord))
+      site_names <- c(site_names, rownames(res$row.sup$coord))
+    selectInput("diag_selected_site2", tr("ca.diag.select.site2"),
+      choices = c("-- kein Vergleich --" = "", sort(site_names)),
+      selected = "", selectize = TRUE, width = "100%"
+    )
+  })
+
+  # Description text based on mode
+  output$diag_desc_ui <- renderUI({
+    mode <- input$diag_mode %||% "type"
+    p(
+      if (mode == "type") tr("ca.diag.desc.type") else tr("ca.diag.desc.site"),
+      style = "color: #6c757d; font-size: 0.85em; margin: 4px 0 0 0;"
+    )
+  })
+
+  # Table title based on mode
+  output$diag_table_title_ui <- renderUI({
+    mode <- input$diag_mode %||% "type"
+    h6(
+      if (mode == "type") tr("ca.diag.table.title.type") else tr("ca.diag.table.title.site"),
+      style = "margin-bottom: 6px;"
+    )
+  })
+
+  # TYPE mode: computed reactive
+  typdiag_computed <- reactive({
+    req(ca_res(), filtered_data())
+    req(input$typdiag_selected_type)
+    if (nchar(input$typdiag_selected_type) == 0) return(NULL)
+
+    res <- ca_res()
+    mat <- filtered_data()
+    sel_type <- input$typdiag_selected_type
+    if (!sel_type %in% colnames(mat)) return(NULL)
+
+    parts <- list()
+    if (!is.null(res$row$coord)) {
+      df <- as.data.frame(res$row$coord[, 1:min(2, ncol(res$row$coord)), drop = FALSE])
+      names(df)[1:2] <- c("Dim1", "Dim2")
+      df$site <- rownames(res$row$coord)
+      df$is_suppl <- FALSE
+      parts[[1]] <- df
+    }
+    if (!is.null(res$row.sup) && !is.null(res$row.sup$coord)) {
+      df <- as.data.frame(res$row.sup$coord[, 1:min(2, ncol(res$row.sup$coord)), drop = FALSE])
+      names(df)[1:2] <- c("Dim1", "Dim2")
+      df$site <- rownames(res$row.sup$coord)
+      df$is_suppl <- TRUE
+      parts[[2]] <- df
+    }
+    if (length(parts) == 0) return(NULL)
+    site_coords <- do.call(rbind, parts)
+
+    in_mat <- site_coords$site %in% rownames(mat)
+    site_coords$n_ij <- 0
+    site_coords$n_ij[in_mat] <- mat[site_coords$site[in_mat], sel_type]
+    site_coords$has_type <- site_coords$n_ij > 0
+
+    total_n <- sum(site_coords$n_ij, na.rm = TRUE)
+    if (total_n == 0) return(NULL)
+    site_coords$w_ij <- site_coords$n_ij / total_n
+    sv <- as.numeric(res$sv$vs)
+    site_coords$contrib_dim1 <- site_coords$w_ij * site_coords$Dim1 / sv[1]
+    site_coords$contrib_dim2 <- site_coords$w_ij * site_coords$Dim2 / sv[2]
+
+    contrib_sites <- site_coords[site_coords$has_type, ]
+    centroid <- c(
+      Dim1 = sum(contrib_sites$contrib_dim1, na.rm = TRUE),
+      Dim2 = sum(contrib_sites$contrib_dim2, na.rm = TRUE)
+    )
+
+    list(
+      sites = site_coords,
+      centroid = centroid,
+      selected_type = sel_type,
+      total_n = total_n,
+      mode = "type"
+    )
+  })
+
+  # SITE mode: computed reactive (mirror of typdiag_computed)
+  sitedag_computed <- reactive({
+    req(ca_res(), filtered_data())
+    req(input$diag_selected_site)
+    if (nchar(input$diag_selected_site) == 0) return(NULL)
+
+    res <- ca_res()
+    mat <- filtered_data()
+    sel_site <- input$diag_selected_site
+    if (!sel_site %in% rownames(mat)) return(NULL)
+
+    # Collect type coordinates (col = types)
+    parts <- list()
+    if (!is.null(res$col$coord)) {
+      df <- as.data.frame(res$col$coord[, 1:min(2, ncol(res$col$coord)), drop = FALSE])
+      names(df)[1:2] <- c("Dim1", "Dim2")
+      df$site <- rownames(res$col$coord)
+      df$is_suppl <- FALSE
+      parts[[1]] <- df
+    }
+    if (!is.null(res$col.sup) && !is.null(res$col.sup$coord)) {
+      df <- as.data.frame(res$col.sup$coord[, 1:min(2, ncol(res$col.sup$coord)), drop = FALSE])
+      names(df)[1:2] <- c("Dim1", "Dim2")
+      df$site <- rownames(res$col.sup$coord)
+      df$is_suppl <- TRUE
+      parts[[2]] <- df
+    }
+    if (length(parts) == 0) return(NULL)
+    type_coords <- do.call(rbind, parts)
+
+    # n_ij = counts in selected site for each type
+    in_mat <- type_coords$site %in% colnames(mat)
+    type_coords$n_ij <- 0
+    type_coords$n_ij[in_mat] <- as.numeric(mat[sel_site, type_coords$site[in_mat]])
+    type_coords$has_type <- type_coords$n_ij > 0
+
+    total_n <- sum(type_coords$n_ij, na.rm = TRUE)
+    if (total_n == 0) return(NULL)
+    type_coords$w_ij <- type_coords$n_ij / total_n
+    # Transition formula: site coord = sum(w_ji * col_standard_coord)
+    # col$coord are principal → divide by sv
+    sv <- as.numeric(res$sv$vs)
+    type_coords$contrib_dim1 <- type_coords$w_ij * type_coords$Dim1 / sv[1]
+    type_coords$contrib_dim2 <- type_coords$w_ij * type_coords$Dim2 / sv[2]
+
+    contrib_types <- type_coords[type_coords$has_type, ]
+    centroid <- c(
+      Dim1 = sum(contrib_types$contrib_dim1, na.rm = TRUE),
+      Dim2 = sum(contrib_types$contrib_dim2, na.rm = TRUE)
+    )
+
+    list(
+      sites = type_coords,
+      centroid = centroid,
+      selected_type = sel_site,
+      total_n = total_n,
+      mode = "site"
+    )
+  })
+
+  # SITE COMPARE mode: computed reactive
+  sitedag_compare_computed <- reactive({
+    req(ca_res(), filtered_data())
+    req(input$diag_selected_site, input$diag_selected_site2)
+    site_a <- input$diag_selected_site
+    site_b <- input$diag_selected_site2
+    if (nchar(site_a) == 0 || nchar(site_b) == 0) return(NULL)
+    if (site_a == site_b) return(NULL)
+
+    res <- ca_res()
+    mat <- filtered_data()
+    if (!site_a %in% rownames(mat) || !site_b %in% rownames(mat)) return(NULL)
+
+    # All type coordinates
+    parts <- list()
+    if (!is.null(res$col$coord)) {
+      df <- as.data.frame(res$col$coord[, 1:min(2, ncol(res$col$coord)), drop = FALSE])
+      names(df)[1:2] <- c("Dim1", "Dim2")
+      df$site <- rownames(res$col$coord); df$is_suppl <- FALSE
+      parts[[1]] <- df
+    }
+    if (!is.null(res$col.sup) && !is.null(res$col.sup$coord)) {
+      df <- as.data.frame(res$col.sup$coord[, 1:min(2, ncol(res$col.sup$coord)), drop = FALSE])
+      names(df)[1:2] <- c("Dim1", "Dim2")
+      df$site <- rownames(res$col.sup$coord); df$is_suppl <- TRUE
+      parts[[2]] <- df
+    }
+    if (length(parts) == 0) return(NULL)
+    tc <- do.call(rbind, parts)
+
+    sv <- as.numeric(res$sv$vs)
+    in_mat <- tc$site %in% colnames(mat)
+
+    # Site A
+    tc$n_ij   <- 0; tc$n_ij[in_mat]   <- as.numeric(mat[site_a, tc$site[in_mat]])
+    total_a   <- sum(tc$n_ij); if (total_a == 0) return(NULL)
+    tc$w_ij   <- tc$n_ij / total_a
+    tc$contrib_dim1 <- tc$w_ij * tc$Dim1 / sv[1]
+    tc$contrib_dim2 <- tc$w_ij * tc$Dim2 / sv[2]
+
+    # Site B
+    tc$n_b    <- 0; tc$n_b[in_mat]    <- as.numeric(mat[site_b, tc$site[in_mat]])
+    total_b   <- sum(tc$n_b); if (total_b == 0) return(NULL)
+    tc$w_b    <- tc$n_b / total_b
+    tc$c1_b   <- tc$w_b * tc$Dim1 / sv[1]
+    tc$c2_b   <- tc$w_b * tc$Dim2 / sv[2]
+
+    # Delta A − B
+    tc$delta_c1 <- tc$contrib_dim1 - tc$c1_b
+    tc$delta_c2 <- tc$contrib_dim2 - tc$c2_b
+    tc$delta_w  <- tc$w_ij - tc$w_b
+    tc$has_type <- tc$n_ij > 0 | tc$n_b > 0
+
+    centroid_a <- c(Dim1 = sum(tc$contrib_dim1[tc$n_ij > 0]),
+                    Dim2 = sum(tc$contrib_dim2[tc$n_ij > 0]))
+    centroid_b <- c(Dim1 = sum(tc$c1_b[tc$n_b > 0]),
+                    Dim2 = sum(tc$c2_b[tc$n_b > 0]))
+
+    list(
+      sites = tc, centroid = centroid_a, centroid_b = centroid_b,
+      selected_type = site_a, selected_type2 = site_b,
+      total_n = total_a, total_n_b = total_b,
+      mode = "site", compare = TRUE
+    )
+  })
+
+  # Unified computed: routes to type, site, or site-compare mode
+  diag_computed <- reactive({
+    mode <- input$diag_mode %||% "type"
+    if (mode == "type") return(typdiag_computed())
+    site2 <- input$diag_selected_site2 %||% ""
+    if (nchar(site2) > 0) sitedag_compare_computed()
+    else sitedag_computed()
+  })
+
+  # Stability / info panel (plain language, no variable names)
+  output$typdiag_stability_ui <- renderUI({
+    d <- diag_computed()
+    mode <- input$diag_mode %||% "type"
+
+    if (is.null(d)) {
+      # check for "same site" error
+      site2 <- input$diag_selected_site2 %||% ""
+      if (mode == "site" && nchar(site2) > 0 &&
+          nchar(input$diag_selected_site %||% "") > 0 &&
+          input$diag_selected_site == site2) {
+        return(div(class = "alert alert-danger",
+          style = "font-size: 0.87em; padding: 7px 10px; margin-top: 6px;",
+          tr("ca.diag.compare.same.site")))
+      }
+      return(div(class = "alert alert-warning",
+        style = "font-size: 0.87em; padding: 7px 10px; margin-top: 6px;",
+        tr("ca.diag.no.selection")))
+    }
+
+    # Compare mode: show both positions and Δ Dim1
+    if (isTRUE(d$compare)) {
+      delta1 <- round(d$centroid["Dim1"] - d$centroid_b["Dim1"], 3)
+      dir_txt <- if (delta1 > 0) paste0(d$selected_type, " liegt weiter rechts auf Dim 1")
+                 else if (delta1 < 0) paste0(d$selected_type2, " liegt weiter rechts auf Dim 1")
+                 else "Beide Fundorte auf Dim 1 gleich positioniert"
+      return(div(style = "margin-top: 6px;",
+        div(class = "alert alert-info",
+            style = "padding: 8px 10px; font-size: 0.88em; margin-bottom: 0;",
+          tags$b("Vergleich"), br(),
+          div(style = "display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 6px 0;",
+            div(tags$b(d$selected_type, style = "color: darkorange;"),
+                br(), tags$small(sprintf("Dim1: %.3f  |  Dim2: %.3f",
+                  d$centroid["Dim1"], d$centroid["Dim2"]))),
+            div(tags$b(d$selected_type2, style = "color: #2ca02c;"),
+                br(), tags$small(sprintf("Dim1: %.3f  |  Dim2: %.3f",
+                  d$centroid_b["Dim1"], d$centroid_b["Dim2"])))
+          ),
+          tags$hr(style = "margin: 5px 0;"),
+          tags$small(sprintf("Δ Dim1 = %+.3f  ·  %s", delta1, dir_txt)),
+          br(),
+          tags$small(style = "color: #555;",
+            sprintf("n(%s) = %d  |  n(%s) = %d",
+              d$selected_type, d$total_n, d$selected_type2, d$total_n_b))
+        )
+      ))
+    }
+
+    minn <- max(1L, as.integer(input$typdiag_minn %||% 1))
+    s <- d$sites
+    active <- s[s$has_type & !is.na(s$n_ij) & s$n_ij >= minn, ]
+
+    # Effective number of entries (inverse Simpson)
+    eff <- NA_real_
+    if (nrow(active) > 0 && sum(active$w_ij) > 0) {
+      w_norm <- active$w_ij / sum(active$w_ij)
+      eff <- 1 / sum(w_norm^2)
+    }
+
+    # cos² from CA (Dim1 + Dim2)
+    res <- ca_res()
+    cos2_pct <- NA_integer_
+    sel <- d$selected_type
+    if (mode == "type") {
+      if (!is.null(res$col$cos2) && sel %in% rownames(res$col$cos2)) {
+        cv <- res$col$cos2[sel, 1:min(2, ncol(res$col$cos2))]
+        cos2_pct <- round(sum(cv, na.rm = TRUE) * 100)
+      }
+    } else {
+      if (!is.null(res$row$cos2) && sel %in% rownames(res$row$cos2)) {
+        cv <- res$row$cos2[sel, 1:min(2, ncol(res$row$cos2))]
+        cos2_pct <- round(sum(cv, na.rm = TRUE) * 100)
+      }
+    }
+
+    # Stability label + color + explanation text
+    stab_info <- if (is.na(eff)) {
+      list(cls = "default", label = "–", text = "")
+    } else if (eff >= 4) {
+      list(cls = "success", label = tr("ca.diag.stability.good"),
+        text = sprintf(tr("ca.diag.stability.text.good"), round(eff)))
+    } else if (eff >= 2) {
+      list(cls = "warning", label = tr("ca.diag.stability.moderate"),
+        text = tr("ca.diag.stability.text.moderate"))
+    } else {
+      list(cls = "danger", label = tr("ca.diag.stability.low"),
+        text = tr("ca.diag.stability.text.low"))
+    }
+
+    # Frequency text (plain language)
+    n_items <- sum(d$sites$has_type)
+    freq_text <- if (mode == "type") {
+      sprintf(tr("ca.diag.frequency.type"), d$total_n, n_items)
+    } else {
+      sprintf(tr("ca.diag.frequency.site"), d$total_n, n_items)
+    }
+
+    # Quality progress bar
+    quality_block <- if (!is.na(cos2_pct)) {
+      bar_cls <- if (cos2_pct >= 70) "success" else if (cos2_pct >= 40) "warning" else "danger"
+      div(style = "margin-top: 8px;",
+        tags$small(tags$b(tr("ca.diag.quality.title")),
+                   style = "display: block; margin-bottom: 3px;"),
+        div(class = "progress", style = "height: 14px; margin-bottom: 3px; border-radius: 3px;",
+          div(class = paste0("progress-bar progress-bar-", bar_cls),
+              role = "progressbar",
+              style = sprintf("width: %d%%; font-size: 0.8em; line-height: 14px;", cos2_pct),
+              sprintf("%d%%", cos2_pct))
+        ),
+        tags$small(style = "color: #666;",
+          sprintf(tr("ca.diag.quality.desc"), cos2_pct, cos2_pct))
+      )
+    } else NULL
+
+    div(style = "margin-top: 6px;",
+      div(
+        class = paste0("alert alert-", stab_info$cls),
+        style = "padding: 8px 10px; font-size: 0.88em; margin-bottom: 0;",
+        div(style = "display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap;",
+          tags$b(tr("ca.diag.stability.title")), ":",
+          tags$span(class = paste0("label label-", stab_info$cls),
+                    style = "font-size: 0.9em;", stab_info$label)
+        ),
+        if (nchar(stab_info$text) > 0)
+          tags$small(style = "display: block; margin-bottom: 2px;", stab_info$text),
+        quality_block,
+        tags$hr(style = "margin: 6px 0;"),
+        tags$small(style = "color: #555;", freq_text),
+        if (!is.na(eff) && eff < 2) {
+          div(style = "margin-top: 4px;",
+            tags$small(class = "text-danger", tags$b(tr("ca.diag.warning.few"))))
+        }
+      )
+    )
+  })
+
+  output$typdiag_plot <- renderPlotly({
+    d <- diag_computed()
+    mode <- input$diag_mode %||% "type"
+
+    if (is.null(d)) {
+      return(plot_ly() |>
+        layout(title = tr("ca.diag.no.selection"),
+               xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+               yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)))
+    }
+
+    # Compare mode: types as points, colored by delta_w
+    if (isTRUE(d$compare)) {
+      tc <- d$sites
+      minn <- max(1L, as.integer(input$typdiag_minn %||% 1))
+      show_labels <- isTRUE(input$typdiag_show_labels %||% TRUE)
+      tc_vis <- tc[tc$has_type & (tc$n_ij >= minn | tc$n_b >= minn), ]
+      if (nrow(tc_vis) == 0) return(plot_ly())
+
+      max_dw <- max(abs(tc_vis$delta_w), na.rm = TRUE)
+      tc_vis$pt_col <- ifelse(tc_vis$delta_w >  0.02, "rgba(31,119,180,0.82)",
+                       ifelse(tc_vis$delta_w < -0.02, "rgba(214,39,40,0.82)",
+                              "rgba(150,150,150,0.45)"))
+      tc_vis$pt_size <- 5 + 15 * abs(tc_vis$delta_w) / (max_dw + 1e-9)
+
+      htxt <- paste0("<b>", tc_vis$site, "</b><br>",
+        d$selected_type,  ": ", tc_vis$n_ij, " (", round(tc_vis$w_ij*100,1),"%)<br>",
+        d$selected_type2, ": ", tc_vis$n_b,  " (", round(tc_vis$w_b*100,1), "%)<br>",
+        "Δ Einfluss Dim1: ", round(tc_vis$delta_c1, 4))
+
+      eig <- ca_res()$eig
+      x_var <- if (!is.null(eig) && nrow(eig) >= 1) round(eig[1,2],1) else ""
+      y_var <- if (!is.null(eig) && nrow(eig) >= 2) round(eig[2,2],1) else ""
+
+      p <- plot_ly() |>
+        add_trace(data = tc_vis, x = ~Dim1, y = ~Dim2,
+          type = "scatter", mode = if (show_labels) "markers+text" else "markers",
+          marker = list(color = ~pt_col, size = ~pt_size, line = list(color="white",width=1)),
+          text = ~site, textposition = "top center", textfont = list(size=10),
+          hovertext = htxt, hovertemplate = "%{hovertext}<extra></extra>",
+          name = "Typen"
+        ) |>
+        add_trace(x = d$centroid["Dim1"], y = d$centroid["Dim2"],
+          type = "scatter", mode = "markers+text",
+          text = d$selected_type, textposition = "bottom right",
+          textfont = list(size=12, color="darkorange"),
+          marker = list(color="darkorange", size=14, symbol="cross-open",
+                        line=list(color="darkorange",width=3)),
+          name = d$selected_type,
+          hovertemplate = paste0("<b>", d$selected_type, "</b><br>Dim1: %{x:.3f}<br>Dim2: %{y:.3f}<extra></extra>")
+        ) |>
+        add_trace(x = d$centroid_b["Dim1"], y = d$centroid_b["Dim2"],
+          type = "scatter", mode = "markers+text",
+          text = d$selected_type2, textposition = "bottom right",
+          textfont = list(size=12, color="#2ca02c"),
+          marker = list(color="#2ca02c", size=14, symbol="cross-open",
+                        line=list(color="darkgreen",width=3)),
+          name = d$selected_type2,
+          hovertemplate = paste0("<b>", d$selected_type2, "</b><br>Dim1: %{x:.3f}<br>Dim2: %{y:.3f}<extra></extra>")
+        ) |>
+        add_trace(
+          x = c(d$centroid["Dim1"], d$centroid_b["Dim1"]),
+          y = c(d$centroid["Dim2"], d$centroid_b["Dim2"]),
+          type = "scatter", mode = "lines",
+          line = list(color="rgba(100,100,100,0.35)", width=1.5, dash="dash"),
+          showlegend = FALSE, hoverinfo = "none"
+        ) |>
+        layout(
+          title = list(text = paste0("Vergleich: <b>", d$selected_type,
+                                     "</b> vs. <b>", d$selected_type2, "</b>"),
+                       font = list(size=14)),
+          xaxis = list(title=paste0("Dim 1 (",x_var,"%)"),
+                       zeroline=TRUE, zerolinecolor="#ddd", gridcolor="#eee"),
+          yaxis = list(title=paste0("Dim 2 (",y_var,"%)"),
+                       zeroline=TRUE, zerolinecolor="#ddd", gridcolor="#eee"),
+          legend = list(orientation="h", y=-0.18, font=list(size=11)),
+          plot_bgcolor="#fafafa", paper_bgcolor="white",
+          margin = list(t=50, b=80)
+        )
+      return(standard_plotly_config(p, "2d"))
+    }
+
+    sites      <- d$sites
+    show_all   <- isTRUE(input$typdiag_show_all %||% TRUE)
+    show_lines <- isTRUE(input$typdiag_show_lines %||% TRUE)
+    show_labels <- isTRUE(input$typdiag_show_labels %||% TRUE)
+    size_by    <- input$typdiag_size_by %||% "weight"
+    minn      <- max(1L, as.integer(input$typdiag_minn %||% 1))
+    topn      <- as.integer(input$typdiag_topn %||% 0)
+
+    sites$in_focus <- sites$has_type & !is.na(sites$n_ij) & sites$n_ij >= minn
+
+    if (topn > 0) {
+      focused_ordered <- sites$site[sites$in_focus][order(-sites$w_ij[sites$in_focus])]
+      top_items <- head(focused_ordered, topn)
+      sites$in_focus <- sites$in_focus & (sites$site %in% top_items)
+    }
+
+    size_vals <- switch(size_by,
+      "weight"  = abs(sites$w_ij),
+      "count"   = abs(sites$n_ij),
+      "contrib1"= abs(sites$contrib_dim1),
+      abs(sites$w_ij)
+    )
+    sites$pt_size <- 5
+    if (any(sites$in_focus)) {
+      max_val <- max(size_vals[sites$in_focus], na.rm = TRUE)
+      if (max_val > 0)
+        sites$pt_size[sites$in_focus] <- 6 + (size_vals[sites$in_focus] / max_val) * 18
+    }
+
+    p <- plot_ly()
+
+    # Background items (no labels, hover only)
+    bg <- if (show_all) sites[!sites$in_focus, ] else sites[!sites$in_focus & sites$has_type, ]
+    if (nrow(bg) > 0) {
+      p <- add_trace(p, data = bg, x = ~Dim1, y = ~Dim2,
+        type = "scatter", mode = "markers",
+        marker = list(color = "rgba(180,180,180,0.35)", size = 5),
+        text = ~site,
+        name = if (mode == "type") "Fundorte (ohne Typ)" else "Typen (nicht vorhanden)",
+        hovertemplate = "<b>%{text}</b><br>Dim1: %{x:.3f}<br>Dim2: %{y:.3f}<extra></extra>"
+      )
+    }
+
+    # Connection lines from centroid to focused items
+    fg <- sites[sites$in_focus, ]
+    if (show_lines && nrow(fg) > 0 && !is.null(d$centroid)) {
+      for (i in seq_len(nrow(fg))) {
+        p <- add_trace(p,
+          x = c(d$centroid["Dim1"], fg$Dim1[i]),
+          y = c(d$centroid["Dim2"], fg$Dim2[i]),
+          type = "scatter", mode = "lines",
+          line = list(color = "rgba(100,149,237,0.22)", width = 1.2),
+          showlegend = FALSE, hoverinfo = "none"
+        )
+      }
+    }
+
+    # Focused items (labeled + sized)
+    if (nrow(fg) > 0) {
+      share_label <- if (mode == "type") tr("ca.diag.col.share.type") else tr("ca.diag.col.share.site")
+      c1 <- d$centroid["Dim1"]; c2 <- d$centroid["Dim2"]
+      pct1 <- if (!is.null(c1) && abs(c1) > 1e-6) paste0(round(fg$contrib_dim1 / c1 * 100, 1), "%") else "—"
+      pct2 <- if (!is.null(c2) && abs(c2) > 1e-6) paste0(round(fg$contrib_dim2 / c2 * 100, 1), "%") else "—"
+      htxt <- paste0(
+        "<b>", fg$site, "</b><br>",
+        tr("ca.diag.col.count"), ": ", fg$n_ij, "<br>",
+        share_label, ": ", round(fg$w_ij * 100, 1), "%<br>",
+        tr("ca.diag.col.infl1"), ": ", pct1, "<br>",
+        tr("ca.diag.col.infl2"), ": ", pct2
+      )
+      legend_name <- if (mode == "type") {
+        paste0("Fundorte mit '", d$selected_type, "'")
+      } else {
+        paste0("Typen in '", d$selected_type, "'")
+      }
+      p <- add_trace(p, data = fg, x = ~Dim1, y = ~Dim2,
+        type = "scatter", mode = if (show_labels) "markers+text" else "markers",
+        marker = list(
+          color = "rgba(70,130,180,0.82)", size = ~pt_size,
+          line = list(color = "white", width = 1.5)
+        ),
+        text = ~site, textposition = "top center",
+        textfont = list(size = 11),
+        name = legend_name,
+        hovertext = htxt,
+        hovertemplate = "%{hovertext}<extra></extra>"
+      )
+    }
+
+    # Centroid marker
+    centroid_label <- if (mode == "type") tr("ca.diag.centroid.type") else tr("ca.diag.centroid.site")
+    p <- add_trace(p,
+      x = d$centroid["Dim1"], y = d$centroid["Dim2"],
+      type = "scatter", mode = "markers",
+      marker = list(color = "darkorange", size = 13, symbol = "cross-open",
+                    line = list(color = "darkorange", width = 3)),
+      name = paste0(d$selected_type, " (", centroid_label, ")"),
+      hovertemplate = paste0("<b>", d$selected_type, "</b><br>Dim1: %{x:.3f}<br>Dim2: %{y:.3f}<extra></extra>")
+    )
+
+    eig <- ca_res()$eig
+    x_var <- if (!is.null(eig) && nrow(eig) >= 1) round(eig[1, 2], 1) else ""
+    y_var <- if (!is.null(eig) && nrow(eig) >= 2) round(eig[2, 2], 1) else ""
+    diag_label <- if (mode == "type") "Typ-Diagnose" else "Fundort-Diagnose"
+
+    p <- layout(p,
+      title = list(
+        text = paste0(diag_label, ": <b>", d$selected_type, "</b>  (n = ", d$total_n, ")"),
+        font = list(size = 14)
+      ),
+      xaxis = list(title = paste0("Dim 1 (", x_var, "%)"),
+                   zeroline = TRUE, zerolinecolor = "#ddd", gridcolor = "#eee"),
+      yaxis = list(title = paste0("Dim 2 (", y_var, "%)"),
+                   zeroline = TRUE, zerolinecolor = "#ddd", gridcolor = "#eee"),
+      legend = list(orientation = "h", y = -0.18, font = list(size = 11)),
+      plot_bgcolor = "#fafafa", paper_bgcolor = "white",
+      margin = list(t = 50, b = 80)
+    )
+    standard_plotly_config(p, "2d")
+  })
+
+  output$typdiag_table <- DT::renderDataTable({
+    d <- diag_computed()
+    mode <- input$diag_mode %||% "type"
+    if (is.null(d)) return(NULL)
+
+    # Compare mode: side-by-side columns + delta
+    if (isTRUE(d$compare)) {
+      tc <- d$sites
+      minn <- max(1L, as.integer(input$typdiag_minn %||% 1))
+      tbl <- tc[tc$has_type & (tc$n_ij >= minn | tc$n_b >= minn), ]
+      if (nrow(tbl) == 0) return(NULL)
+      tbl <- tbl[order(-abs(tbl$delta_c1)), ]
+
+      out <- data.frame(
+        Typ       = tbl$site,
+        n_A       = tbl$n_ij,
+        Anteil_A  = round(tbl$w_ij * 100, 1),
+        n_B       = tbl$n_b,
+        Anteil_B  = round(tbl$w_b  * 100, 1),
+        Delta_Ant = round(tbl$delta_w * 100, 2),
+        Delta_D1  = round(tbl$delta_c1, 4),
+        check.names = FALSE, stringsAsFactors = FALSE
+      )
+      return(DT::datatable(out, rownames = FALSE,
+        colnames = c("Typ",
+          paste0("n (", d$selected_type, ")"),
+          paste0("Anteil ", d$selected_type, " (%)"),
+          paste0("n (", d$selected_type2, ")"),
+          paste0("Anteil ", d$selected_type2, " (%)"),
+          "\u0394 Anteil (%)", "\u0394 Einfluss Dim1"),
+        options = list(
+          pageLength = 20, scrollX = TRUE,
+          order = list(list(6L, "desc")),
+          columnDefs = list(list(className = "dt-right", targets = 1:6))
+        )
+      ) |> DT::formatStyle(
+        "Delta_D1",
+        background = DT::styleColorBar(range(out$Delta_D1, na.rm = TRUE), "#aecde8"),
+        backgroundSize = "100% 80%", backgroundRepeat = "no-repeat",
+        backgroundPosition = "center"
+      ))
+    }
+
+    minn <- max(1L, as.integer(input$typdiag_minn %||% 1))
+    s <- d$sites
+    tbl <- s[s$has_type & !is.na(s$n_ij) & s$n_ij >= minn, ]
+    if (nrow(tbl) == 0) return(NULL)
+
+    share_col <- if (mode == "type") tr("ca.diag.col.share.type") else tr("ca.diag.col.share.site")
+
+    out <- data.frame(
+      Name        = tbl$site,
+      Anzahl      = tbl$n_ij,
+      Anteil      = round(tbl$w_ij * 100, 2),
+      Infl1       = round(tbl$contrib_dim1, 4),
+      Infl2       = round(tbl$contrib_dim2, 4),
+      Gesamt      = round(sqrt(tbl$contrib_dim1^2 + tbl$contrib_dim2^2), 4),
+      check.names = FALSE, stringsAsFactors = FALSE
+    )
+    out <- out[order(-out$Gesamt), ]
+
+    max_abs1 <- max(abs(out$Infl1), na.rm = TRUE)
+    max_abs2 <- max(abs(out$Infl2), na.rm = TRUE)
+
+    DT::datatable(out, rownames = FALSE,
+      colnames = c(
+        tr("ca.diag.col.name"),
+        tr("ca.diag.col.count"),
+        paste0(share_col, " (%)"),
+        tr("ca.diag.col.infl1"),
+        tr("ca.diag.col.infl2"),
+        tr("ca.diag.col.total")
+      ),
+      options = list(
+        pageLength = 15, scrollX = TRUE,
+        order = list(list(5L, "desc")),
+        columnDefs = list(list(className = "dt-right", targets = 1:5))
+      )
+    ) |> DT::formatStyle(
+      "Infl1",
+      background = DT::styleColorBar(c(-max_abs1, max_abs1), "#aecde8"),
+      backgroundSize = "100% 80%", backgroundRepeat = "no-repeat",
+      backgroundPosition = "center"
+    ) |> DT::formatStyle(
+      "Infl2",
+      background = DT::styleColorBar(c(-max_abs2, max_abs2), "#a8d5b0"),
+      backgroundSize = "100% 80%", backgroundRepeat = "no-repeat",
+      backgroundPosition = "center"
+    ) |> DT::formatStyle(
+      "Gesamt",
+      background = DT::styleColorBar(range(out$Gesamt, na.rm = TRUE), "#d5c8e8"),
+      backgroundSize = "100% 80%", backgroundRepeat = "no-repeat",
+      backgroundPosition = "center"
+    )
+  }, server = FALSE)
+
+  # Influence bar chart
+  output$typdiag_contrib_bar <- renderPlotly({
+    d <- diag_computed()
+    if (is.null(d)) return(NULL)
+
+    minn <- max(1L, as.integer(input$typdiag_minn %||% 1))
+    topn <- as.integer(input$typdiag_topn %||% 0)
+
+    # Compare mode: grouped bars Δ Dim1 + Δ Dim2
+    if (isTRUE(d$compare)) {
+      tc <- d$sites
+      tbl <- tc[tc$has_type & (tc$n_ij >= minn | tc$n_b >= minn), ]
+      if (nrow(tbl) == 0) return(NULL)
+      if (topn > 0) tbl <- tbl[order(-abs(tbl$delta_c1)), ][seq_len(min(topn, nrow(tbl))), ]
+      tbl <- tbl[order(tbl$delta_c1), ]
+      tbl$item_f <- factor(tbl$site, levels = tbl$site)
+
+      p <- plot_ly() |>
+        add_bars(
+          data = tbl, x = ~delta_c1, y = ~item_f, orientation = "h",
+          name = "\u0394 Dim 1",
+          marker = list(color = "#3a7fc1", opacity = 0.88),
+          hovertemplate = paste0("<b>%{y}</b><br>\u0394 Einfluss Dim 1 = %{x:.4f}<extra></extra>")
+        ) |>
+        add_bars(
+          data = tbl, x = ~delta_c2, y = ~item_f, orientation = "h",
+          name = "\u0394 Dim 2",
+          marker = list(color = "#27ae60", opacity = 0.75),
+          hovertemplate = paste0("<b>%{y}</b><br>\u0394 Einfluss Dim 2 = %{x:.4f}<extra></extra>")
+        ) |>
+        layout(
+          barmode = "group",
+          title = list(text = paste0("\u0394 Einfluss: <b>", d$selected_type,
+            "</b> \u2212 <b>", d$selected_type2, "</b>"), font = list(size = 12)),
+          xaxis = list(
+            title = paste0("\u0394 (", d$selected_type, " \u2212 ", d$selected_type2, ")"),
+            zeroline = TRUE, zerolinecolor = "#555", zerolinewidth = 1.5),
+          yaxis = list(title = ""),
+          legend = list(orientation = "h", y = -0.1, font = list(size = 11)),
+          annotations = list(list(
+            x = 0.01, y = 1.06, xref = "paper", yref = "paper", showarrow = FALSE,
+            text = paste0("blau (Dim1) / gr\u00fcn (Dim2) \u2192 positiv = zieht <b>",
+                          d$selected_type, "</b> weiter in diese Richtung"),
+            font = list(size = 10), align = "left"
+          )),
+          height = max(300, nrow(tbl) * 38 + 130),
+          margin = list(l = 130, t = 60, b = 60),
+          plot_bgcolor = "#fafafa", paper_bgcolor = "white"
+        )
+      return(p)
+    }
+
+    # Single mode: 2D contribution scatter
+    s <- d$sites
+    tbl <- s[s$has_type & !is.na(s$n_ij) & s$n_ij >= minn, ]
+    if (nrow(tbl) == 0) return(NULL)
+    if (topn > 0) tbl <- tbl[order(-tbl$w_ij), ][seq_len(min(topn, nrow(tbl))), ]
+
+    tbl$influence <- sqrt(tbl$contrib_dim1^2 + tbl$contrib_dim2^2)
+    max_infl <- max(tbl$influence, na.rm = TRUE)
+    tbl$pt_size <- 8 + 16 * tbl$influence / (max_infl + 1e-9)
+
+    htxt <- paste0(
+      "<b>", tbl$site, "</b><br>",
+      "Einfluss Dim 1: ", round(tbl$contrib_dim1, 4), "<br>",
+      "Einfluss Dim 2: ", round(tbl$contrib_dim2, 4), "<br>",
+      "Gesamteinfluss: ", round(tbl$influence, 4)
+    )
+
+    cx <- sum(tbl$contrib_dim1)
+    cy <- sum(tbl$contrib_dim2)
+    ax_pad <- 1.15
+    x_rng <- range(c(tbl$contrib_dim1, 0)) * ax_pad
+    y_rng <- range(c(tbl$contrib_dim2, 0)) * ax_pad
+
+    p <- plot_ly() |>
+      # Zero crosshair
+      add_trace(x = x_rng, y = c(0, 0), type = "scatter", mode = "lines",
+        line = list(color = "#ccc", width = 1), showlegend = FALSE, hoverinfo = "none") |>
+      add_trace(x = c(0, 0), y = y_rng, type = "scatter", mode = "lines",
+        line = list(color = "#ccc", width = 1), showlegend = FALSE, hoverinfo = "none") |>
+      # Contributing entries
+      add_trace(data = tbl, x = ~contrib_dim1, y = ~contrib_dim2,
+        type = "scatter", mode = "markers+text",
+        marker = list(color = "rgba(70,130,180,0.78)", size = ~pt_size,
+                      line = list(color = "white", width = 1.5)),
+        text = ~site, textposition = "top center", textfont = list(size = 10),
+        hovertext = htxt, hovertemplate = "%{hovertext}<extra></extra>",
+        name = "Eintr\u00e4ge"
+      ) |>
+      # CA position = sum of all contributions
+      add_trace(x = cx, y = cy,
+        type = "scatter", mode = "markers",
+        marker = list(color = "darkorange", size = 14, symbol = "cross-open",
+                      line = list(color = "darkorange", width = 3)),
+        name = paste0(d$selected_type, " (CA-Position)"),
+        hovertemplate = paste0("<b>", d$selected_type,
+          "</b><br>Dim1: %{x:.3f}<br>Dim2: %{y:.3f}<extra></extra>")
+      ) |>
+      layout(
+        title = list(text = tr("ca.diag.scatter.title"), font = list(size = 12)),
+        xaxis = list(title = "Einfluss auf Dim 1", range = x_rng,
+                     zeroline = FALSE, gridcolor = "#eee"),
+        yaxis = list(title = "Einfluss auf Dim 2", range = y_rng,
+                     zeroline = FALSE, gridcolor = "#eee"),
+        legend = list(orientation = "h", y = -0.12, font = list(size = 11)),
+        annotations = list(
+          list(x=1.01, y=0.5, xref="paper", yref="paper", showarrow=FALSE,
+               text="Dim1\u2192", textangle=-90, font=list(size=10, color="#aaa")),
+          list(x=-0.01, y=0.5, xref="paper", yref="paper", showarrow=FALSE,
+               text="\u2190Dim1", textangle=-90, font=list(size=10, color="#aaa")),
+          list(x=0.5, y=1.02, xref="paper", yref="paper", showarrow=FALSE,
+               text="Dim2\u2191", font=list(size=10, color="#aaa")),
+          list(x=0.5, y=-0.02, xref="paper", yref="paper", showarrow=FALSE,
+               text="Dim2\u2193", font=list(size=10, color="#aaa"))
+        ),
+        height = 430,
+        margin = list(l = 60, r = 40, t = 50, b = 60),
+        plot_bgcolor = "#fafafa", paper_bgcolor = "white"
+      )
+    standard_plotly_config(p, "2d")
+  })
+
+  # ===== ENDE DIAGNOSE =====
+
   # Return for other modules
   return(list(
     ca_result = ca_res,
