@@ -9,7 +9,19 @@ mod_kmeans_clustering_ui <- function(id, tr = function(x) x) {
   NULL
 }
 
-mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_element_details = NULL, meta_data = NULL, filtered_data = NULL, input, output, session, tr = function(x) x) {
+mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_element_details = NULL, meta_data = NULL, filtered_data = NULL, oxcal_results = NULL, input, output, session, tr = function(x) x) {
+
+  # ===== 14C PHASE DATES =====
+  phase_dates <- reactive({
+    if (is.null(oxcal_results)) return(NULL)
+    d <- tryCatch(oxcal_results(), error = function(e) NULL)
+    if (is.null(d) || is.null(d$tidy)) return(NULL)
+    # get_results exposes raw res() which has $tidy but not $boundaries;
+    # extract boundaries the same way phases_parsed does inside the OxCal module
+    phases_info <- tryCatch(.recognize_phases_from_tidy(d$tidy), error = function(e) NULL)
+    if (is.null(phases_info) || length(phases_info) == 0) return(NULL)
+    tryCatch(.calculate_phase_stats_from_tidy(d$tidy, phases_info), error = function(e) NULL)
+  })
 
   # Reactive values for custom cluster names
   cluster_names <- reactiveValues()
@@ -2076,10 +2088,24 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
     hover_text <- generate_kmeans_hover_text(
       data = plot_data,
       x_dim = input$x_dim %||% "Dim1",
-      y_dim = input$y_dim %||% "Dim2", 
+      y_dim = input$y_dim %||% "Dim2",
       get_cluster_name_func = get_cluster_name,
       get_element_details = get_element_details
     )
+    if (isTRUE(input$show_cluster_c14)) {
+      pd <- tryCatch(phase_dates(), error = function(e) NULL)
+      if (!is.null(pd)) {
+        date_suffix <- sapply(plot_data$cluster, function(cid) {
+          cn  <- get_cluster_name(cid)
+          row <- pd[pd$Phase == cn, ]
+          if (nrow(row) > 0)
+            sprintf("<br><b>14C:</b> ~%.0f – ~%.0f cal BC",
+                    abs(row$Start_Median[1]), abs(row$End_Median[1]))
+          else ""
+        })
+        hover_text <- paste0(hover_text, date_suffix)
+      }
+    }
     
     # === STANDARDISIERTE CLUSTER-FARBEN ===
     num_clusters <- input$num_clusters %||% 3
@@ -2131,6 +2157,7 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
         hovermode = 'closest',
         plot_bgcolor = "white",
         paper_bgcolor = "white",
+        showlegend = isTRUE(input$show_legend_km %||% TRUE),
         legend = list(traceorder = "normal")
       )
     
@@ -2328,6 +2355,81 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
       )
     }
 
+    # === 14C PERMANENT LABELS + AXIS BARS ===
+    if (isTRUE(input$show_cluster_c14)) {
+      pd <- tryCatch(phase_dates(), error = function(e) NULL)
+      if (!is.null(pd)) {
+        c14_shapes      <- list()
+        c14_annotations <- list()
+
+        for (cluster_id in ordered_clusters_active) {
+          cname       <- as.character(cluster_id)
+          cluster_pts <- active_data[as.integer(active_data$cluster) == cluster_id, ]
+          if (nrow(cluster_pts) == 0) next
+          x_vals <- cluster_pts[[paste0("Dim.", km_data$x_col)]]
+          y_vals <- cluster_pts[[paste0("Dim.", km_data$y_col)]]
+          cx <- mean(x_vals)
+          cy <- mean(y_vals)
+          cn <- get_cluster_name(cluster_id)
+          row <- pd[pd$Phase == cn, ]
+
+          # Centroid annotation: cluster name + date on second line
+          if (nrow(row) > 0) {
+            date_line  <- sprintf("~%.0f\u2013%.0f cal BC",
+                                  abs(row$Start_Median[1]), abs(row$End_Median[1]))
+            label_text <- paste0("<b>", cn, "</b><br>",
+                                 "<span style='font-size:9px;color:#555'>", date_line, "</span>")
+          } else {
+            label_text <- paste0("<b>", cn, "</b>")
+          }
+          c14_annotations[[length(c14_annotations) + 1]] <- list(
+            x = cx, y = cy,
+            xref = "x", yref = "y",
+            text = label_text,
+            showarrow = FALSE,
+            font       = list(size = 11, color = cluster_colors[cname]),
+            xanchor    = "center", yanchor = "bottom",
+            bgcolor    = "rgba(255,255,255,0.75)",
+            borderpad  = 2
+          )
+
+          # Colored bar along x-axis (paper coords, bottom margin)
+          x_min <- min(x_vals)
+          x_max <- max(x_vals)
+          c14_shapes[[length(c14_shapes) + 1]] <- list(
+            type      = "rect",
+            x0 = x_min, x1 = x_max,
+            y0 = -0.07, y1 = -0.03,
+            xref = "x", yref = "paper",
+            fillcolor = cluster_colors[cname],
+            opacity   = 0.8,
+            line      = list(width = 0),
+            layer     = "above"
+          )
+
+          # Date label inside bar
+          if (nrow(row) > 0) {
+            bar_label <- sprintf("~%.0f\u2013%.0f", abs(row$Start_Median[1]), abs(row$End_Median[1]))
+            c14_annotations[[length(c14_annotations) + 1]] <- list(
+              x = (x_min + x_max) / 2,
+              y = -0.05,
+              xref = "x", yref = "paper",
+              text      = bar_label,
+              showarrow = FALSE,
+              font      = list(size = 8, color = "white"),
+              xanchor   = "center", yanchor = "middle"
+            )
+          }
+        }
+
+        p <- p %>% layout(
+          shapes      = c14_shapes,
+          annotations = c14_annotations,
+          margin      = list(b = 80, l = 60, r = 40, t = 60)
+        )
+      }
+    }
+
     p <- standard_plotly_config(p, "2d")
     last_kmeans_plotly(p)
     p
@@ -2355,6 +2457,22 @@ mod_kmeans_clustering_server <- function(ca_result, cache, get_site_group, get_e
     colnames(result_table) <- c("Entity", "Element_Typ", "Status", "Cluster_Nr", "Cluster_Name")
     cluster_sizes <- table(result_table$Cluster_Nr)
     result_table$Cluster_Groesse <- as.numeric(cluster_sizes[result_table$Cluster_Nr])
+
+    # 14C phase dates
+    if (isTRUE(input$show_cluster_c14)) {
+      pd <- tryCatch(phase_dates(), error = function(e) NULL)
+      if (!is.null(pd)) {
+        result_table$Start_cal_BC <- sapply(result_table$Cluster_Name, function(cn) {
+          row <- pd[pd$Phase == cn, ]
+          if (nrow(row) > 0) round(abs(row$Start_Median[1])) else NA_real_
+        })
+        result_table$Ende_cal_BC <- sapply(result_table$Cluster_Name, function(cn) {
+          row <- pd[pd$Phase == cn, ]
+          if (nrow(row) > 0) round(abs(row$End_Median[1])) else NA_real_
+        })
+      }
+    }
+
     result_table <- result_table[order(result_table$Cluster_Nr, result_table$Status), ]
     
     unique_clusters <- unique(result_table$Cluster_Nr)

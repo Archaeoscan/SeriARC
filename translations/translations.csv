@@ -630,6 +630,8 @@ cluster.gmm.hint;VVV: flexibel | EEE: simpel | Auto: beste Modellwahl;VVV: flexi
 cluster.btn.calculate;Cluster berechnen;Calculate clusters
 cluster.display;Darstellung;Display
 cluster.show.labels;Labels zeigen;Show labels
+cluster.show.legend;Legende zeigen;Show legend
+cluster.show.c14;¹⁴C Start/Ende einblenden;Show ¹⁴C start/end
 cluster.label.chars;Max. Zeichen:;Max. characters:
 cluster.point.size;Punktgröße:;Point size:
 cluster.features;Features;Features

@@ -168,7 +168,8 @@ server <- function(input, output, session) {
     get_site_group = get_site_group,
     get_element_details = get_element_details,
     meta_data = aggregated_meta,
-    filtered_data = aggregated_data,  # Original raw data for type characterization analysis
+    filtered_data = aggregated_data,
+    oxcal_results = oxcal_results_ref,
     input = input, output = output, session = session,
     tr = tr
   )

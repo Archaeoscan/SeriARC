@@ -172,6 +172,8 @@ output$cluster_main_content <- renderUI({
                 div(class = "panel-body", style = "padding: 12px;",
 
                   checkboxInput("show_labels_km", tr("cluster.show.labels"), TRUE),
+                  checkboxInput("show_legend_km", tr("cluster.show.legend"), TRUE),
+                  checkboxInput("show_cluster_c14", tr("cluster.show.c14"), FALSE),
                   conditionalPanel(
                     condition = "input.show_labels_km",
                     sliderInput("label_chars_km", tr("cluster.label.chars"), 3, 25, 12, step = 1)
